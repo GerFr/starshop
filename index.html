@@ -67,7 +67,7 @@
         <div class="col-md-5 text-center text-md-start">
           <h1>
             <div class="display-2">Buy a Star</div>
-            <div class="display-5 text-muted">and Leave a Lasting Legacy</div>
+            <div class="display-5 text-muted">Leave a Lasting Legacy</div>
           </h1>
           <p class="lead my-4 text-muted">Choose Any Star Visible in the Sky from the Famous HYG Database - A Truly
             Unique Gift for
@@ -93,57 +93,74 @@
       <div class="row my-5 mx-5 align-items-center justify-content-center g-2">
         <div class="col-8 col-md-4 col-xl-3">
           <div class="card border-1">
+            <img src="assets/star.jpg" class="card-img-top">
             <div class="card-body text-center py-4">
               <h4 class="card-title">
                 Star 1
               </h4>
               <p class="lead card-subtitle">constellation</p>
-              <p class="display-5 my-4 text-primary fw-bold">12.99</p>
-              <p class="card-text mx-5 text-muted d-none d-lg-block">Lorem ipsum, dolor sit amet
-                consectetur adipisicing elit.</p>
+              <p class="display-5 my-4 text-primary fw-bold">€120000</p>
+              <!-- <p class="card-text mx-5 text-muted d-none d-lg-block">Lorem ipsum, dolor sit amet
+                consectetur adipisicing elit.</p> -->
               <a href="#" class="btn btn-outline-primary btn-lg mt-3"> Buy now</a>
+              <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#staticBackdrop">
+                Detail
+              </button>
             </div>
           </div>
         </div>
         <div class="col-8 col-md-4 col-xl-3">
           <div class="card border-1">
+            <img src="assets/star.jpg" class="card-img-top">
             <div class="card-body text-center py-4">
               <h4 class="card-title">
                 Star 2
               </h4>
               <p class="lead card-subtitle">constellation</p>
-              <p class="display-5 my-4 text-primary fw-bold">12.99</p>
-              <p class="card-text mx-5 text-muted d-none d-lg-block">Lorem ipsum, dolor sit amet
-                consectetur adipisicing elit.</p>
+              <p class="display-5 my-4 text-primary fw-bold">€120000</p>
+              <!-- <p class="card-text mx-5 text-muted d-none d-lg-block">Lorem ipsum, dolor sit amet
+                consectetur adipisicing elit.</p> -->
               <a href="#" class="btn btn-outline-primary btn-lg mt-3"> Buy now</a>
+              <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#staticBackdrop">
+                Detail
+              </button>
             </div>
           </div>
         </div>
         <div class="col-8 col-md-4 col-xl-3">
           <div class="card border-1">
+            <img src="assets/star.jpg" class="card-img-top">
             <div class="card-body text-center py-4">
               <h4 class="card-title">
                 Star 3
               </h4>
               <p class="lead card-subtitle">constellation</p>
-              <p class="display-5 my-4 text-primary fw-bold">12.99</p>
-              <p class="card-text mx-5 text-muted d-none d-lg-block">Lorem ipsum, dolor sit amet
-                consectetur adipisicing elit.</p>
+              <p class="display-5 my-4 text-primary fw-bold">€120000</p>
+              <!-- <p class="card-text mx-5 text-muted d-none d-lg-block">Lorem ipsum, dolor sit amet
+                consectetur adipisicing elit.</p> -->
               <a href="#" class="btn btn-outline-primary btn-lg mt-3"> Buy now</a>
+              <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#staticBackdrop">
+                Detail
+              </button>
             </div>
           </div>
         </div>
         <div class="col-8 col-md-4 col-xl-3">
           <div class="card border-1">
+            <img src="assets/star.jpg" class="card-img-top">
+
             <div class="card-body text-center py-4">
               <h4 class="card-title">
                 Star 4
               </h4>
               <p class="lead card-subtitle">constellation</p>
-              <p class="display-5 my-4 text-primary fw-bold">12.99</p>
-              <p class="card-text mx-5 text-muted d-none d-lg-block">Lorem ipsum, dolor sit amet
-                consectetur adipisicing elit.</p>
+              <p class="display-5 my-4 text-primary fw-bold">€120000</p>
+              <!-- <p class="card-text mx-5 text-muted d-none d-lg-block">Lorem ipsum, dolor sit amet
+                consectetur adipisicing elit.</p> -->
               <a href="#" class="btn btn-outline-primary btn-lg mt-3"> Buy now</a>
+              <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#staticBackdrop">
+                Detail
+              </button>
             </div>
           </div>
         </div>
@@ -152,9 +169,31 @@
     </div>
   </section>
 
+  <!-- MARK: modal
+   -->
 
 
-  <!-- Mark: footer
+<!-- Modal -->
+<div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h1 class="modal-title fs-5" id="staticBackdropLabel">[Star name]</h1>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <img src="assets/star.jpg" class="card-img-top">
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+        <button type="button" class="btn btn-primary">to Basket</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+  <!-- MARK: footer
    -->
   <footer class="d-flex flex-wrap justify-content-between align-items-center py-3 my-4 border-top">
     <div class="container-lg">
@@ -166,9 +205,9 @@
           <div class="row justify-contents-center align-items-center">
             <div class="col-md-1 text-center"><a href="https://github.com/" rel="external"><i
                   class="bi bi-github text-secondary my-4"></i></a></div>
-            <div class="col-md-1 text-center"><a href="https://github.com/" rel="external"><i
+            <div class="col-md-1 text-center"><a href="https://instagram.com/" rel="external"><i
                   class="bi bi-instagram text-secondary my-4"></i></a></div>
-            <div class="col-md-1 text-center"><a href="https://github.com/" rel="external"><i
+            <div class="col-md-1 text-center"><a href="https://twitter.com/" rel="external"><i
                   class="bi bi-twitter text-secondary my-4"></i></a></div>
           </div>
         </div>
@@ -189,7 +228,7 @@
 
   <!-- Bootstrap JavaScript Libraries -->
   <script src="js/bootstrap.js"></script>
-  <script></script>
+  
 </body>
 
 </html>
