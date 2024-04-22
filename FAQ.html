@@ -36,13 +36,10 @@
         <div class="collapse navbar-collapse justify-content-end align-center" id="main-nav">
           <ul class="navbar-nav">
             <li class="nav-item">
-              <a href="index.html" class="nav-link">????</a>
+              <a href="index.html#pricing" class="nav-link">Articles</a>
             </li>
             <li class="nav-item">
-              <a href="index.html" class="nav-link">Articles</a>
-            </li>
-            <li class="nav-item">
-              <a href="#" class="nav-link">????</a>
+              <a href="#FAQ"class="nav-link">FAQ</a>
             </li>
           </ul>
         </div>
@@ -51,15 +48,22 @@
   </header>
   <main>
     <!-- MARK: About us 
-          container Mit Kurzem Wort neben Bild -->
-    <section id="aboutus">
+          container Mit Kurzem Wort neben Bild 
+        dynamisch machen-->
+    <section id="aboutus align-items-center">
+      <div class="bg"
+                    style="background-image: url('/assets/starrynightsky.jpg'); 
+                        background-size: cover; 
+                        background-position: center; 
+                        background-attachment: fixed;
+                        height: 100vh;">
       <div class="container">
-        <div class="row align-items-center">
-          <div class="col-md-6 mb-3 mb-sm-0">
-            <div class="card mt-2 border-0">
+        <div class="row  justify-content-center ">
+          <div class="col-lg-8">
+            <div class="card mt-5  border-0 opacity-75">
               <div class="card-body">
                 <ul class="list-group list-group-flush">
-                  <li class="list-group-item text-center">
+                  <li class="list-group-item text-center opacity-100">
                     <h3 class="display-6 text-muted">Over 80.000 stars available</h3>
                   </li>
                   <li class="list-group-item text-center">
@@ -75,149 +79,204 @@
               </div>
             </div>
           </div>
-          <div class="col-sm-6 d-none d-md-grid">
-            <img class="img-fluid" src="assets/starrynightsky.jpg" alt="Nightsky">
-            <div class="card mt-4">
-              <div class="card-header">
-                Quote
-              </div>
-              <div class="card-body">
-                <blockquote class="blockquote mb-0">
-                  <p>A well-known quote, contained in a blockquote element.</p>
-                  <footer class="blockquote-footer">Someone famous in <cite title="Source Title">Source Title</cite>
-                  </footer>
-                </blockquote>
-              </div>
-            </div>
-          </div>
         </div>
       </div>
     </section>
 
 
     <!-- MARK: FAQ
-          im accordion neben weiterem Bild-->
+          im accordion neben weiterem Bild
+        Idee:  Faq dynamisch machen
+        daneben eine Form um Fragen zu Stellen
+        -->
     <section id="FAQ" class="bg-light">
-      <div class="container-lg py-4 mt-4 justify-content-center">
-        <div class="text-center">
-          <h2>FAQ</h2>
-          <p class="lead text-muted">frequently asked questions</p>
+      <div class="container-lg py-4  justify-content-center">
+        <div class="row justify-contents-center">
+          <div class="col-md-8">
+            <div class="text-center">
+              <h2>FAQ</h2>
+              <p class="lead text-muted">frequently asked questions</p>
+            </div>
+            <div class="accordion" id="accordionPanelsStayOpenExample">
+              <div class="accordion-item">
+                <h2 class="accordion-header">
+                  <button class="accordion-button" type="button" data-bs-toggle="collapse"
+                    data-bs-target="#panelsStayOpen-collapseOne" aria-expanded="true"
+                    aria-controls="panelsStayOpen-collapseOne">
+                    Can I actually own a real star?
+                  </button>
+                </h2>
+                <div id="panelsStayOpen-collapseOne" class="accordion-collapse collapse show">
+                  <div class="accordion-body text-secondary">
+                    Yes, with us you have the opportunity to own a real star. We offer you the unique opportunity to officially name and own a star in the sky.
+                  </div>
+                </div>
+              </div>
+              <div class="accordion-item">
+                <h2 class="accordion-header">
+                  <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+                    data-bs-target="#panelsStayOpen-collapseTwo" aria-expanded="false"
+                    aria-controls="panelsStayOpen-collapseTwo">
+                    How does the process of buying a star work?
+                  </button>
+                </h2>
+                <div id="panelsStayOpen-collapseTwo" class="accordion-collapse collapse">
+                  <div class="accordion-body text-secondary">
+                    Buying a star is simple and straightforward. You first select a star from our catalog, give it a name of your choice and then fill out the order form. Once your order has been processed, you will receive a personalized certificate confirming your star and its coordinates.
+                  </div>
+                </div>
+              </div>
+              <div class="accordion-item">
+                <h2 class="accordion-header">
+                  <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+                    data-bs-target="#panelsStayOpen-collapseThree" aria-expanded="false"
+                    aria-controls="panelsStayOpen-collapseThree">
+                    Is the star I have named really unique?
+                  </button>
+                </h2>
+                <div id="panelsStayOpen-collapseThree" class="accordion-collapse collapse">
+                  <div class="accordion-body text-secondary">
+                    Yes, every star we sell is unique. Once you have purchased and named a star, it is exclusively yours.
+                  </div>
+                </div>
+              </div>
+              <div class="accordion-item">
+                <h2 class="accordion-header">
+                  <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+                    data-bs-target="#panelsStayOpen-collapseFour" aria-expanded="false"
+                    aria-controls="panelsStayOpen-collapseFour">
+                    Can I see the star I have bought?
+                  </button>
+                </h2>
+                <div id="panelsStayOpen-collapseFour" class="accordion-collapse collapse">
+                  <div class="accordion-body text-secondary">
+                    Yes, most of the stars we sell are visible to the naked eye and can be observed depending on location and time of year. We will also provide you with a star chart and other information to help you locate your star in the sky.
+                  </div>
+                </div>
+              </div>
+              <div class="accordion-item">
+                <h2 class="accordion-header">
+                  <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+                    data-bs-target="#panelsStayOpen-collapseFive" aria-expanded="false"
+                    aria-controls="panelsStayOpen-collapseFive">
+                    What items do I get with my star purchase?
+                  </button>
+                </h2>
+                <div id="panelsStayOpen-collapseFive" class="accordion-collapse collapse">
+                  <div class="accordion-body text-secondary">
+                    With your star purchase you will receive a high quality certificate confirming the star you have named and its coordinates. You will also receive a personalized star map with the position of your star marked on it, as well as other informative materials about stars and constellations.
+                  </div>
+                </div>
+              </div>
+              <div class="accordion-item">
+                <h2 class="accordion-header">
+                  <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+                    data-bs-target="#panelsStayOpen-collapseSix" aria-expanded="false"
+                    aria-controls="panelsStayOpen-collapseSix">
+                    Is the purchase of a star a symbolic gift or do I have actual ownership rights?
+                  </button>
+                </h2>
+                <div id="panelsStayOpen-collapseSix" class="accordion-collapse collapse">
+                  <div class="accordion-body text-secondary">
+                    Buying a star is both a symbolic gift and a unique experience that gives you the feeling of owning a part of the universe. Although you have no legal ownership rights to the physical star, the star you name is registered exclusively to you.
+                  </div>
+                </div>
+              </div>
+              <div class="accordion-item">
+                <h2 class="accordion-header">
+                  <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+                    data-bs-target="#panelsStayOpen-collapseSeven" aria-expanded="false"
+                    aria-controls="panelsStayOpen-collapseSeven">
+                    Can I rename my star afterwards?
+                  </button>
+                </h2>
+                <div id="panelsStayOpen-collapseSeven" class="accordion-collapse collapse">
+                  <div class="accordion-body text-secondary">
+                    No, once you have named your star, the name is final. Please choose your star name carefully.
+                  </div>
+                </div>
+              </div>
+              <div class="accordion-item">
+                <h2 class="accordion-header">
+                  <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+                    data-bs-target="#panelsStayOpen-collapseEight" aria-expanded="false"
+                    aria-controls="panelsStayOpen-collapseEight">
+                    How long will it take to receive my star package?
+                  </button>
+                </h2>
+                <div id="panelsStayOpen-collapseEight" class="accordion-collapse collapse">
+                  <div class="accordion-body text-secondary">
+                    Normally you will receive your personalized star package within 5-7 working days after completing your order. However, there may be slight delays during busy periods.
+                  </div>
+                </div>
+              </div>
+              <div class="accordion-item">
+                <h2 class="accordion-header">
+                  <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+                    data-bs-target="#panelsStayOpen-collapseNine" aria-expanded="false"
+                    aria-controls="panelsStayOpen-collapseNine">
+                    Can I buy my star as a gift for someone else?
+                  </button>
+                </h2>
+                <div id="panelsStayOpen-collapseNine" class="accordion-collapse collapse">
+                  <div class="accordion-body text-secondary">
+                    Yes, buying a star is a wonderful and unique gift for special occasions such as birthdays, anniversaries or weddings. You can send the star package directly to the recipient and give him or her an unforgettable memory.
+                  </div>
+                </div>
+              </div>
+              <div class="accordion-item">
+                <h2 class="accordion-header">
+                  <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+                    data-bs-target="#panelsStayOpen-collapseTen" aria-expanded="false"
+                    aria-controls="panelsStayOpen-collapseTen">
+                    Do you offer a guarantee for the visibility of my star?
+                  </button>
+                </h2>
+                <div id="panelsStayOpen-collapseTen" class="accordion-collapse collapse">
+                  <div class="accordion-body text-secondary">
+                    We cannot guarantee the visibility of your star as this depends on various factors such as weather conditions, light pollution and your location. However, we do our best to ensure that your star is visible and provides you with a wonderful astronomical experience.
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <!-- MARK: Questions Form
+           -->
+          <div class="col-md-4">
+            <div class="text-center">
+              <h2>Get in Touch</h2>
+              <p class="lead">Questions? Fill out the form</p>
+            </div>
+            <form>
+              <label for="email" class="form-label">Email address:</label>
+              <input type="email" class="form-control" id="email" placeholder="e.g. name@example.com">
 
-        </div>
+              <label for="name" class="form-label">Name:</label>
+              <input type="name" class="form-control" id="name" placeholder="e.g. Name">
 
-        <div class="accordion" id="accordionPanelsStayOpenExample">
-          <div class="accordion-item">
-            <h2 class="accordion-header">
-              <button class="accordion-button" type="button" data-bs-toggle="collapse"
-                data-bs-target="#panelsStayOpen-collapseOne" aria-expanded="true"
-                aria-controls="panelsStayOpen-collapseOne">
-                Accordion Item #1
-              </button>
-            </h2>
-            <div id="panelsStayOpen-collapseOne" class="accordion-collapse collapse show">
-              <div class="accordion-body">
-                <strong>This is the first item's accordion body.</strong> It is shown by default, until the collapse
-                plugin adds the appropriate classes that we use to style each element. These classes control the overall
-                appearance, as well as the showing and hiding via CSS transitions. You can modify any of this with
-                custom CSS or overriding our default variables. It's also worth noting that just about any HTML can go
-                within the <code>.accordion-body</code>, though the transition does limit overflow.
+              <label for="subject" class="form-label">Subject:</label>
+              <select name="subject" id="subject" class="form-select">
+                <option value="pricing" selected>Pricing</option>
+                <option value="legal" >Legal</option>
+                <option value="other" >Other</option>
+              </select>
+
+              <div class="form-floating mb-4 mt-4">
+                <textarea name="question" class="form-control" id="" style="height: 140px;"></textarea>
+                <label for="question">Question:</label>
               </div>
-            </div>
-          </div>
-          <div class="accordion-item">
-            <h2 class="accordion-header">
-              <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
-                data-bs-target="#panelsStayOpen-collapseTwo" aria-expanded="false"
-                aria-controls="panelsStayOpen-collapseTwo">
-                Accordion Item #2
-              </button>
-            </h2>
-            <div id="panelsStayOpen-collapseTwo" class="accordion-collapse collapse">
-              <div class="accordion-body">
-                <strong>This is the second item's accordion body.</strong> It is hidden by default, until the collapse
-                plugin adds the appropriate classes that we use to style each element. These classes control the overall
-                appearance, as well as the showing and hiding via CSS transitions. You can modify any of this with
-                custom CSS or overriding our default variables. It's also worth noting that just about any HTML can go
-                within the <code>.accordion-body</code>, though the transition does limit overflow.
+
+              <div class=" text-center">
+                <button type="submit" class="btn btn-secondary">submit</button>
               </div>
-            </div>
-          </div>
-          <div class="accordion-item">
-            <h2 class="accordion-header">
-              <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
-                data-bs-target="#panelsStayOpen-collapseThree" aria-expanded="false"
-                aria-controls="panelsStayOpen-collapseThree">
-                Accordion Item #3
-              </button>
-            </h2>
-            <div id="panelsStayOpen-collapseThree" class="accordion-collapse collapse">
-              <div class="accordion-body">
-                <strong>This is the third item's accordion body.</strong> It is hidden by default, until the collapse
-                plugin adds the appropriate classes that we use to style each element. These classes control the overall
-                appearance, as well as the showing and hiding via CSS transitions. You can modify any of this with
-                custom CSS or overriding our default variables. It's also worth noting that just about any HTML can go
-                within the <code>.accordion-body</code>, though the transition does limit overflow.
-              </div>
-            </div>
-          </div>
-          <div class="accordion-item">
-            <h2 class="accordion-header">
-              <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
-                data-bs-target="#panelsStayOpen-collapseFour" aria-expanded="false"
-                aria-controls="panelsStayOpen-collapseFour">
-                Accordion Item #4
-              </button>
-            </h2>
-            <div id="panelsStayOpen-collapseFour" class="accordion-collapse collapse">
-              <div class="accordion-body">
-                <strong>This is the third item's accordion body.</strong> It is hidden by default, until the collapse
-                plugin adds the appropriate classes that we use to style each element. These classes control the overall
-                appearance, as well as the showing and hiding via CSS transitions. You can modify any of this with
-                custom CSS or overriding our default variables. It's also worth noting that just about any HTML can go
-                within the <code>.accordion-body</code>, though the transition does limit overflow.
-              </div>
-            </div>
-          </div>
-          <div class="accordion-item">
-            <h2 class="accordion-header">
-              <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
-                data-bs-target="#panelsStayOpen-collapseFive" aria-expanded="false"
-                aria-controls="panelsStayOpen-collapseFive">
-                Accordion Item #5
-              </button>
-            </h2>
-            <div id="panelsStayOpen-collapseFive" class="accordion-collapse collapse">
-              <div class="accordion-body">
-                <strong>This is the third item's accordion body.</strong> It is hidden by default, until the collapse
-                plugin adds the appropriate classes that we use to style each element. These classes control the overall
-                appearance, as well as the showing and hiding via CSS transitions. You can modify any of this with
-                custom CSS or overriding our default variables. It's also worth noting that just about any HTML can go
-                within the <code>.accordion-body</code>, though the transition does limit overflow.
-              </div>
-            </div>
+      
+            </form>
           </div>
         </div>
+        </div>
+        
       </div>
     </section>
-
-
-    <!-- MARK: Wichtige Begriffe 
-          als liste-->
-
-
-
-    <!-- MARK:legal 
-          information/ liabilities  -->
-
-      <section id="legal">
-        <div class="container">sdas</div>
-
-      </section>
-
-
-
-
-
 
   </main>
   <!-- MARK: footer
