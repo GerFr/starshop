@@ -22,7 +22,6 @@ const $on = (element, event, func) => {
 
 const render =  (data) => {
   console.log(typeof data)
-  console.log(data)
   const templates = $$('[type="text/x-handlebars-template"]')
 
   for(const source of templates) {
