@@ -181,7 +181,80 @@
               <div id="{{StarID}}-collapseTwo" class="accordion-collapse collapse" aria-labelledby="{{StarID}}-headingTwo"
                 data-bs-parent="#{{StarID}}-accordion">
                 <div class="accordion-body">
-                  ...
+                  <table class="table">
+                    <thead>
+                      <tr>
+                        <th scope="col">#</th>
+                        <th scope="col">Title</th>
+                        <th scope="col">Value</th>
+                        <th scope="col">Description</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr>
+                        <th scope="row">1</th>
+                        <td>Id</td>
+                        <td>{{StarID}}</td>
+                        <td>Id of the Star</td>
+                      </tr>
+                      <tr>
+                        <th scope="row">1</th>
+                        <td>Hip</td>
+                        <td>{{Hip}}</td>
+                        <td>ID in the Hipparcos catalog</td>
+                      </tr>
+                      <tr>
+                        <th scope="row">1</th>
+                        <td>HD</td>
+                        <td>{{HD}}</td>
+                        <td>ID in the Henry Draper catalog</td>
+                      </tr>
+                      <tr>
+                        <th scope="row">1</th>
+                        <td>RA</td>
+                        <td> {{RA}}</td>
+                        <td>right ascension, for epoch and equinox 2000.0.</td>
+                      </tr>
+                      <tr>
+                        <th scope="row">1</th>
+                        <td>Dec</td>
+                        <td>{{Dec}}</td>
+                        <td>declination, for epoch and equinox 2000.0.</td>
+                      </tr>
+                      <tr>
+                        <th scope="row">1</th>
+                        <td>Distance</td>
+                        <td>{{Distance}}</td>
+                        <td>distance in parsecs</td>
+                        <!-- To convert parsecs to light years, multiply by 3.262. A value >= 100000 indicates missing or dubious (e.g., negative) parallax data in Hipparcos. -->
+                      </tr>
+                      <tr>
+                        <th scope="row">1</th>
+                        <td>Mag</td>
+                        <td>{{Mag}}</td>
+                        <td>apparent visual magnitude</td>
+                      </tr>
+                      <tr>
+                        <th scope="row">1</th>
+                        <td>Abs Mag</td>
+                        <td>{{AbsMag}}</td>
+                        <td>absolute visual magnitude</td>
+                        <!-- its apparent magnitude from a distance of 10 parsecs -->
+                      </tr>
+                      <tr>
+                        <th scope="row">1</th>
+                        <td>Spectrum</td>
+                        <td>{{Spectrum}}</td>
+                        <td>spectral type</td>
+                      </tr>
+                      <tr>
+                        <th scope="row">1</th>
+                        <td>Color Index</td>
+                        <td>{{ColorIndex}}</td>
+                        <td>color index (blue magnitude - visual magnitude)</td>
+                      </tr>
+                    </tbody>
+                  </table>
                 </div>
               </div>
             </div>
@@ -195,7 +268,7 @@
               <div id="{{StarID}}-collapseThree" class="accordion-collapse collapse" aria-labelledby="{{StarID}}-headingThree"
                 data-bs-parent="#{{StarID}}-accordion">
                 <div class="accordion-body">
-                  ...
+                  € {{Price}}
                 </div>
               </div>
             </div>
