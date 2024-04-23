@@ -11,16 +11,42 @@
   <link href="css/bootstrap.min.css" rel="stylesheet" />
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
   <link rel="icon" href="assets/stars.png">
+  <script src="js/handlebars.min-v4.7.8.js"></script>
+  <script src="js/vanilla.js"></script>
 
 </head>
 
 <body>
+  <!-- MARK: script
+  -->
+  <script>
+    const numItems = (data) => {
+      length = data.length
+      let maxValue = -Infinity
+      let minValue = Infinity
+      for (let i = 0; i < length; i++) {
+        const item = data[i]
+        if (item.hasOwnProperty("Distance")) {
+          maxValue = Math.max(maxValue, item["Distance"])
+          minValue = Math.min(minValue, item["Distance"])
+        }
+      }
+      let returnDict = { "length": length, "max": maxValue, "min": minValue }
+      return returnDict
+    }
+    fetch('data/hygfull.json')
+      .then(response => response.json())
+      .then(data => render(numItems(data)))
+      .catch(error => console.error('Error fetching JSON file:', error));
+  </script>
+
+
   <header>
     <!-- MARK: navbar
                -->
     <nav class="navbar navbar-expand-md navbar-light ">
       <div class="container-xxl ">
-        <a href="#intro" class="navbar-brand">
+        <a href="index.html" class="navbar-brand">
           <span class="fw-bold text-secondary">
             <i class="bi bi-star"></i>
             Starshop - FAQ
@@ -39,7 +65,7 @@
               <a href="index.html#pricing" class="nav-link">Articles</a>
             </li>
             <li class="nav-item">
-              <a href="#FAQ"class="nav-link">FAQ</a>
+              <a href="#FAQ" class="nav-link">FAQ</a>
             </li>
           </ul>
         </div>
@@ -48,26 +74,24 @@
   </header>
   <main>
     <!-- MARK: About us 
-          container Mit Kurzem Wort neben Bild 
-        dynamisch machen-->
+        -->
     <section id="aboutus align-items-center">
-      <div class="bg"
-                    style="background-image: url('/assets/starrynightsky.jpg'); 
+      <div class="bg" style="background-image: url('/assets/starrynightsky.jpg'); 
                         background-size: cover; 
                         background-position: center; 
                         background-attachment: fixed;
                         height: 100vh;">
-      <div class="container">
-        <div class="row  justify-content-center ">
-          <div class="col-lg-8">
-            <div class="card mt-5  border-0 opacity-75">
-              <div class="card-body">
-                <ul class="list-group list-group-flush">
-                  <li class="list-group-item text-center opacity-100">
-                    <h3 class="display-6 text-muted">Over 80.000 stars available</h3>
+        <div class="container">
+          <div class="row  justify-content-center ">
+            <div class="col-lg-8">
+              <div class="card mt-5  border-0 opacity-75">
+                <div class="card-body">
+                  <script id="template" type="text/x-handlebars-template">
+                  <li class="list-group-item text-center">
+                    <h3 class="display-6 text-muted">Over {{length}} stars available</h3>
                   </li>
                   <li class="list-group-item text-center">
-                    <h3 class="display-6 text-muted">4.500 purchases last month</h3>
+                    <h3 class="display-6 text-muted">{{min}} to {{max}} Parsecs from Earth</h3>
                   </li>
                   <li class="list-group-item text-center">
                     <h3 class="display-6 text-muted">Purchase your star today</h3>
@@ -75,20 +99,18 @@
                   <li class="list-group-item text-center">
                     <h3 class="display-6 text-muted">Leave a lasting legacy</h3>
                   </li>
-                </ul>
+                </script>
+                  <ul class="list-group list-group-flush"></ul>
+                </div>
               </div>
             </div>
           </div>
         </div>
-      </div>
     </section>
 
 
     <!-- MARK: FAQ
-          im accordion neben weiterem Bild
-        Idee:  Faq dynamisch machen
-        daneben eine Form um Fragen zu Stellen
-        -->
+    -->
     <section id="FAQ" class="bg-light">
       <div class="container-lg py-4  justify-content-center">
         <div class="row justify-contents-center">
@@ -108,7 +130,8 @@
                 </h2>
                 <div id="panelsStayOpen-collapseOne" class="accordion-collapse collapse show">
                   <div class="accordion-body text-secondary">
-                    Yes, with us you have the opportunity to own a real star. We offer you the unique opportunity to officially name and own a star in the sky.
+                    Yes, with us you have the opportunity to own a real star. We offer you the unique opportunity to
+                    officially name and own a star in the sky.
                   </div>
                 </div>
               </div>
@@ -122,7 +145,9 @@
                 </h2>
                 <div id="panelsStayOpen-collapseTwo" class="accordion-collapse collapse">
                   <div class="accordion-body text-secondary">
-                    Buying a star is simple and straightforward. You first select a star from our catalog, give it a name of your choice and then fill out the order form. Once your order has been processed, you will receive a personalized certificate confirming your star and its coordinates.
+                    Buying a star is simple and straightforward. You first select a star from our catalog, give it a
+                    name of your choice and then fill out the order form. Once your order has been processed, you will
+                    receive a personalized certificate confirming your star and its coordinates.
                   </div>
                 </div>
               </div>
@@ -136,7 +161,8 @@
                 </h2>
                 <div id="panelsStayOpen-collapseThree" class="accordion-collapse collapse">
                   <div class="accordion-body text-secondary">
-                    Yes, every star we sell is unique. Once you have purchased and named a star, it is exclusively yours.
+                    Yes, every star we sell is unique. Once you have purchased and named a star, it is exclusively
+                    yours.
                   </div>
                 </div>
               </div>
@@ -150,7 +176,9 @@
                 </h2>
                 <div id="panelsStayOpen-collapseFour" class="accordion-collapse collapse">
                   <div class="accordion-body text-secondary">
-                    Yes, most of the stars we sell are visible to the naked eye and can be observed depending on location and time of year. We will also provide you with a star chart and other information to help you locate your star in the sky.
+                    Yes, most of the stars we sell are visible to the naked eye and can be observed depending on
+                    location and time of year. We will also provide you with a star chart and other information to help
+                    you locate your star in the sky.
                   </div>
                 </div>
               </div>
@@ -164,7 +192,9 @@
                 </h2>
                 <div id="panelsStayOpen-collapseFive" class="accordion-collapse collapse">
                   <div class="accordion-body text-secondary">
-                    With your star purchase you will receive a high quality certificate confirming the star you have named and its coordinates. You will also receive a personalized star map with the position of your star marked on it, as well as other informative materials about stars and constellations.
+                    With your star purchase you will receive a high quality certificate confirming the star you have
+                    named and its coordinates. You will also receive a personalized star map with the position of your
+                    star marked on it, as well as other informative materials about stars and constellations.
                   </div>
                 </div>
               </div>
@@ -178,7 +208,9 @@
                 </h2>
                 <div id="panelsStayOpen-collapseSix" class="accordion-collapse collapse">
                   <div class="accordion-body text-secondary">
-                    Buying a star is both a symbolic gift and a unique experience that gives you the feeling of owning a part of the universe. Although you have no legal ownership rights to the physical star, the star you name is registered exclusively to you.
+                    Buying a star is both a symbolic gift and a unique experience that gives you the feeling of owning a
+                    part of the universe. Although you have no legal ownership rights to the physical star, the star you
+                    name is registered exclusively to you.
                   </div>
                 </div>
               </div>
@@ -206,7 +238,8 @@
                 </h2>
                 <div id="panelsStayOpen-collapseEight" class="accordion-collapse collapse">
                   <div class="accordion-body text-secondary">
-                    Normally you will receive your personalized star package within 5-7 working days after completing your order. However, there may be slight delays during busy periods.
+                    Normally you will receive your personalized star package within 5-7 working days after completing
+                    your order. However, there may be slight delays during busy periods.
                   </div>
                 </div>
               </div>
@@ -220,7 +253,9 @@
                 </h2>
                 <div id="panelsStayOpen-collapseNine" class="accordion-collapse collapse">
                   <div class="accordion-body text-secondary">
-                    Yes, buying a star is a wonderful and unique gift for special occasions such as birthdays, anniversaries or weddings. You can send the star package directly to the recipient and give him or her an unforgettable memory.
+                    Yes, buying a star is a wonderful and unique gift for special occasions such as birthdays,
+                    anniversaries or weddings. You can send the star package directly to the recipient and give him or
+                    her an unforgettable memory.
                   </div>
                 </div>
               </div>
@@ -234,7 +269,9 @@
                 </h2>
                 <div id="panelsStayOpen-collapseTen" class="accordion-collapse collapse">
                   <div class="accordion-body text-secondary">
-                    We cannot guarantee the visibility of your star as this depends on various factors such as weather conditions, light pollution and your location. However, we do our best to ensure that your star is visible and provides you with a wonderful astronomical experience.
+                    We cannot guarantee the visibility of your star as this depends on various factors such as weather
+                    conditions, light pollution and your location. However, we do our best to ensure that your star is
+                    visible and provides you with a wonderful astronomical experience.
                   </div>
                 </div>
               </div>
@@ -257,8 +294,8 @@
               <label for="subject" class="form-label">Subject:</label>
               <select name="subject" id="subject" class="form-select">
                 <option value="pricing" selected>Pricing</option>
-                <option value="legal" >Legal</option>
-                <option value="other" >Other</option>
+                <option value="legal">Legal</option>
+                <option value="other">Other</option>
               </select>
 
               <div class="form-floating mb-4 mt-4">
@@ -269,12 +306,10 @@
               <div class=" text-center">
                 <button type="submit" class="btn btn-secondary">submit</button>
               </div>
-      
             </form>
           </div>
         </div>
-        </div>
-        
+      </div>
       </div>
     </section>
 
