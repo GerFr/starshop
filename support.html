@@ -1,0 +1,125 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <title>Support</title>
+    <!-- Required meta tags -->
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+
+    <!-- bootstrap -->
+    <link rel="stylesheet" href="css/bootstrap.min.css">
+    <!-- icons -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+    <link rel="icon" href="assets/stars.png">
+    <!-- handlebars -->
+    <script src="js/handlebars.min-v4.7.8.js"></script>
+    <script src="js/vanilla.js"></script>
+
+    <script>
+        function init() {
+            const data = {
+                "email": localStorage.getItem("email"),
+                "name": localStorage.getItem("name"),
+                "subject": localStorage.getItem("subject"),
+                "question": localStorage.getItem("question")
+            }
+            console.log(data);
+            render(data)
+        }
+    </script>
+</head>
+
+<body onload="init()">
+    <header>
+        <!-- MARK: navbar
+           -->
+        <nav class="navbar navbar-expand-md navbar-light ">
+            <div class="container-xxl ">
+                <a href="index.html" class="navbar-brand">
+                    <span class="fw-bold text-secondary">
+                        <i class="bi bi-star"></i>
+                        Starshop - FAQ
+                    </span>
+                </a>
+                <!-- toggle mobile nav (small screen) -->
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#main-nav"
+                    aria-controls="main-nav" aria-expanded="false" aria-label="toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+
+                <!-- navbar links -->
+                <div class="collapse navbar-collapse justify-content-end align-center" id="main-nav">
+                    <ul class="navbar-nav">
+                        <li class="nav-item">
+                            <a href="index.html#pricing" class="nav-link">Articles</a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="FAQ.html" class="nav-link">FAQ</a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </nav>
+    </header>
+    <main>
+        <!-- MARK: Support Card
+         -->
+        <section id="Support Card">
+            <div class="container-lg justify-content-center">
+                <div class="row align-content-center justify-content-center">
+                    <div class="col-lg-8">
+                        <div class="card bg-light ">
+                            <div class="card-body ">
+                                <script id="template" type="text/x-handlebars-template">
+                                    <h4 class="card-title pb-4 text-center">Question sent - Support is working on a reply </h4>
+                                    <p class="card-text text-secondary"><strong>Email:</strong> {{email}}</p>
+                                    <p class="card-text text-secondary"><strong>Sender:</strong> {{name}}</p>
+                                    <p class="card-text text-secondary"><strong>Subject:</strong> {{subject}}</p>
+                                    <p class="card-text text-secondary"> {{question}}</p>
+                                    </script>
+                                <div class="card-body "></div>
+                                <div class="card-footer text-center ">
+                                    <a href="/index.html" class="btn btn-secondary btn-lg">Home</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+        </section>
+    </main>
+    <!-- MARK: footer
+         -->
+    <footer class="d-flex flex-wrap justify-content-between align-items-center py-3 my-4 border-top">
+        <div class="container-lg">
+            <div class="row justify-contents-center align-items-center">
+                <div class="col-md-4  text-md-center">
+                    <p class="text-muted text-center">© 2024 Starcorp, Inc</p>
+                </div>
+                <div class="col-md-4  text-md-center align-items-center">
+                    <div class="row justify-contents-center align-items-center">
+                        <div class="col-md-1 text-center"><a href="https://github.com/" rel="external"><i
+                                    class="bi bi-github text-secondary my-4"></i></a></div>
+                        <div class="col-md-1 text-center"><a href="https://instagram.com/" rel="external"><i
+                                    class="bi bi-instagram text-secondary my-4"></i></a></div>
+                        <div class="col-md-1 text-center"><a href="https://twitter.com/" rel="external"><i
+                                    class="bi bi-twitter text-secondary my-4"></i></a></div>
+                    </div>
+                </div>
+                <div class="col-md-4  text-md-center">
+                    <div class="row justify-contents-center align-items-center ">
+                        <div class="col-md-3 text-center"><a href="index.html#intro"
+                                class="nav-link px-2 text-secondary">Overview</a></div>
+                        <div class="col-md-3 text-center"><a href="index.html#pricing"
+                                class="nav-link px-2 text-secondary">Articles</a></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Bootstrap JavaScript Libraries -->
+    <script src="js/bootstrap.js"></script>
+</body>
+
+</html>
