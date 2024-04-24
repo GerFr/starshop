@@ -13,11 +13,45 @@
   <link rel="icon" href="assets/stars.png">
   <script src="js/handlebars.min-v4.7.8.js"></script>
   <script src="js/vanilla.js"></script>
+  <!-- MARK: script local storage
+   -->
+  <script>
 
+    function init() {
+      $on($('#bestellen'), 'click', toLocal)
+      
+      const form = document.querySelector('.needs-validation')
+      form.addEventListener('submit', event => {
+        if (!form.checkValidity()) {
+          event.preventDefault()
+          event.stopPropagation()
+        }
+        form.classList.add('was-validated')
+      }, false)
+    }
+
+    //! wird irgendwie nicht ausgeführt nach Button click sondern nach seiten reload vllt. brauch das zu lange nach button click in der Zeit schon eine neue page geladen wird
+    function toLocal(event) {
+      const email = document.getElementById('email');
+      const name = document.getElementById('name');
+      const subject = document.getElementById('subject');
+      const question = document.getElementById('question');
+      // console.log(email.value);
+      // console.log(name.value);
+      // console.log(subject.value);
+      // console.log(question.value);
+      localStorage.setItem("email", email.value)
+      localStorage.setItem("name", name.value)
+      localStorage.setItem("subject", subject.value)
+      localStorage.setItem("question", question.value)
+      // console.log("done local");
+    }
+  </script>
 </head>
 
-<body>
-  <!-- MARK: script
+<body onload="init()">
+
+  <!-- MARK: script handlebars
   -->
   <script>
     const numItems = (data) => {
@@ -284,27 +318,32 @@
               <h2>Get in Touch</h2>
               <p class="lead">Questions? Fill out the form</p>
             </div>
-            <form>
+
+            <form class="needs-validation" novalidate action="support.html">
+
               <label for="email" class="form-label">Email address:</label>
-              <input type="email" class="form-control" id="email" placeholder="e.g. name@example.com">
+              <input type="email" class="form-control" id="email" placeholder="e.g. name@example.com" required>
+              <div class="invalid-feedback">Please enter a valid email</div>
 
               <label for="name" class="form-label">Name:</label>
-              <input type="name" class="form-control" id="name" placeholder="e.g. Name">
+              <input type="name" class="form-control" id="name" placeholder="e.g. Name" required>
+              <div class="invalid-feedback">Please enter a name</div>
 
               <label for="subject" class="form-label">Subject:</label>
-              <select name="subject" id="subject" class="form-select">
+              <select name="subject" id="subject" class="form-select" required>
                 <option value="pricing" selected>Pricing</option>
                 <option value="legal">Legal</option>
                 <option value="other">Other</option>
               </select>
 
               <div class="form-floating mb-4 mt-4">
-                <textarea name="question" class="form-control" id="" style="height: 140px;"></textarea>
+                <textarea name="question" class="form-control" id="question" style="height: 140px;" required></textarea>
                 <label for="question">Question:</label>
+                <div class="invalid-feedback">Please enter your question</div>
               </div>
 
               <div class=" text-center">
-                <button type="submit" class="btn btn-secondary">submit</button>
+                <button type="submit" id="bestellen" class="btn btn-secondary">submit</button>
               </div>
             </form>
           </div>
@@ -312,8 +351,8 @@
       </div>
       </div>
     </section>
-
-  </main>
+   
+    
   <!-- MARK: footer
          -->
   <footer class="d-flex flex-wrap justify-content-between align-items-center py-3 my-4 border-top">
