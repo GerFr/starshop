@@ -18,8 +18,8 @@
   <script>
 
     function init() {
-      $on($('#bestellen'), 'click', toLocal())
-
+      $on($('#bestellen'), 'click', toLocal)
+      
       const form = document.querySelector('.needs-validation')
       form.addEventListener('submit', event => {
         if (!form.checkValidity()) {
@@ -30,20 +30,21 @@
       }, false)
     }
 
-    // in Folgender Funktion in Lokal storage speichern in page zu einer erfolgspage schicken
+    //! wird irgendwie nicht ausgeführt nach Button click sondern nach seiten reload vllt. brauch das zu lange nach button click in der Zeit schon eine neue page geladen wird
     function toLocal(event) {
       const email = document.getElementById('email');
       const name = document.getElementById('name');
       const subject = document.getElementById('subject');
       const question = document.getElementById('question');
-      // console.log(email.value);
-      // console.log(name.value);
-      // console.log(subject.value);
-      // console.log(question.value);
+      console.log(email.value);
+      console.log(name.value);
+      console.log(subject.value);
+      console.log(question.value);
       localStorage.setItem("email", email.value)
       localStorage.setItem("name", name.value)
       localStorage.setItem("subject", subject.value)
       localStorage.setItem("question", question.value)
+      console.log("done local");
     }
   </script>
 </head>
