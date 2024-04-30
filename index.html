@@ -15,6 +15,14 @@
   <!-- handlebars -->
   <script src="js/handlebars.min-v4.7.8.js"></script>
   <script src="js/vanilla.js"></script>
+  <script>function init(){
+    $on($('#cart'), 'click', addb)
+  }
+  
+  function addb(){
+    const sID = document.getElementsByName
+  }</script>
+
 </head>
 
 <body>
@@ -238,7 +246,7 @@
         </div>
         <div class="modal-footer">
           <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-          <button type="button" class="btn btn-primary">to Basket</button>
+          <button type="button" id="cart" class="btn btn-primary">to Basket</button>
         </div>
       </div>
     </div>
