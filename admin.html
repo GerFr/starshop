@@ -16,11 +16,11 @@
     <script src="js/handlebars.min-v4.7.8.js"></script>
     <script src="js/vanilla.js"></script>
 
-    <!-- MARK: on click für create
-     -->
+    
     <script>
 
         function init() {
+
             $on($('#createnew'), 'click', create)
 
             const form = document.querySelector('.needs-validation')
@@ -32,7 +32,8 @@
                 form.classList.add('was-validated')
             }, false)
         }
-
+    
+    
         //! wird irgendwie nicht ausgeführt nach Button click sondern nach seiten reload vllt. brauch das zu lange nach button click in der Zeit schon eine neue page geladen wird
         function create(event) {
             //    hier kommt die create Funktione rein - beachten wann man string und wann man ints etc benutzt
@@ -46,6 +47,44 @@
                     // Nachdem alle input Felder Korrekt sind wird dieser code ausgeführt
                     //! lokalen speicher abändern
 
+                    const data = JSON.parse(localStorage.getItem("data"))
+
+                    // array erstellen für starIds
+                    const StarIDarr = []
+                    for (let i = 0; i < data.length; i++) {
+                        StarIDarr.push(data[i]["StarID"])
+                    }
+
+                    // localStorage.setItem("ID", StarIDarr)
+                    // if abfrage um zu gucken ob Star Id schon existiert
+                    if (StarIDarr.includes(Number(document.getElementById('starId').value))) {
+                        console.log("StarID already exists");
+                        localStorage.setItem("data", JSON.stringify(data))
+                    }
+                    else {
+                        try {
+                            data.push({
+                                "StarID": Number(document.getElementById('starId').value),
+                                "Hip": Number(document.getElementById('Hip').value),
+                                "HD": document.getElementById('HD').value, //string
+                                "ProperName": document.getElementById('name').value, //string
+                                "RA": Number(document.getElementById('RA').value),
+                                "Dec": Number(document.getElementById('Dec').value),
+                                "Distance": Number(document.getElementById('Distance').value),
+                                "Mag": Number(document.getElementById('Mag').value),
+                                "AbsMag": Number(document.getElementById('AbsMag').value),
+                                "Spectrum": document.getElementById('Spectrum').value, //string
+                                "ColorIndex": document.getElementById('ColorIndex').value, //string
+                                "GeneralInformation": document.getElementById('GeneralInformation').value, //string
+                                "Price": Number(document.getElementById('Price').value),
+                                "Color": document.getElementById('Color').value //string
+                            });
+                        } catch (error) {
+                            console.log("Error:", error);
+                        }
+                        localStorage.setItem("data", JSON.stringify(data))
+                    }
+                    
                 }
                 form.classList.add('was-validated')
             }, false)
@@ -56,6 +95,19 @@
 </head>
 
 <body onload="init()">
+    <!-- MARK: local db script
+ -->
+    <script>
+        // in jeder init Funktion muss der Datensatz reingeladen werden, wenn er nicht schon in dem local storage ist
+        if (localStorage.getItem("data") === null) {
+            fetch('data/hygfull.json')
+                .then(response => response.json())
+                .then(data => localStorage.setItem("data", JSON.stringify(data)))
+                .catch(error => console.error('Error fetching JSON file:', error));
+        }
+    </script>
+
+
     <div>
         <script id="replace_with_navbar" src="js/navbar.js"></script>
     </div>
@@ -66,11 +118,11 @@
             <div class="container-lg justify-content-center">
                 <div class="row align-content-center justify-content-center">
                     <div class="col-md-3">
-                        <div class="card bg-light ">
+                        <div class="card bg-secondary ">
                             <div class="card-body text-center ">
 
                                 <!-- Button trigger modal -->
-                                <button type="button" class="btn btn-primary" data-bs-toggle="modal"
+                                <button type="button" class="btn btn-light" data-bs-toggle="modal"
                                     data-bs-target="#createModal">
                                     Create
                                 </button>
@@ -78,11 +130,11 @@
                         </div>
                     </div>
                     <div class="col-md-3">
-                        <div class="card bg-light ">
+                        <div class="card bg-secondary ">
                             <div class="card-body text-center">
 
                                 <!-- Button trigger modal -->
-                                <button type="button" class="btn btn-primary" data-bs-toggle="modal"
+                                <button type="button" class="btn btn-light" data-bs-toggle="modal"
                                     data-bs-target="#readModal">
                                     read
                                 </button>
@@ -90,11 +142,11 @@
                         </div>
                     </div>
                     <div class="col-md-3">
-                        <div class="card bg-light ">
+                        <div class="card bg-secondary ">
                             <div class="card-body text-center">
 
                                 <!-- Button trigger modal -->
-                                <button type="button" class="btn btn-primary" data-bs-toggle="modal"
+                                <button type="button" class="btn btn-light" data-bs-toggle="modal"
                                     data-bs-target="#editModal">
                                     edit
                                 </button>
@@ -102,11 +154,11 @@
                         </div>
                     </div>
                     <div class="col-md-3">
-                        <div class="card bg-light text-center">
-                            <div class="card-body ">
+                        <div class="card bg-secondary ">
+                            <div class="card-body text-center">
 
                                 <!-- Button trigger modal -->
-                                <button type="button" class="btn btn-primary" data-bs-toggle="modal"
+                                <button type="button" class="btn btn-light" data-bs-toggle="modal"
                                     data-bs-target="#deleteModal">
                                     delete
                                 </button>
@@ -132,7 +184,7 @@
                         </div>
                         <!-- MARK: Form - Create
                          -->
-                        <form class="needs-validation" novalidate action="#">
+                        <form class="needs-validation" novalidate action="index.html">
                             <!--! muss noch geedited werden -->
 
                             <label for="number" class="form-label">StarID:</label>
@@ -154,23 +206,28 @@
                             <div class="invalid-feedback">Please enter a name</div>
 
                             <label for="number" class="form-label">RA:</label>
-                            <input type="number" class="form-control" id="RA" placeholder="e.g. 18.61560722" required>
+                            <input type="number" step="any" class="form-control" id="RA" placeholder="e.g. 18.61560722"
+                                required>
                             <div class="invalid-feedback">Please enter a valid RA</div>
 
                             <label for="number" class="form-label">Dec:</label>
-                            <input type="number" class="form-control" id="Dec" placeholder="e.g. 38.78299311" required>
+                            <input type="number" step="any" class="form-control" id="Dec" placeholder="e.g. 38.78299311"
+                                required>
                             <div class="invalid-feedback">Please enter a valid Dec</div>
 
                             <label for="number" class="form-label">Distance:</label>
-                            <input type="number" class="form-control" id="Distance" placeholder="e.g. 7.76" required>
+                            <input type="number" step="any" class="form-control" id="Distance" placeholder="e.g. 7.76"
+                                required>
                             <div class="invalid-feedback">Please enter a valid Distance</div>
 
                             <label for="number" class="form-label">Mag:</label>
-                            <input type="number" class="form-control" id="Mag" placeholder="e.g. 0.03" required>
+                            <input type="number" step="any" class="form-control" id="Mag" placeholder="e.g. 0.03"
+                                required>
                             <div class="invalid-feedback">Please enter a valid Mag</div>
 
                             <label for="number" class="form-label">AbsMag:</label>
-                            <input type="number" class="form-control" id="AbsMag" placeholder="e.g. 0.58" required>
+                            <input type="number" step="any" class="form-control" id="AbsMag" placeholder="e.g. 0.58"
+                                required>
                             <div class="invalid-feedback">Please enter a valid AbsMag</div>
 
                             <label for="text" class="form-label">Spectrum:</label>
@@ -179,25 +236,32 @@
                             <div class="invalid-feedback">Please enter a Spectrum</div>
 
                             <label for="number" class="form-label">ColorIndex:</label>
-                            <input type="number" class="form-control" id="ColorIndex" placeholder="e.g. -0.134"
-                                required>
+                            <input type="number" step="any" class="form-control" id="ColorIndex"
+                                placeholder="e.g. -0.134" required>
                             <div class="invalid-feedback">Please enter a valid ColorIndex</div>
 
                             <div class="form-floating mb-4 mt-4">
                                 <textarea name="GeneralInformation" class="form-control" id="GeneralInformation"
                                     style="height: 140px;" required></textarea>
                                 <label for="GeneralInformation">General information:</label>
-                                <div class="invalid-feedback">Please enter GeneralInformation</div>
+                                <div class="invalid-feedback">Please enter General Information</div>
                             </div>
 
                             <label for="number" class="form-label">Price:</label>
                             <input type="number" class="form-control" id="Price" placeholder="e.g. 83506" required>
                             <div class="invalid-feedback">Please enter a valid Price</div>
 
-                            <label for="name" class="form-label">Color:</label>
-                            <input type="name" class="form-control" id="Color" placeholder="e.g. blueStar" required>
-                            <!--! muss als string gespeichert werden hier kann noch ein catch error falls die color nicht einem Bild entspricht-->
-                            <div class="invalid-feedback">Please enter a Color</div>
+                            <label for="Color" class="form-label">Color:</label>
+                            <select name="Color" id="Color" class="form-select" required>
+                                <!-- "yellowWhiteStar", "yellowStar", "whiteStar", "orangeStar", "orangeRedStar", "blueStar", "blueWhiteStar" -->
+                                <option value="yellowWhiteStar" selected>yellowWhiteStar</option>
+                                <option value="yellowStar">yellowStar</option>
+                                <option value="whiteStar">whiteStar</option>
+                                <option value="orangeStar">orangeStar</option>
+                                <option value="orangeRedStar">orangeRedStar</option>
+                                <option value="blueStar">blueStar</option>
+                                <option value="blueWhiteStar">blueWhiteStar</option>
+                            </select>
 
                             <div class="mt-2 text-center">
                                 <button type="submit" id="createnew" class="btn btn-secondary">save changes</button>
