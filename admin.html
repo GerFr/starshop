@@ -20,46 +20,33 @@
     <script>
 
         function init() {
-
-            $on($('#createnew'), 'click', create)
-
-            const form = document.querySelector('.needs-validation')
-            form.addEventListener('submit', event => {
-                if (!form.checkValidity()) {
-                    event.preventDefault()
-                    event.stopPropagation()
-                }
-                form.classList.add('was-validated')
-            }, false)
+            $on($('#createnew'), 'click', create);
+            $on($('#editold'), 'click', edit)
         }
 
-
-        //! wird irgendwie nicht ausgeführt nach Button click sondern nach seiten reload vllt. brauch das zu lange nach button click in der Zeit schon eine neue page geladen wird
         function create(event) {
-            //    hier kommt die create Funktione rein - beachten wann man string und wann man ints etc benutzt
-            const form = document.querySelector('.needs-validation')
-            form.addEventListener('submit', event => {
-                if (!form.checkValidity()) {
+            const form1 = document.getElementById('createForm')
+            form1.addEventListener('submit', event => {
+                if (!form1.checkValidity()) {
                     event.preventDefault()
                     event.stopPropagation()
                 }
                 else {
                     // Nachdem alle input Felder Korrekt sind wird dieser code ausgeführt
-                    //! lokalen speicher abändern
-
+                    // for error handling by Id overwrite
+                    const IdInput = document.getElementById('starId');
+                    const IdError = document.querySelector('.invalid-feedback');
                     const data = JSON.parse(localStorage.getItem("data"))
-
                     // array erstellen für starIds
                     const StarIDarr = []
                     for (let i = 0; i < data.length; i++) {
                         StarIDarr.push(data[i]["StarID"])
                     }
-
                     // localStorage.setItem("ID", StarIDarr)
                     // if abfrage um zu gucken ob Star Id schon existiert
-                    if (StarIDarr.includes(Number(document.getElementById('starId').value))) {
-                        console.log("StarID already exists");
-                        localStorage.setItem("data", JSON.stringify(data))
+                    if (StarIDarr.includes(Number(IdInput.value))) {
+                        alert("StarId is already existing");
+                        setTimeout(function () { location.reload(); }, 0)
                     }
                     else {
                         try {
@@ -84,10 +71,23 @@
                         }
                         localStorage.setItem("data", JSON.stringify(data))
                     }
-
                 }
-                form.classList.add('was-validated')
+                form1.classList.add('was-validated')
             }, false)
+        }
+
+        function edit(event) {
+            const form2 = document.getElementById('editform');
+            form2.addEventListener('submit', event => {
+                if (!form2.checkValidity()) {
+                    event.preventDefault();
+                    event.stopPropagation();
+                }
+                else {
+                    //edit code kommt hier rein
+                }
+                form2.classList.add('was-validated');
+            }, false);
         }
     </script>
 
@@ -184,7 +184,7 @@
                         </div>
                         <!-- MARK: Form - Create
                          -->
-                        <form class="needs-validation" novalidate action="index.html">
+                        <form id="createForm" class="needs-validation" novalidate action="#">
                             <!--! muss noch geedited werden -->
 
                             <label for="number" class="form-label">StarID:</label>
@@ -309,18 +309,18 @@
                         </div>
                         <!-- MARK: Form - edit
                          -->
-                        <form class="needs-validation" novalidate action="index.html">
+                        <form id="editform" class="needs-validation" novalidate action="#">
 
                             <!-- script der alle vorhandenen IDs reinlädt -->
                             <label for="SelectId" class="form-label">Select Id:</label>
                             <select name="SelectId" id="SelectId" class="form-select" required>
-                                <option selected disabled>Select an option</option>
+                                <!-- <option selected disabled>Select an option</option> -->
                             </select>
+                            <div class="invalid-feedback">Please enter a valid edit</div>
 
                             <label for="Attribute" class="form-label">Attribute:</label>
                             <select name="Attribute" id="Attribute" class="form-select" required>
-                                <!-- "yellowWhiteStar", "yellowStar", "whiteStar", "orangeStar", "orangeRedStar", "blueStar", "blueWhiteStar" -->
-                                <option value="StarID" selected>StarID</option>
+
                                 <option value="Hip">Hip</option>
                                 <option value="HD">HD</option>
                                 <option value="RA">RA</option>
@@ -333,24 +333,21 @@
                                 <option value="GeneralInformation">GeneralInformation</option>
                                 <option value="Price">Price</option>
                                 <option value="Color">Color</option>
+
                             </select>
+                            <div class="invalid-feedback">Please enter a valid edit</div>
 
                             <div class="form-floating mb-4 mt-4">
-                                <textarea name="GeneralInformation" class="form-control" id="GeneralInformation"
+                                <textarea name="GeneralInformation" class="form-control" id="edittext"
                                     style="height: 140px;" required></textarea>
-                                <label for="GeneralInformation">General information:</label>
-                                <div class="invalid-feedback">Please enter General Information</div>
+                                <label for="GeneralInformation">edit:</label>
+                                <div class="invalid-feedback">Please enter a valid edit</div>
                             </div>
-
 
                             <div class="mt-2 text-center">
                                 <button type="submit" id="editold" class="btn btn-secondary">save changes</button>
                             </div>
                         </form>
-                    </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                        <button type="button" class="btn btn-primary">Save changes</button>
                     </div>
                 </div>
             </div>
@@ -379,22 +376,35 @@
     <div>
         <script id="replace_with_footer" src="js/footer.js"></script>
     </div>
-
-    <script>// Retrieve data from local storage
-        const data = JSON.parse(localStorage.getItem("data"))
-        console.log(data);
-        // array erstellen für starIds
-        const StarIDarr = []
-        for (let i = 0; i < data.length; i++) {
-            StarIDarr.push(data[i]["StarID"])
-        }
-        console.log(StarIDarr);
-
-        if (data) {
+    <!-- MARK: Dynamic selector
+ -->
+    <script>
+        if (localStorage.getItem("data") === null) {
+            fetch('data/hygfull.json')
+                .then(response => response.json())
+                .then(data => {
+                    localStorage.setItem("data", JSON.stringify(data));
+                    const StarIDarr = [];
+                    for (let i = 0; i < data.length; i++) {
+                        StarIDarr.push(data[i]["StarID"]);
+                    }
+                    const selectOptions = document.getElementById('SelectId');
+                    for (let i = 0; i < StarIDarr.length; i++) {
+                        const option = document.createElement('option');
+                        option.textContent = StarIDarr[i];
+                        option.value = StarIDarr[i];
+                        selectOptions.appendChild(option);
+                    }
+                })
+                .catch(error => console.error('Error fetching JSON file:', error));
+        } else {
+            // Retrieve data from local storage
+            const data = JSON.parse(localStorage.getItem("data"));
+            const StarIDarr = [];
+            for (let i = 0; i < data.length; i++) {
+                StarIDarr.push(data[i]["StarID"]);
+            }
             const selectOptions = document.getElementById('SelectId');
-
-            // Populate select options from data
-
             for (let i = 0; i < StarIDarr.length; i++) {
                 const option = document.createElement('option');
                 option.textContent = StarIDarr[i];
@@ -402,11 +412,8 @@
                 selectOptions.appendChild(option);
             }
         }
-        else {
-            console.error('Data not found in local storage.');
-        }
     </script>
-    
+
     <!-- Bootstrap JavaScript Libraries -->
     <script src="js/bootstrap.js"></script>
 </body>
