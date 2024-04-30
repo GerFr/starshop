@@ -303,7 +303,50 @@
                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
                     <div class="modal-body">
-                        ...
+                        <div class="text-center">
+                            <h2>Edit Item</h2>
+                            <p class="lead">Fill out the form</p>
+                        </div>
+                        <!-- MARK: Form - edit
+                         -->
+                        <form class="needs-validation" novalidate action="index.html">
+
+                            <!-- script der alle vorhandenen IDs reinlädt -->
+                            <label for="SelectId" class="form-label">Select Id:</label>
+                            <select name="SelectId" id="SelectId" class="form-select" required>
+                                <option value="yellowWhiteStar" selected>yellowWhiteStar</option>
+                            </select>
+
+                            <label for="Attribute" class="form-label">Attribute:</label>
+                            <select name="Attribute" id="Attribute" class="form-select" required>
+                                <!-- "yellowWhiteStar", "yellowStar", "whiteStar", "orangeStar", "orangeRedStar", "blueStar", "blueWhiteStar" -->
+                                <option value="StarID" selected>StarID</option>
+                                <option value="Hip">Hip</option>
+                                <option value="HD">HD</option>
+                                <option value="RA">RA</option>
+                                <option value="Dec">Dec</option>
+                                <option value="Distance">Distance</option>
+                                <option value="Mag">Mag</option>
+                                <option value="AbsMag">AbsMag</option>
+                                <option value="Spectrum">Spectrum</option>
+                                <option value="ColorIndex">ColorIndex</option>
+                                <option value="GeneralInformation">GeneralInformation</option>
+                                <option value="Price">Price</option>
+                                <option value="Color">Color</option>
+                            </select>
+
+                            <div class="form-floating mb-4 mt-4">
+                                <textarea name="GeneralInformation" class="form-control" id="GeneralInformation"
+                                    style="height: 140px;" required></textarea>
+                                <label for="GeneralInformation">General information:</label>
+                                <div class="invalid-feedback">Please enter General Information</div>
+                            </div>
+
+
+                            <div class="mt-2 text-center">
+                                <button type="submit" id="editold" class="btn btn-secondary">save changes</button>
+                            </div>
+                        </form>
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
