@@ -18,10 +18,10 @@
   <script src="js/vanilla.js"></script>
 </head>
 
-<body>
-
+  <body>
+  
   <script>
-    fetch('data/hygfull.json')
+      fetch('data/hygfull.json')
       .then(response => response.json())
       .then(data => render(data))
       .catch(error => console.error('Error fetching JSON file:', error));
@@ -43,6 +43,7 @@
     }
 });
   </script>
+
 
   <div>
     <script id="replace_with_navbar" src="js/navbar.js"></script>
@@ -249,8 +250,9 @@
           </div>
         </div>
         <div class="modal-footer">
+          <div>{{StarID}}</div>
           <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-          <button type="button" id="{{StarID}}-cart" class="btn btn-primary">to Basket</button>
+          <button onclick="tocart({{StarID}})" id="cart" class="btn btn-primary" data-bs-toggle="tooltip" data-bs-placement="top" title="12345" data-bs-trigger="click">Add to Cart</button>
         </div>
       </div>
     </div>
@@ -258,10 +260,40 @@
   {{/each}}
   </script>
   <div></div>
-
+  <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLabel">My Modal</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          This modal will close automatically after 3 seconds.
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+        </div>
+      </div>
+    </div>
+  </div>
+  <script>function tocart(sID){
+    if (sessionStorage.getItem("cart") === null){
+      var cartarr = [sID]
+        sessionStorage.setItem("cart", JSON.stringify(cartarr))
+    }
+    else if (JSON.parse(sessionStorage.getItem("cart")).includes(sID) === false){
+      var cartarr = JSON.parse(sessionStorage.getItem("cart"))
+      cartarr.push(sID);
+      sessionStorage.setItem("cart", JSON.stringify(cartarr))
+    }
+  }
+  </script>
   <div>
     <script id="replace_with_footer" src="js/footer.js"></script>
   </div>
+  <script></script>
 
   <!-- Bootstrap JavaScript Libraries -->
   <script src="js/bootstrap.js"></script>
