@@ -27,6 +27,23 @@
       .catch(error => console.error('Error fetching JSON file:', error));
   </script>
 
+  <script>
+    Handlebars.registerHelper({
+    eq: (v1, v2) => v1 === v2,
+    ne: (v1, v2) => v1 !== v2,
+    lt: (v1, v2) => v1 < v2,
+    gt: (v1, v2) => v1 > v2,
+    lte: (v1, v2) => v1 <= v2,
+    gte: (v1, v2) => v1 >= v2,
+    and() {
+        return Array.prototype.every.call(arguments, Boolean);
+    },
+    or() {
+        return Array.prototype.slice.call(arguments, 0, -1).some(Boolean);
+    }
+});
+  </script>
+
   <div>
     <script id="replace_with_navbar" src="js/navbar.js"></script>
   </div>
@@ -84,6 +101,9 @@
           <button type="button" class="btn" data-bs-toggle="modal" data-bs-target="#{{StarID}}-modal">
             <div class="card border-1">
               <img src="assets/stars/{{Color}}.png" class="card-img-top img-fluid"  >
+              {{#if (lt Price 100000)}}
+                <div class="badge position-absolute rounded-pill bg-danger text-white p-2 m-2">Sale</div>
+              {{/if}} 
               <div class="card-body text-center py-4">
                 <h4 class="card-title">
                   {{ProperName}}
@@ -230,7 +250,7 @@
         </div>
         <div class="modal-footer">
           <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-          <button type="button" class="btn btn-primary">to Basket</button>
+          <button type="button" id="{{StarID}}-cart" class="btn btn-primary">to Basket</button>
         </div>
       </div>
     </div>
