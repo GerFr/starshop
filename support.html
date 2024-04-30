@@ -24,7 +24,7 @@
                 "subject": localStorage.getItem("subject"),
                 "question": localStorage.getItem("question")
             }
-            console.log(data);
+            // console.log(data);
             render(data)
         }
     </script>
@@ -39,18 +39,18 @@
             <div class="container-lg justify-content-center">
                 <div class="row align-content-center justify-content-center">
                     <div class="col-lg-8">
-                        <div class="card bg-light ">
+                        <div class="card bg-dark ">
                             <div class="card-body ">
                                 <script id="template" type="text/x-handlebars-template">
                                     <h4 class="card-title pb-4 text-center">Question sent - Support is working on a reply </h4>
-                                    <p class="card-text text-secondary"><strong>Email:</strong> {{email}}</p>
-                                    <p class="card-text text-secondary"><strong>Sender:</strong> {{name}}</p>
-                                    <p class="card-text text-secondary"><strong>Subject:</strong> {{subject}}</p>
-                                    <p class="card-text text-secondary"> {{question}}</p>
+                                    <p class="card-text text-light"><strong>Email:</strong> {{email}}</p>
+                                    <p class="card-text text-light"><strong>Sender:</strong> {{name}}</p>
+                                    <p class="card-text text-light"><strong>Subject:</strong> {{subject}}</p>
+                                    <p class="card-text text-light"> {{question}}</p>
                                     </script>
                                 <div class="card-body "></div>
                                 <div class="card-footer text-center ">
-                                    <a href="/index.html" class="btn btn-secondary btn-lg">Home</a>
+                                    <a href="/index.html" class="btn btn-primary btn-lg">Home</a>
                                 </div>
                             </div>
                         </div>
