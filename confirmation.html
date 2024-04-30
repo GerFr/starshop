@@ -2,7 +2,7 @@
 <html lang="en">
 
 <head>
-    <title>Support</title>
+    <title>Confirmation</title>
     <!-- Required meta tags -->
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
@@ -11,21 +11,13 @@
     <link rel="stylesheet" href="css/bootstrap.min.css">
     <!-- icons -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
-    <link rel="icon" href="assets/icons/questionmark.png">
+    <link rel="icon" href="assets/icons/cart.png">
     <!-- handlebars -->
     <script src="js/handlebars.min-v4.7.8.js"></script>
     <script src="js/vanilla.js"></script>
-
     <script>
         function init() {
-            const data = {
-                "email": localStorage.getItem("email"),
-                "name": localStorage.getItem("name"),
-                "subject": localStorage.getItem("subject"),
-                "question": localStorage.getItem("question")
-            }
-            // console.log(data);
-            render(data)
+            render(JSON.parse(localStorage.getItem("checkout")))
         }
     </script>
 </head>
@@ -42,11 +34,19 @@
                         <div class="card bg-dark ">
                             <div class="card-body ">
                                 <script id="template" type="text/x-handlebars-template">
-                                    <h4 class="card-title pb-4 text-center">Question sent - Support is working on a reply </h4>
+                                    <h4 class="card-title pb-4 text-center">Ihre Bestellung ist auf dem Weg</h4>
+                                    <p class="card-text text-light"><strong>Sender:</strong> {{first}}</p>
+                                    <p class="card-text text-light"><strong>Sender:</strong> {{last}}</p>
                                     <p class="card-text text-light"><strong>Email:</strong> {{email}}</p>
-                                    <p class="card-text text-light"><strong>Sender:</strong> {{name}}</p>
-                                    <p class="card-text text-light"><strong>Subject:</strong> {{subject}}</p>
-                                    <p class="card-text text-light"> {{question}}</p>
+                                    <p class="card-text text-light"><strong>Address:</strong> {{address}}</p>
+                                    <p class="card-text text-light"><strong>2nd Address":</strong> {{address2}}</p>
+                                    <p class="card-text text-light"><strong>Country:</strong> {{country}}</p>
+                                    <p class="card-text text-light"><strong>City:</strong> {{city}}</p>
+                                    <p class="card-text text-light"><strong>Zip:</strong> {{zip}}</p>
+                                    <p class="card-text text-light"><strong>Card Name:</strong> {{card-name}}</p>
+                                    <p class="card-text text-light"><strong>Card Number:</strong> {{card-number}}</p>
+                                    <p class="card-text text-light"><strong>Expiration:</strong> {{expiration}}</p>
+                                    <p class="card-text text-light"><strong>CVV:</strong> {{cvv}}</p>
                                     </script>
                                 <div class="card-body "></div>
                                 <div class="card-footer text-center ">
