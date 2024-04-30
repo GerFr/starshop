@@ -1,0 +1,278 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <title>admin</title>
+    <!-- Required meta tags -->
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+
+    <!-- bootstrap -->
+    <link rel="stylesheet" href="css/bootstrap.min.css">
+    <!-- icons -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+    <link rel="icon" href="assets/icons/questionmark.png">
+    <!-- handlebars -->
+    <script src="js/handlebars.min-v4.7.8.js"></script>
+    <script src="js/vanilla.js"></script>
+
+    <!-- MARK: on click für create
+     -->
+    <script>
+
+        function init() {
+            $on($('#createnew'), 'click', create)
+
+            const form = document.querySelector('.needs-validation')
+            form.addEventListener('submit', event => {
+                if (!form.checkValidity()) {
+                    event.preventDefault()
+                    event.stopPropagation()
+                }
+                form.classList.add('was-validated')
+            }, false)
+        }
+
+        //! wird irgendwie nicht ausgeführt nach Button click sondern nach seiten reload vllt. brauch das zu lange nach button click in der Zeit schon eine neue page geladen wird
+        function create(event) {
+            //    hier kommt die create Funktione rein - beachten wann man string und wann man ints etc benutzt
+            fetch('data.json')
+                .then(response => response.json())
+                .then(data => {
+                    // Modify the JSON data
+                    data.property = 'new value';
+
+                    // Write the changes back to the file
+                    const fs = require('fs');
+                    fs.writeFileSync('data.json', JSON.stringify(data));
+                })
+                .catch(error => console.error('Error:', error));
+        }
+    </script>
+
+
+</head>
+
+<body onload="init()">
+    <div>
+        <script id="replace_with_navbar" src="js/navbar.js"></script>
+    </div>
+    <main>
+        <!-- MARK: Crud Cards
+         -->
+        <section id="CRUD Cards">
+            <div class="container-lg justify-content-center">
+                <div class="row align-content-center justify-content-center">
+                    <div class="col-md-3">
+                        <div class="card bg-light ">
+                            <div class="card-body text-center ">
+
+                                <!-- Button trigger modal -->
+                                <button type="button" class="btn btn-primary" data-bs-toggle="modal"
+                                    data-bs-target="#createModal">
+                                    Create
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="card bg-light ">
+                            <div class="card-body text-center">
+
+                                <!-- Button trigger modal -->
+                                <button type="button" class="btn btn-primary" data-bs-toggle="modal"
+                                    data-bs-target="#readModal">
+                                    read
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="card bg-light ">
+                            <div class="card-body text-center">
+
+                                <!-- Button trigger modal -->
+                                <button type="button" class="btn btn-primary" data-bs-toggle="modal"
+                                    data-bs-target="#editModal">
+                                    edit
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="card bg-light text-center">
+                            <div class="card-body ">
+
+                                <!-- Button trigger modal -->
+                                <button type="button" class="btn btn-primary" data-bs-toggle="modal"
+                                    data-bs-target="#deleteModal">
+                                    delete
+                                </button>
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+        </section>
+        <!-- MARK: Create Modal 
+    -->
+        <div class="modal fade" id="createModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLabel">Create</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <div class="text-center">
+                            <h2>Create new Item</h2>
+                            <p class="lead">Fill out the form</p>
+                        </div>
+                        <!-- MARK: Form - Create
+                         -->
+                        <form class="needs-validation" novalidate action="index.html">
+
+                            <label for="number" class="form-label">StarID:</label>
+                            <input type="number" class="form-control" id="starId" placeholder="e.g. 65795" required>
+                            <div class="invalid-feedback">Please enter a valid StarID</div>
+
+                            <label for="number" class="form-label">Hip:</label>
+                            <input type="number" class="form-control" id="Hip" placeholder="e.g. 91262" required>
+                            <div class="invalid-feedback">Please enter a valid Hip</div>
+
+                            <label for="number" class="form-label">HD:</label>
+                            <input type="number" class="form-control" id="HD" placeholder="e.g. 172167" required>
+                            <!-- muss als Strin gespeichert werden -->
+                            <div class="invalid-feedback">Please enter a valid HD</div>
+
+                            <label for="name" class="form-label">Name:</label>
+                            <input type="name" class="form-control" id="name" placeholder="e.g. Vega" required>
+                            <!-- muss als string gespeichert werden -->
+                            <div class="invalid-feedback">Please enter a name</div>
+
+                            <label for="number" class="form-label">RA:</label>
+                            <input type="number" class="form-control" id="RA" placeholder="e.g. 18.61560722" required>
+                            <div class="invalid-feedback">Please enter a valid RA</div>
+
+                            <label for="number" class="form-label">Dec:</label>
+                            <input type="number" class="form-control" id="Dec" placeholder="e.g. 38.78299311" required>
+                            <div class="invalid-feedback">Please enter a valid Dec</div>
+
+                            <label for="number" class="form-label">Distance:</label>
+                            <input type="number" class="form-control" id="Distance" placeholder="e.g. 7.76" required>
+                            <div class="invalid-feedback">Please enter a valid Distance</div>
+
+                            <label for="number" class="form-label">Mag:</label>
+                            <input type="number" class="form-control" id="Mag" placeholder="e.g. 0.03" required>
+                            <div class="invalid-feedback">Please enter a valid Mag</div>
+
+                            <label for="number" class="form-label">AbsMag:</label>
+                            <input type="number" class="form-control" id="AbsMag" placeholder="e.g. 0.58" required>
+                            <div class="invalid-feedback">Please enter a valid AbsMag</div>
+
+                            <label for="text" class="form-label">Spectrum:</label>
+                            <input type="text" class="form-control" id="Spectrum" placeholder="e.g. B2.5V" required>
+                            <!-- muss als string gespeichert werden -->
+                            <div class="invalid-feedback">Please enter a Spectrum</div>
+
+                            <label for="number" class="form-label">ColorIndex:</label>
+                            <input type="number" class="form-control" id="ColorIndex" placeholder="e.g. -0.134"
+                                required>
+                            <div class="invalid-feedback">Please enter a valid ColorIndex</div>
+
+                            <div class="form-floating mb-4 mt-4">
+                                <textarea name="GeneralInformation" class="form-control" id="GeneralInformation"
+                                    style="height: 140px;" required></textarea>
+                                <label for="GeneralInformation">General information:</label>
+                                <div class="invalid-feedback">Please enter GeneralInformation</div>
+                            </div>
+
+                            <label for="number" class="form-label">Price:</label>
+                            <input type="number" class="form-control" id="Price" placeholder="e.g. 83506" required>
+                            <div class="invalid-feedback">Please enter a valid Price</div>
+
+                            <label for="name" class="form-label">Color:</label>
+                            <input type="name" class="form-control" id="Color" placeholder="e.g. blueStar" required>
+                            <!-- muss als string gespeichert werden hier kann noch ein catch error falls die color nicht einem Bild entspricht-->
+                            <div class="invalid-feedback">Please enter a Color</div>
+
+                            <div class="mt-2 text-center">
+                                <button type="submit" id="createnew" class="btn btn-secondary">save changes</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+        <!-- MARK: Read Modal 
+    -->
+        <div class="modal fade" id="readModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLabel">Read</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        ...
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                        <button type="button" class="btn btn-primary">Save changes</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- MARK: edit Modal 
+    -->
+        <div class="modal fade" id="editModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLabel">Edit</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        ...
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                        <button type="button" class="btn btn-primary">Save changes</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- MARK: delete Modal 
+    -->
+        <div class="modal fade" id="deleteModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLabel">delete</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        ...
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                        <button type="button" class="btn btn-primary">Save changes</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <div>
+        <script id="replace_with_footer" src="js/footer.js"></script>
+    </div>
+
+
+    <!-- Bootstrap JavaScript Libraries -->
+    <script src="js/bootstrap.js"></script>
+</body>
+
+</html>
