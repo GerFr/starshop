@@ -36,17 +36,19 @@
         //! wird irgendwie nicht ausgeführt nach Button click sondern nach seiten reload vllt. brauch das zu lange nach button click in der Zeit schon eine neue page geladen wird
         function create(event) {
             //    hier kommt die create Funktione rein - beachten wann man string und wann man ints etc benutzt
-            fetch('data.json')
-                .then(response => response.json())
-                .then(data => {
-                    // Modify the JSON data
-                    data.property = 'new value';
+            const form = document.querySelector('.needs-validation')
+            form.addEventListener('submit', event => {
+                if (!form.checkValidity()) {
+                    event.preventDefault()
+                    event.stopPropagation()
+                }
+                else {
+                    // Nachdem alle input Felder Korrekt sind wird dieser code ausgeführt
+                    //! lokalen speicher abändern
 
-                    // Write the changes back to the file
-                    const fs = require('fs');
-                    fs.writeFileSync('data.json', JSON.stringify(data));
-                })
-                .catch(error => console.error('Error:', error));
+                }
+                form.classList.add('was-validated')
+            }, false)
         }
     </script>
 
@@ -130,7 +132,8 @@
                         </div>
                         <!-- MARK: Form - Create
                          -->
-                        <form class="needs-validation" novalidate action="index.html">
+                        <form class="needs-validation" novalidate action="#">
+                            <!--! muss noch geedited werden -->
 
                             <label for="number" class="form-label">StarID:</label>
                             <input type="number" class="form-control" id="starId" placeholder="e.g. 65795" required>
@@ -142,12 +145,12 @@
 
                             <label for="number" class="form-label">HD:</label>
                             <input type="number" class="form-control" id="HD" placeholder="e.g. 172167" required>
-                            <!-- muss als Strin gespeichert werden -->
+                            <!--! muss als Strin gespeichert werden -->
                             <div class="invalid-feedback">Please enter a valid HD</div>
 
                             <label for="name" class="form-label">Name:</label>
                             <input type="name" class="form-control" id="name" placeholder="e.g. Vega" required>
-                            <!-- muss als string gespeichert werden -->
+                            <!--! muss als string gespeichert werden -->
                             <div class="invalid-feedback">Please enter a name</div>
 
                             <label for="number" class="form-label">RA:</label>
@@ -172,7 +175,7 @@
 
                             <label for="text" class="form-label">Spectrum:</label>
                             <input type="text" class="form-control" id="Spectrum" placeholder="e.g. B2.5V" required>
-                            <!-- muss als string gespeichert werden -->
+                            <!--! muss als string gespeichert werden -->
                             <div class="invalid-feedback">Please enter a Spectrum</div>
 
                             <label for="number" class="form-label">ColorIndex:</label>
@@ -193,7 +196,7 @@
 
                             <label for="name" class="form-label">Color:</label>
                             <input type="name" class="form-control" id="Color" placeholder="e.g. blueStar" required>
-                            <!-- muss als string gespeichert werden hier kann noch ein catch error falls die color nicht einem Bild entspricht-->
+                            <!--! muss als string gespeichert werden hier kann noch ein catch error falls die color nicht einem Bild entspricht-->
                             <div class="invalid-feedback">Please enter a Color</div>
 
                             <div class="mt-2 text-center">
