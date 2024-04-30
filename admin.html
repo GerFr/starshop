@@ -16,7 +16,7 @@
     <script src="js/handlebars.min-v4.7.8.js"></script>
     <script src="js/vanilla.js"></script>
 
-    
+
     <script>
 
         function init() {
@@ -32,8 +32,8 @@
                 form.classList.add('was-validated')
             }, false)
         }
-    
-    
+
+
         //! wird irgendwie nicht ausgeführt nach Button click sondern nach seiten reload vllt. brauch das zu lange nach button click in der Zeit schon eine neue page geladen wird
         function create(event) {
             //    hier kommt die create Funktione rein - beachten wann man string und wann man ints etc benutzt
@@ -84,7 +84,7 @@
                         }
                         localStorage.setItem("data", JSON.stringify(data))
                     }
-                    
+
                 }
                 form.classList.add('was-validated')
             }, false)
@@ -314,7 +314,7 @@
                             <!-- script der alle vorhandenen IDs reinlädt -->
                             <label for="SelectId" class="form-label">Select Id:</label>
                             <select name="SelectId" id="SelectId" class="form-select" required>
-                                <option value="yellowWhiteStar" selected>yellowWhiteStar</option>
+                                <option selected disabled>Select an option</option>
                             </select>
 
                             <label for="Attribute" class="form-label">Attribute:</label>
@@ -380,7 +380,33 @@
         <script id="replace_with_footer" src="js/footer.js"></script>
     </div>
 
+    <script>// Retrieve data from local storage
+        const data = JSON.parse(localStorage.getItem("data"))
+        console.log(data);
+        // array erstellen für starIds
+        const StarIDarr = []
+        for (let i = 0; i < data.length; i++) {
+            StarIDarr.push(data[i]["StarID"])
+        }
+        console.log(StarIDarr);
 
+        if (data) {
+            const selectOptions = document.getElementById('SelectId');
+
+            // Populate select options from data
+
+            for (let i = 0; i < StarIDarr.length; i++) {
+                const option = document.createElement('option');
+                option.textContent = StarIDarr[i];
+                option.value = StarIDarr[i];
+                selectOptions.appendChild(option);
+            }
+        }
+        else {
+            console.error('Data not found in local storage.');
+        }
+    </script>
+    
     <!-- Bootstrap JavaScript Libraries -->
     <script src="js/bootstrap.js"></script>
 </body>
