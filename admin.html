@@ -16,7 +16,6 @@
     <script src="js/handlebars.min-v4.7.8.js"></script>
     <script src="js/vanilla.js"></script>
 
-
     <script>
 
         function init() {
@@ -45,7 +44,7 @@
                     // localStorage.setItem("ID", StarIDarr)
                     // if abfrage um zu gucken ob Star Id schon existiert
                     if (StarIDarr.includes(Number(IdInput.value))) {
-                        alert("StarId is already existing");
+                        alert("Duplicate StarId");
                         setTimeout(function () { location.reload(); }, 0)
                     }
                     else {
@@ -84,7 +83,26 @@
                     event.stopPropagation();
                 }
                 else {
-                    //edit code kommt hier rein
+                    const data = JSON.parse(localStorage.getItem("data"))
+                    const StarId = Number(document.getElementById('SelectId').value)
+                    const Attribute = document.getElementById('Attribute').value
+                    const editInput = document.getElementById('edittext').value
+                    const stringList = ["HD", "ProperName", "Spectrum", "ColorIndex", "GeneralInformation", "Color"]
+                    const StarIDarr = []
+                    for (let i = 0; i < data.length; i++) {
+                        StarIDarr.push(data[i]["StarID"])
+                    }
+                    const StarIndex = StarIDarr.indexOf(StarId)
+
+                    // check if edit has to be added as string or nah
+
+                    if (stringList.includes(Attribute)) {
+                        data[StarIndex][Attribute] = editInput
+                    }
+                    else {
+                        data[StarIndex][Attribute] = Number(editInput)
+                    }
+                    localStorage.setItem("data", JSON.stringify(data))
                 }
                 form2.classList.add('was-validated');
             }, false);
@@ -338,8 +356,8 @@
                             <div class="invalid-feedback">Please enter a valid edit</div>
 
                             <div class="form-floating mb-4 mt-4">
-                                <textarea name="GeneralInformation" class="form-control" id="edittext"
-                                    style="height: 140px;" required></textarea>
+                                <input type="number" step="any" class="form-control" id="edittext"
+                                placeholder="e.g. -0.134" required>
                                 <label for="GeneralInformation">edit:</label>
                                 <div class="invalid-feedback">Please enter a valid edit</div>
                             </div>
@@ -413,6 +431,50 @@
             }
         }
     </script>
+    <!-- MARK: Dyn. Edit verification script-->
+    <script>
+        const stringList = ["HD", "ProperName", "Spectrum", "ColorIndex", "GeneralInformation"];
+        document.getElementById('Attribute').addEventListener('change', function () {
+            // von der ID wird der ausgewählt wert entnommen
+            var selectedValue = this.value;
+
+            // wenn der slected value in der Stringlist ist
+            if (stringList.includes(selectedValue)) {
+                var newTextInput = document.createElement('input');
+                newTextInput.setAttribute('type', 'text');
+                newTextInput.setAttribute('class', 'form-control');
+                newTextInput.setAttribute('id', 'edittext');
+                newTextInput.setAttribute('required', 'required');
+                var oldTextInput = document.getElementById('edittext');
+                oldTextInput.parentNode.replaceChild(newTextInput, oldTextInput);
+            } else if (selectedValue === "Color") {
+                var newSelect = document.createElement('select');
+                newSelect.setAttribute('name', 'Color');
+                newSelect.setAttribute('id', 'edittext');
+                newSelect.setAttribute('class', 'form-select');
+                newSelect.setAttribute('required', 'required');
+                var options = ["yellowWhiteStar", "yellowStar", "whiteStar", "orangeStar", "orangeRedStar", "blueStar", "blueWhiteStar"];
+                options.forEach(option => {
+                    var optionElement = document.createElement('option');
+                    optionElement.setAttribute('value', option);
+                    optionElement.textContent = option;
+                    newSelect.appendChild(optionElement);
+                });
+                var oldTextInput = document.getElementById('edittext');
+                oldTextInput.parentNode.replaceChild(newSelect, oldTextInput);
+            } else {
+                var newNumberInput = document.createElement('input');
+                newNumberInput.setAttribute('type', 'number');
+                newNumberInput.setAttribute('step', 'any');
+                newNumberInput.setAttribute('class', 'form-control');
+                newNumberInput.setAttribute('id', 'edittext');
+                newNumberInput.setAttribute('required', 'required');
+                var oldTextInput = document.getElementById('edittext');
+                oldTextInput.parentNode.replaceChild(newNumberInput, oldTextInput);
+            }
+        });
+    </script>
+
 
     <!-- Bootstrap JavaScript Libraries -->
     <script src="js/bootstrap.js"></script>
