@@ -15,6 +15,9 @@
     <!-- handlebars -->
     <script src="js/handlebars.min-v4.7.8.js"></script>
     <script src="js/vanilla.js"></script>
+    <!-- jquery -->
+    <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+
 
     <!-- MARK:validation
      -->
@@ -31,13 +34,15 @@
                 }
                 form.classList.add('was-validated')
             }, false)
+
+            
         }
 
         function toLocal(event) {
             console.log("Hi");
             var checkout = {}
             let names = ['first', 'last', 'email', 'address', 'address2', 'country', 'city', 'zip', 'card-name', 'card-number', 'expiration', 'cvv'];
-            for (const name of names){
+            for (const name of names) {
                 var element = document.getElementById(name)
                 // console.log(element.value);
                 checkout[name] = element.value
@@ -88,15 +93,6 @@
                         <strong>$20</strong>
                     </li>
                 </ul>
-
-                <!-- <form class="card p-2">
-                    <div class="input-group">
-                        <input type="text" class="form-control" placeholder="Promo code">
-                        <div class="input-group-append">
-                            <button type="submit" class="btn btn-secondary">Redeem</button>
-                        </div>
-                    </div>
-                </form> -->
             </div>
             <!-- MARK: billing Form
                  -->
@@ -112,7 +108,7 @@
                         </div>
                         <div class="col-md-6 mb-3">
                             <label for="last">Last name</label>
-                            <input type="name" class="form-control" id="last" placeholder="Major"required>
+                            <input type="name" class="form-control" id="last" placeholder="Major" required>
                             <div class="invalid-feedback">Valid last name is required.</div>
                         </div>
                     </div>
@@ -137,23 +133,39 @@
                     <div class="row">
 
                         <div class="col-md-5 mb-3">
-                            <label for="country">Country</label>
-                            <select class="custom-select d-block w-100" id="country" required>
-                                <option>Germany</option>
-                            </select>
+                            <label for="country" class="form-label">Country</label>
+                            <input class="form-control" list="datalistOptions" id="country"
+                                placeholder="Type to search...">
+                            <datalist id="datalistOptions">
+                                <option value="USA">
+                                <option value="Germany">
+                                <option value="Canada">
+                                <option value="United Kingdom">
+                                <option value="France">
+                            </datalist>
                             <div class="invalid-feedback"> Please select a valid country.</div>
                         </div>
 
                         <div class="col-md-4 mb-3">
-                            <label for="city">City</label>
+                            <!-- <label for="city">City</label>
                             <select class="custom-select d-block w-100" id="city" required>
                                 <option>Berlin</option>
-                            </select>
+                            </select> -->
+                            <label for="city" class="form-label">City</label>
+                            <input class="form-control" list="datalistOptionscity" id="country"
+                                placeholder="Type to search...">
+                            <datalist id="datalistOptionscity">
+                                <option value="Berlin">
+                                <option value="New York">
+                                <option value="Seattle">
+                                <option value="Paris">
+                                <option value="London">
+                            </datalist>
                         </div>
 
                         <div class="col-md-3 mb-3">
                             <label for="zip">Zip</label>
-                            <input type="text" class="form-control" id="zip" placeholder="12345" required>
+                            <input type="number" class="form-control" id="zip" placeholder="12345" required>
                             <div class="invalid-feedback">Zip code required.</div>
                         </div>
 
@@ -172,21 +184,21 @@
                         </div>
                         <div class="col-md-6 mb-3">
                             <label for="card-number">Credit card number</label>
-                            <input type="text" class="form-control" id="card-number" placeholder="" required>
+                            <input type="number" class="form-control" id="card-number" placeholder="" required>
                             <div class="invalid-feedback">Credit card number is required</div>
                         </div>
                     </div>
                     <div class="row">
                         <div class="col-md-3 mb-3">
                             <label for="expiration">Expiration</label>
-                            <input type="text" class="form-control" id="expiration" placeholder="" required>
+                            <input type="date" class="form-control" id="expiration" placeholder="mm-yy" required>
                             <div class="invalid-feedback">
                                 Expiration date required
                             </div>
                         </div>
                         <div class="col-md-3 mb-3">
                             <label for="expiration">CVV</label>
-                            <input type="text" class="form-control" id="cvv" placeholder="" required>
+                            <input type="number" class="form-control" id="cvv" placeholder="" required>
                             <div class="invalid-feedback">
                                 Security code required
                             </div>
@@ -204,7 +216,6 @@
     <div>
         <script id="replace_with_footer" src="js/footer.js"></script>
     </div>
-
     <!-- Bootstrap JavaScript Libraries -->
     <script src="js/bootstrap.js"></script>
 </body>
