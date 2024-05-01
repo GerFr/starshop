@@ -15,12 +15,67 @@
     <!-- handlebars -->
     <script src="js/handlebars.min-v4.7.8.js"></script>
     <script src="js/vanilla.js"></script>
+    <!--MARK: Dynamic Selector script
+ -->
+    <script>
+        if (localStorage.getItem("data") === null) {
+            fetch('data/hygfull.json')
+                .then(response => response.json())
+                .then(data => {
+                    localStorage.setItem("data", JSON.stringify(data))
+                    location.reload()
+                })
+                .catch(error => console.error('Error fetching JSON file:', error));
+        }
 
+
+    </script>
+    <script>
+        function dynamicIdSelector(id) {
+            if (localStorage.getItem("data") === null) {
+                fetch('data/hygfull.json')
+                    .then(response => response.json())
+                    .then(data => {
+                        localStorage.setItem("data", JSON.stringify(data));
+                        const StarIDarr = [];
+                        for (let i = 0; i < data.length; i++) {
+                            StarIDarr.push(data[i]["StarID"]);
+                        }
+                        const selectOptions = document.getElementById(id);
+                        for (let i = 0; i < StarIDarr.length; i++) {
+                            const option = document.createElement('option');
+                            option.textContent = StarIDarr[i];
+                            option.value = StarIDarr[i];
+                            selectOptions.appendChild(option);
+                        }
+                    })
+                    .catch(error => console.error('Error fetching JSON file:', error));
+            } else {
+                // Retrieve data from local storage
+                const data = JSON.parse(localStorage.getItem("data"));
+                const StarIDarr = [];
+                for (let i = 0; i < data.length; i++) {
+                    StarIDarr.push(data[i]["StarID"]);
+                }
+                const selectOptions = document.getElementById(id);
+                for (let i = 0; i < StarIDarr.length; i++) {
+                    const option = document.createElement('option');
+                    option.textContent = StarIDarr[i];
+                    option.value = StarIDarr[i];
+                    selectOptions.appendChild(option);
+                }
+            }
+        }
+    </script>
+
+    <!--MARK: Forms submit scripts -->
     <script>
 
         function init() {
-            $on($('#createnew'), 'click', create);
+            $on($('#createnew'), 'click', create)
             $on($('#editold'), 'click', edit)
+            $on($('#submitDelete'), 'click', deleteId)
+            $on($('#submitRead'), 'click', read)
         }
 
         function create(event) {
@@ -44,7 +99,7 @@
                     // localStorage.setItem("ID", StarIDarr)
                     // if abfrage um zu gucken ob Star Id schon existiert
                     if (StarIDarr.includes(Number(IdInput.value))) {
-                        alert("Duplicate StarId");
+                        alert("ERROR:\nDuplicate StarId");
                         setTimeout(function () { location.reload(); }, 0)
                     }
                     else {
@@ -107,25 +162,38 @@
                 form2.classList.add('was-validated');
             }, false);
         }
+        function deleteId(event) {
+            const data = JSON.parse(localStorage.getItem("data"))
+            const StarId = Number(document.getElementById('SelectIdDel').value)
+            const StarIDarr = []
+            for (let i = 0; i < data.length; i++) {
+                StarIDarr.push(data[i]["StarID"])
+            }
+            const StarIndex = StarIDarr.indexOf(StarId)
+            data.splice(StarIndex, 1)
+            localStorage.setItem("data", JSON.stringify(data))
+            location.reload()
+
+        }
+        function read(event) {
+            const data = JSON.parse(localStorage.getItem("data"))
+            const StarId = Number(document.getElementById('SelectIdRead').value)
+            const StarIDarr = []
+            for (let i = 0; i < data.length; i++) {
+                StarIDarr.push(data[i]["StarID"])
+            }
+            const StarIndex = StarIDarr.indexOf(StarId)
+            alert(JSON.stringify(data[StarIndex], null, 2))
+            setTimeout(function () { location.reload(); }, 0)
+            localStorage.setItem("data", JSON.stringify(data))
+
+        }
     </script>
 
 
 </head>
 
 <body onload="init()">
-    <!-- MARK: local db script
- -->
-    <script>
-        // in jeder init Funktion muss der Datensatz reingeladen werden, wenn er nicht schon in dem local storage ist
-        if (localStorage.getItem("data") === null) {
-            fetch('data/hygfull.json')
-                .then(response => response.json())
-                .then(data => localStorage.setItem("data", JSON.stringify(data)))
-                .catch(error => console.error('Error fetching JSON file:', error));
-        }
-    </script>
-
-
     <div>
         <script id="replace_with_navbar" src="js/navbar.js"></script>
     </div>
@@ -301,11 +369,20 @@
                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
                     <div class="modal-body">
-                        ...
-                    </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                        <button type="button" class="btn btn-primary">Save changes</button>
+                        <div class="text-center">
+                            <h2>Read Item</h2>
+                            <p class="lead">Select the Id</p>
+                        </div>
+                        <!-- MARK: Form - Read
+                         -->
+                        <form id="readform" class="needs-validation" novalidate>
+                            <!-- script der alle vorhandenen IDs reinlädt -->
+                            <label for="SelectId" class="form-label">Select Id:</label>
+                            <select name="SelectId" id="SelectIdRead" class="form-select" required></select>
+                            <div class="mt-2 text-center">
+                                <button type="submit" id="submitRead" class="btn btn-secondary">read</button>
+                            </div>
+                        </form>
                     </div>
                 </div>
             </div>
@@ -353,11 +430,12 @@
                                 <option value="Color">Color</option>
 
                             </select>
-                            <div class="invalid-feedback">Please enter a valid edit</div>
+                            <label for="previous" class="form-label">Previous Value:</label>
+                            <input name="previous" id="previousvalue" type="text" value="" class="form-control"
+                                readonly>
 
                             <div class="form-floating mb-4 mt-4">
-                                <input type="number" step="any" class="form-control" id="edittext"
-                                placeholder="e.g. -0.134" required>
+                                <input type="number" step="any" class="form-control" id="edittext" required>
                                 <label for="GeneralInformation">edit:</label>
                                 <div class="invalid-feedback">Please enter a valid edit</div>
                             </div>
@@ -380,11 +458,20 @@
                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
                     <div class="modal-body">
-                        ...
-                    </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                        <button type="button" class="btn btn-primary">Save changes</button>
+                        <div class="text-center">
+                            <h2>Delete Item</h2>
+                            <p class="lead">Select the Id</p>
+                        </div>
+                        <!-- MARK: Form - delete
+                         -->
+                        <form id="deleteform" class="needs-validation" novalidate action="#">
+                            <!-- script der alle vorhandenen IDs reinlädt -->
+                            <label for="SelectId" class="form-label">Select Id:</label>
+                            <select name="SelectId" id="SelectIdDel" class="form-select" required></select>
+                            <div class="mt-2 text-center">
+                                <button type="submit" id="submitDelete" class="btn btn-secondary">delete</button>
+                            </div>
+                        </form>
                     </div>
                 </div>
             </div>
@@ -394,49 +481,31 @@
     <div>
         <script id="replace_with_footer" src="js/footer.js"></script>
     </div>
-    <!-- MARK: Dynamic selector
- -->
+
     <script>
-        if (localStorage.getItem("data") === null) {
-            fetch('data/hygfull.json')
-                .then(response => response.json())
-                .then(data => {
-                    localStorage.setItem("data", JSON.stringify(data));
-                    const StarIDarr = [];
-                    for (let i = 0; i < data.length; i++) {
-                        StarIDarr.push(data[i]["StarID"]);
-                    }
-                    const selectOptions = document.getElementById('SelectId');
-                    for (let i = 0; i < StarIDarr.length; i++) {
-                        const option = document.createElement('option');
-                        option.textContent = StarIDarr[i];
-                        option.value = StarIDarr[i];
-                        selectOptions.appendChild(option);
-                    }
-                })
-                .catch(error => console.error('Error fetching JSON file:', error));
-        } else {
-            // Retrieve data from local storage
-            const data = JSON.parse(localStorage.getItem("data"));
-            const StarIDarr = [];
-            for (let i = 0; i < data.length; i++) {
-                StarIDarr.push(data[i]["StarID"]);
-            }
-            const selectOptions = document.getElementById('SelectId');
-            for (let i = 0; i < StarIDarr.length; i++) {
-                const option = document.createElement('option');
-                option.textContent = StarIDarr[i];
-                option.value = StarIDarr[i];
-                selectOptions.appendChild(option);
-            }
-        }
+        dynamicIdSelector("SelectId")
+    </script>
+    <script>
+        dynamicIdSelector("SelectIdDel")
+    </script>
+    <script>
+        dynamicIdSelector("SelectIdRead")
     </script>
     <!-- MARK: Dyn. Edit verification script-->
     <script>
+        const data = JSON.parse(localStorage.getItem("data"));
         const stringList = ["HD", "ProperName", "Spectrum", "ColorIndex", "GeneralInformation"];
         document.getElementById('Attribute').addEventListener('change', function () {
             // von der ID wird der ausgewählt wert entnommen
             var selectedValue = this.value;
+            var StarId = Number(document.getElementById('SelectId').value)
+            const StarIDarr = []
+            for (let i = 0; i < data.length; i++) {
+                StarIDarr.push(data[i]["StarID"])
+            }
+            var StarIndex = StarIDarr.indexOf(StarId)
+            var previousvalue = document.getElementById('previousvalue');
+            previousvalue.setAttribute('value', data[StarIndex][selectedValue])
 
             // wenn der slected value in der Stringlist ist
             if (stringList.includes(selectedValue)) {
@@ -447,6 +516,7 @@
                 newTextInput.setAttribute('required', 'required');
                 var oldTextInput = document.getElementById('edittext');
                 oldTextInput.parentNode.replaceChild(newTextInput, oldTextInput);
+
             } else if (selectedValue === "Color") {
                 var newSelect = document.createElement('select');
                 newSelect.setAttribute('name', 'Color');
