@@ -6,7 +6,6 @@
     <!-- Required meta tags -->
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
-
     <!-- bootstrap -->
     <link rel="stylesheet" href="css/bootstrap.min.css">
     <!-- icons -->
@@ -15,182 +14,7 @@
     <!-- handlebars -->
     <script src="js/handlebars.min-v4.7.8.js"></script>
     <script src="js/vanilla.js"></script>
-    <!--MARK: Dynamic Selector script
- -->
-    <script>
-        if (localStorage.getItem("data") === null) {
-            fetch('data/hygfull.json')
-                .then(response => response.json())
-                .then(data => {
-                    localStorage.setItem("data", JSON.stringify(data))
-                    location.reload()
-                })
-                .catch(error => console.error('Error fetching JSON file:', error));
-        }
-
-
-    </script>
-    <script>
-        function dynamicIdSelector(id) {
-            if (localStorage.getItem("data") === null) {
-                fetch('data/hygfull.json')
-                    .then(response => response.json())
-                    .then(data => {
-                        localStorage.setItem("data", JSON.stringify(data));
-                        const StarIDarr = [];
-                        for (let i = 0; i < data.length; i++) {
-                            StarIDarr.push(data[i]["StarID"]);
-                        }
-                        const selectOptions = document.getElementById(id);
-                        for (let i = 0; i < StarIDarr.length; i++) {
-                            const option = document.createElement('option');
-                            option.textContent = StarIDarr[i];
-                            option.value = StarIDarr[i];
-                            selectOptions.appendChild(option);
-                        }
-                    })
-                    .catch(error => console.error('Error fetching JSON file:', error));
-            } else {
-                // Retrieve data from local storage
-                const data = JSON.parse(localStorage.getItem("data"));
-                const StarIDarr = [];
-                for (let i = 0; i < data.length; i++) {
-                    StarIDarr.push(data[i]["StarID"]);
-                }
-                const selectOptions = document.getElementById(id);
-                for (let i = 0; i < StarIDarr.length; i++) {
-                    const option = document.createElement('option');
-                    option.textContent = StarIDarr[i];
-                    option.value = StarIDarr[i];
-                    selectOptions.appendChild(option);
-                }
-            }
-        }
-    </script>
-
-    <!--MARK: Forms submit scripts -->
-    <script>
-
-        function init() {
-            $on($('#createnew'), 'click', create)
-            $on($('#editold'), 'click', edit)
-            $on($('#submitDelete'), 'click', deleteId)
-            $on($('#submitRead'), 'click', read)
-        }
-
-        function create(event) {
-            const form1 = document.getElementById('createForm')
-            form1.addEventListener('submit', event => {
-                if (!form1.checkValidity()) {
-                    event.preventDefault()
-                    event.stopPropagation()
-                }
-                else {
-                    // Nachdem alle input Felder Korrekt sind wird dieser code ausgeführt
-                    // for error handling by Id overwrite
-                    const IdInput = document.getElementById('starId');
-                    const IdError = document.querySelector('.invalid-feedback');
-                    const data = JSON.parse(localStorage.getItem("data"))
-                    // array erstellen für starIds
-                    const StarIDarr = []
-                    for (let i = 0; i < data.length; i++) {
-                        StarIDarr.push(data[i]["StarID"])
-                    }
-                    // localStorage.setItem("ID", StarIDarr)
-                    // if abfrage um zu gucken ob Star Id schon existiert
-                    if (StarIDarr.includes(Number(IdInput.value))) {
-                        alert("ERROR:\nDuplicate StarId");
-                        setTimeout(function () { location.reload(); }, 0)
-                    }
-                    else {
-                        try {
-                            data.push({
-                                "StarID": Number(document.getElementById('starId').value),
-                                "Hip": Number(document.getElementById('Hip').value),
-                                "HD": document.getElementById('HD').value, //string
-                                "ProperName": document.getElementById('name').value, //string
-                                "RA": Number(document.getElementById('RA').value),
-                                "Dec": Number(document.getElementById('Dec').value),
-                                "Distance": Number(document.getElementById('Distance').value),
-                                "Mag": Number(document.getElementById('Mag').value),
-                                "AbsMag": Number(document.getElementById('AbsMag').value),
-                                "Spectrum": document.getElementById('Spectrum').value, //string
-                                "ColorIndex": document.getElementById('ColorIndex').value, //string
-                                "GeneralInformation": document.getElementById('GeneralInformation').value, //string
-                                "Price": Number(document.getElementById('Price').value),
-                                "Color": document.getElementById('Color').value //string
-                            });
-                        } catch (error) {
-                            console.log("Error:", error);
-                        }
-                        localStorage.setItem("data", JSON.stringify(data))
-                    }
-                }
-                form1.classList.add('was-validated')
-            }, false)
-        }
-
-        function edit(event) {
-            const form2 = document.getElementById('editform');
-            form2.addEventListener('submit', event => {
-                if (!form2.checkValidity()) {
-                    event.preventDefault();
-                    event.stopPropagation();
-                }
-                else {
-                    const data = JSON.parse(localStorage.getItem("data"))
-                    const StarId = Number(document.getElementById('SelectId').value)
-                    const Attribute = document.getElementById('Attribute').value
-                    const editInput = document.getElementById('edittext').value
-                    const stringList = ["HD", "ProperName", "Spectrum", "ColorIndex", "GeneralInformation", "Color"]
-                    const StarIDarr = []
-                    for (let i = 0; i < data.length; i++) {
-                        StarIDarr.push(data[i]["StarID"])
-                    }
-                    const StarIndex = StarIDarr.indexOf(StarId)
-
-                    // check if edit has to be added as string or nah
-
-                    if (stringList.includes(Attribute)) {
-                        data[StarIndex][Attribute] = editInput
-                    }
-                    else {
-                        data[StarIndex][Attribute] = Number(editInput)
-                    }
-                    localStorage.setItem("data", JSON.stringify(data))
-                }
-                form2.classList.add('was-validated');
-            }, false);
-        }
-        function deleteId(event) {
-            const data = JSON.parse(localStorage.getItem("data"))
-            const StarId = Number(document.getElementById('SelectIdDel').value)
-            const StarIDarr = []
-            for (let i = 0; i < data.length; i++) {
-                StarIDarr.push(data[i]["StarID"])
-            }
-            const StarIndex = StarIDarr.indexOf(StarId)
-            data.splice(StarIndex, 1)
-            localStorage.setItem("data", JSON.stringify(data))
-            location.reload()
-
-        }
-        function read(event) {
-            const data = JSON.parse(localStorage.getItem("data"))
-            const StarId = Number(document.getElementById('SelectIdRead').value)
-            const StarIDarr = []
-            for (let i = 0; i < data.length; i++) {
-                StarIDarr.push(data[i]["StarID"])
-            }
-            const StarIndex = StarIDarr.indexOf(StarId)
-            alert(JSON.stringify(data[StarIndex], null, 2))
-            setTimeout(function () { location.reload(); }, 0)
-            localStorage.setItem("data", JSON.stringify(data))
-
-        }
-    </script>
-
-
+    <script src="js/admin.js"></script>
 </head>
 
 <body onload="init()">
@@ -271,7 +95,6 @@
                         <!-- MARK: Form - Create
                          -->
                         <form id="createForm" class="needs-validation" novalidate action="#">
-                            <!--! muss noch geedited werden -->
 
                             <label for="number" class="form-label">StarID:</label>
                             <input type="number" class="form-control" id="starId" placeholder="e.g. 65795" required>
@@ -283,12 +106,10 @@
 
                             <label for="number" class="form-label">HD:</label>
                             <input type="number" class="form-control" id="HD" placeholder="e.g. 172167" required>
-                            <!--! muss als Strin gespeichert werden -->
                             <div class="invalid-feedback">Please enter a valid HD</div>
 
                             <label for="name" class="form-label">Name:</label>
                             <input type="name" class="form-control" id="name" placeholder="e.g. Vega" required>
-                            <!--! muss als string gespeichert werden -->
                             <div class="invalid-feedback">Please enter a name</div>
 
                             <label for="number" class="form-label">RA:</label>
@@ -318,7 +139,6 @@
 
                             <label for="text" class="form-label">Spectrum:</label>
                             <input type="text" class="form-control" id="Spectrum" placeholder="e.g. B2.5V" required>
-                            <!--! muss als string gespeichert werden -->
                             <div class="invalid-feedback">Please enter a Spectrum</div>
 
                             <label for="number" class="form-label">ColorIndex:</label>
@@ -484,67 +304,10 @@
 
     <script>
         dynamicIdSelector("SelectId")
-    </script>
-    <script>
         dynamicIdSelector("SelectIdDel")
-    </script>
-    <script>
         dynamicIdSelector("SelectIdRead")
+        dynamicEdit()
     </script>
-    <!-- MARK: Dyn. Edit verification script-->
-    <script>
-        const data = JSON.parse(localStorage.getItem("data"));
-        const stringList = ["HD", "ProperName", "Spectrum", "ColorIndex", "GeneralInformation"];
-        document.getElementById('Attribute').addEventListener('change', function () {
-            // von der ID wird der ausgewählt wert entnommen
-            var selectedValue = this.value;
-            var StarId = Number(document.getElementById('SelectId').value)
-            const StarIDarr = []
-            for (let i = 0; i < data.length; i++) {
-                StarIDarr.push(data[i]["StarID"])
-            }
-            var StarIndex = StarIDarr.indexOf(StarId)
-            var previousvalue = document.getElementById('previousvalue');
-            previousvalue.setAttribute('value', data[StarIndex][selectedValue])
-
-            // wenn der slected value in der Stringlist ist
-            if (stringList.includes(selectedValue)) {
-                var newTextInput = document.createElement('input');
-                newTextInput.setAttribute('type', 'text');
-                newTextInput.setAttribute('class', 'form-control');
-                newTextInput.setAttribute('id', 'edittext');
-                newTextInput.setAttribute('required', 'required');
-                var oldTextInput = document.getElementById('edittext');
-                oldTextInput.parentNode.replaceChild(newTextInput, oldTextInput);
-
-            } else if (selectedValue === "Color") {
-                var newSelect = document.createElement('select');
-                newSelect.setAttribute('name', 'Color');
-                newSelect.setAttribute('id', 'edittext');
-                newSelect.setAttribute('class', 'form-select');
-                newSelect.setAttribute('required', 'required');
-                var options = ["yellowWhiteStar", "yellowStar", "whiteStar", "orangeStar", "orangeRedStar", "blueStar", "blueWhiteStar"];
-                options.forEach(option => {
-                    var optionElement = document.createElement('option');
-                    optionElement.setAttribute('value', option);
-                    optionElement.textContent = option;
-                    newSelect.appendChild(optionElement);
-                });
-                var oldTextInput = document.getElementById('edittext');
-                oldTextInput.parentNode.replaceChild(newSelect, oldTextInput);
-            } else {
-                var newNumberInput = document.createElement('input');
-                newNumberInput.setAttribute('type', 'number');
-                newNumberInput.setAttribute('step', 'any');
-                newNumberInput.setAttribute('class', 'form-control');
-                newNumberInput.setAttribute('id', 'edittext');
-                newNumberInput.setAttribute('required', 'required');
-                var oldTextInput = document.getElementById('edittext');
-                oldTextInput.parentNode.replaceChild(newNumberInput, oldTextInput);
-            }
-        });
-    </script>
-
 
     <!-- Bootstrap JavaScript Libraries -->
     <script src="js/bootstrap.js"></script>
