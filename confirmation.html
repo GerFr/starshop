@@ -17,7 +17,7 @@
     <script src="js/vanilla.js"></script>
     <script>
         function init() {
-            render(JSON.parse(localStorage.getItem("checkout")))
+            render(JSON.parse(localStorage.getItem("checkout")), '[type="text/x-handlebars-template"]')
         }
     </script>
 </head>
@@ -35,11 +35,10 @@
                             <div class="card-body ">
                                 <script id="template" type="text/x-handlebars-template">
                                     <h4 class="card-title pb-4 text-center">Ihre Bestellung ist auf dem Weg</h4>
-                                    <p class="card-text text-light"><strong>Sender:</strong> {{first}}</p>
-                                    <p class="card-text text-light"><strong>Sender:</strong> {{last}}</p>
+                                    <p class="card-text text-light"><strong>Sender:</strong> {{first}} {{last}}</p>
                                     <p class="card-text text-light"><strong>Email:</strong> {{email}}</p>
                                     <p class="card-text text-light"><strong>Address:</strong> {{address}}</p>
-                                    <p class="card-text text-light"><strong>2nd Address":</strong> {{address2}}</p>
+                                    <p class="card-text text-light"><strong>2nd Address:</strong> {{address2}}</p>
                                     <p class="card-text text-light"><strong>Country:</strong> {{country}}</p>
                                     <p class="card-text text-light"><strong>City:</strong> {{city}}</p>
                                     <p class="card-text text-light"><strong>Zip:</strong> {{zip}}</p>

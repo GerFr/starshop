@@ -20,8 +20,8 @@ const $on = (element, event, func) => {
   return element
 }
 
-const render =  (data) => {
-  const templates = $$('[type="text/x-handlebars-template"]')
+const render =  (data, template) => {
+  const templates = $$(template)
   for(const source of templates) {
     const template = Handlebars.compile(source.innerHTML)
     const target = source.nextElementSibling
