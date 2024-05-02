@@ -16,18 +16,30 @@
   <!-- handlebars -->
   <script src="js/handlebars.min-v4.7.8.js"></script>
   <script src="js/vanilla.js"></script>
-</head>
-
-<body>
 
   <script>
-    fetch('data/hygfull.json')
-      .then(response => response.json())
-      .then(data => render(data))
-      .catch(error => console.error('Error fetching JSON file:', error));
-  </script>
+    function init() {
+      if (localStorage.getItem("data") === null) {
+        fetch('data/hygfull.json')
+          .then(response => response.json())
+          .then(data => {
+            localStorage.setItem("data", JSON.stringify(data))
+            location.reload()
+          })
+          .catch(error => console.error('Error fetching JSON file:', error));
+      } else {
+        const data = JSON.parse(localStorage.getItem("data"))
+        render(data)
+      }
+    }
 
-<!-- Handlebar helpers  -->
+  </script>
+</head>
+
+<body onload="init()">
+
+
+  <!-- Handlebar helpers  -->
   <script>
     Handlebars.registerHelper({
       eq: (v1, v2) => v1 === v2,
