@@ -29,7 +29,7 @@
           .catch(error => console.error('Error fetching JSON file:', error));
       } else {
         const data = JSON.parse(localStorage.getItem("data"))
-        render(data)
+        render(data, '[type="text/x-handlebars-template"]')
       }
     }
 

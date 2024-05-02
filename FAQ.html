@@ -71,7 +71,7 @@
     }
     fetch('data/hygfull.json')
       .then(response => response.json())
-      .then(data => render(numItems(data)))
+      .then(data => render(numItems(data), '[type="text/x-handlebars-template"]'))
       .catch(error => console.error('Error fetching JSON file:', error));
   </script>
 
