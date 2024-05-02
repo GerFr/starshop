@@ -16,38 +16,51 @@
   <!-- handlebars -->
   <script src="js/handlebars.min-v4.7.8.js"></script>
   <script src="js/vanilla.js"></script>
+
+  <script>
+    function init() {
+      if (localStorage.getItem("data") === null) {
+        fetch('data/hygfull.json')
+          .then(response => response.json())
+          .then(data => {
+            localStorage.setItem("data", JSON.stringify(data))
+            location.reload()
+          })
+          .catch(error => console.error('Error fetching JSON file:', error));
+      } else {
+        const data = JSON.parse(localStorage.getItem("data"))
+        render(data)
+      }
+    }
+
+  </script>
 </head>
 
-<body>
+<body onload="init()">
 
-  <script>
-    fetch('data/hygfull.json')
-      .then(response => response.json())
-      .then(data => render(data))
-      .catch(error => console.error('Error fetching JSON file:', error));
-  </script>
 
+  <!-- Handlebar helpers  -->
   <script>
     Handlebars.registerHelper({
-    eq: (v1, v2) => v1 === v2,
-    ne: (v1, v2) => v1 !== v2,
-    lt: (v1, v2) => v1 < v2,
-    gt: (v1, v2) => v1 > v2,
-    lte: (v1, v2) => v1 <= v2,
-    gte: (v1, v2) => v1 >= v2,
-    and() {
+      eq: (v1, v2) => v1 === v2,
+      ne: (v1, v2) => v1 !== v2,
+      lt: (v1, v2) => v1 < v2,
+      gt: (v1, v2) => v1 > v2,
+      lte: (v1, v2) => v1 <= v2,
+      gte: (v1, v2) => v1 >= v2,
+      and() {
         return Array.prototype.every.call(arguments, Boolean);
-    },
-    or() {
+      },
+      or() {
         return Array.prototype.slice.call(arguments, 0, -1).some(Boolean);
-    }
-});
+      }
+    });
   </script>
+
 
   <div>
     <script id="replace_with_navbar" src="js/navbar.js"></script>
   </div>
-
 
   <!-- MARK:image and intro
     -->
@@ -250,7 +263,7 @@
         </div>
         <div class="modal-footer">
           <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-          <button type="button" id="{{StarID}}-cart" class="btn btn-primary">to Basket</button>
+          <button onclick="tocart({{StarID}})" id="cart" class="btn btn-primary">Add to Cart</button>
         </div>
       </div>
     </div>
@@ -258,6 +271,22 @@
   {{/each}}
   </script>
   <div></div>
+
+  <script>
+    CART = "cart"
+    function tocart(sID) {
+      var cartarr = sessionStorage.getItem(CART)
+      if (cartarr === null) {
+        cartarr = [sID]
+        sessionStorage.setItem(CART, JSON.stringify(cartarr))
+      }
+      else if (JSON.parse(cartarr).includes(sID) === false) {
+        cartarr = JSON.parse(cartarr)
+        cartarr.push(sID);
+        sessionStorage.setItem(CART, JSON.stringify(cartarr))
+      }
+    }
+  </script>
 
   <div>
     <script id="replace_with_footer" src="js/footer.js"></script>

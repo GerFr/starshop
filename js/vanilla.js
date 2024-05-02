@@ -21,9 +21,7 @@ const $on = (element, event, func) => {
 }
 
 const render =  (data) => {
-  console.log(typeof data)
   const templates = $$('[type="text/x-handlebars-template"]')
-
   for(const source of templates) {
     const template = Handlebars.compile(source.innerHTML)
     const target = source.nextElementSibling
