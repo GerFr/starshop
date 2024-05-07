@@ -1,18 +1,18 @@
 // MARK: Datensatz in local storage
-    if (localStorage.getItem("data") === null) {
-        fetch('data/hygfull.json')
-            .then(response => response.json())
-            .then(data => {
-                localStorage.setItem("data", JSON.stringify(data))
-                location.reload()
-            })
-            .catch(error => console.error('Error fetching JSON file:', error));
-    }
-    const data = JSON.parse(localStorage.getItem("data"));
-    const StarIDarr = [];
-    for (let i = 0; i < data.length; i++) {
-        StarIDarr.push(data[i]["StarID"]);
-    }
+if (localStorage.getItem("data") === null) {
+    fetch('data/hygfull.json')
+        .then(response => response.json())
+        .then(data => {
+            localStorage.setItem("data", JSON.stringify(data))
+            location.reload()
+        })
+        .catch(error => console.error('Error fetching JSON file:', error));
+}
+const data = JSON.parse(localStorage.getItem("data"));
+const StarIDarr = [];
+for (let i = 0; i < data.length; i++) {
+    StarIDarr.push(data[i]["StarID"]);
+}
 
 // MARK: Dynamic StarId selector
 function dynamicIdSelector(id) {

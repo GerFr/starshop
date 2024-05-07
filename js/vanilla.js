@@ -26,9 +26,9 @@ const $on = (element, event, func) => {
  * @param template - das zu ersetzende template (tag)
  * @returns {Promise<void>}
  */
-const render =  async (data, template) => {
+const render = async (data, template) => {
   const templates = $$(template)
-  for(const source of templates) {
+  for (const source of templates) {
     await loadPartials(source)
     const template = Handlebars.compile(source.innerHTML)
     const target = source.nextElementSibling
@@ -55,17 +55,17 @@ async function loadPartials(code) {
 }
 
 //  Handlebar helpers
-  Handlebars.registerHelper({
-    eq: (v1, v2) => v1 === v2,
-    ne: (v1, v2) => v1 !== v2,
-    lt: (v1, v2) => v1 < v2,
-    gt: (v1, v2) => v1 > v2,
-    lte: (v1, v2) => v1 <= v2,
-    gte: (v1, v2) => v1 >= v2,
-    and() {
-      return Array.prototype.every.call(arguments, Boolean);
-    },
-    or() {
-      return Array.prototype.slice.call(arguments, 0, -1).some(Boolean);
-    }
-  });
+Handlebars.registerHelper({
+  eq: (v1, v2) => v1 === v2,
+  ne: (v1, v2) => v1 !== v2,
+  lt: (v1, v2) => v1 < v2,
+  gt: (v1, v2) => v1 > v2,
+  lte: (v1, v2) => v1 <= v2,
+  gte: (v1, v2) => v1 >= v2,
+  and() {
+    return Array.prototype.every.call(arguments, Boolean);
+  },
+  or() {
+    return Array.prototype.slice.call(arguments, 0, -1).some(Boolean);
+  }
+});

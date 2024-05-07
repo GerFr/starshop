@@ -1,5 +1,6 @@
 {{#each this}}
-<div class="modal fade" id="{{StarID}}-modal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-hidden="true">
+<div class="modal fade" id="{{StarID}}-modal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
+  aria-hidden="true">
   <div class="modal-dialog modal-dialog-scrollable modal-lg">
     <div class="modal-content">
       <div class="modal-header">
@@ -7,18 +8,18 @@
         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
       <div class="modal-body">
-        <div class="text-center"><img src="assets/stars/{{Color}}.png" class="card-img-top align-center" >
+        <div class="text-center"><img src="assets/stars/{{Color}}.png" class="card-img-top align-center">
         </div>
         <div class="accordion" id="{{StarID}}-accordion">
           <div class="accordion-item">
             <h2 class="accordion-header" id="{{StarID}}-heading">
-              <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#{{StarID}}-collapseOne"
-                aria-expanded="true" aria-controls="{{StarID}}-collapseOne">
+              <button class="accordion-button" type="button" data-bs-toggle="collapse"
+                data-bs-target="#{{StarID}}-collapseOne" aria-expanded="true" aria-controls="{{StarID}}-collapseOne">
                 General Information
               </button>
             </h2>
-            <div id="{{StarID}}-collapseOne" class="accordion-collapse collapse show" aria-labelledby="{{StarID}}-heading"
-              data-bs-parent="#{{StarID}}-accordion">
+            <div id="{{StarID}}-collapseOne" class="accordion-collapse collapse show"
+              aria-labelledby="{{StarID}}-heading" data-bs-parent="#{{StarID}}-accordion">
               <div class="accordion-body">
                 <p>
                   {{GeneralInformation}}
@@ -105,12 +106,13 @@
           <div class="accordion-item">
             <h2 class="accordion-header" id="{{StarID}}-headingThree">
               <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
-                data-bs-target="#{{StarID}}-collapseThree" aria-expanded="false" aria-controls="{{StarID}}-collapseThree">
+                data-bs-target="#{{StarID}}-collapseThree" aria-expanded="false"
+                aria-controls="{{StarID}}-collapseThree">
                 Pricing
               </button>
             </h2>
-            <div id="{{StarID}}-collapseThree" class="accordion-collapse collapse" aria-labelledby="{{StarID}}-headingThree"
-              data-bs-parent="#{{StarID}}-accordion">
+            <div id="{{StarID}}-collapseThree" class="accordion-collapse collapse"
+              aria-labelledby="{{StarID}}-headingThree" data-bs-parent="#{{StarID}}-accordion">
               <div class="accordion-body">
                 € {{Price}}
               </div>
