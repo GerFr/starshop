@@ -19,7 +19,33 @@
 
   <script>
     function init() {
-      if (localStorage.getItem("data") === null) {
+      $on($('#search'), 'click', search)
+      render({}, '[type="text/x-handlebars-navbar"]')
+      render({}, '[type="text/x-handlebars-footer"]')
+
+      const form = document.querySelector('.needs-validation')
+      form.addEventListener('submit', event => {
+        if (!form.checkValidity()) {
+          event.preventDefault()
+          event.stopPropagation()
+        }
+        form.classList.add('was-validated')
+      }, false)
+      function handleForm(event) { event.preventDefault(); }
+      form.addEventListener('submit', handleForm);
+
+      const queryData = localStorage.getItem("queryData")
+      const baseData = localStorage.getItem("data")
+
+      if (!(queryData === null)) {
+        const data = JSON.parse(queryData)
+        render(data.slice(0, 20), '[type="text/x-handlebars-template"]')
+      }
+      else if (!(baseData === null)) {
+        const data = JSON.parse(baseData)
+        render(data.slice(0, 20), '[type="text/x-handlebars-template"]')
+      }
+      else {
         fetch('data/hygfull.json')
           .then(response => response.json())
           .then(data => {
@@ -27,15 +53,61 @@
             location.reload()
           })
           .catch(error => console.error('Error fetching JSON file:', error));
-      } else {
-        const data = JSON.parse(localStorage.getItem("data"))
-        render(data, '[type="text/x-handlebars-template"]')
       }
-      render({}, '[type="text/x-handlebars-navbar"]')
-      render({}, '[type="text/x-handlebars-footer"]')
     }
 
+    function search(event) {
+      var query = document.getElementById("query").value
+      if (!(query == "")) {
+        console.log(query);
+        data = JSON.parse(getItem("data"))
+        const queryData = searchData(query, data)
+        localStorage.setItem("queryData", JSON.stringify(queryData))
+        location.reload();
+      }
+    }
+
+    function searchData(query, data) {
+      const words = []
+      data.forEach(element => {
+        starName = element["ProperName"]
+        starID = element["StarID"]
+        distance = levenshteinDistance(starName, query)
+        words.push({"id":starID, "dist":distance})
+      });
+      const sortedIDs = words.sort((a, b) => a.dist - b.dist).map(obj => obj.starId).slice(0,20)
+      const queryData = get
+      return names
+    }
+
+    function levenshteinDistance(first, second) {
+      const matrix = [];
+
+      for (let i = 0; i <= second.length; i++) {
+        matrix[i] = [i];
+      }
+
+      for (let j = 0; j <= first.length; j++) {
+        matrix[0][j] = j;
+      }
+
+      for (let i = 1; i <= second.length; i++) {
+        for (let j = 1; j <= first.length; j++) {
+          if (second.charAt(i - 1) === first.charAt(j - 1)) {
+            matrix[i][j] = matrix[i - 1][j - 1];
+          } else {
+            matrix[i][j] = Math.min(
+              matrix[i - 1][j - 1] + 1,
+              matrix[i][j - 1] + 1,
+              matrix[i - 1][j] + 1
+            );
+          }
+        }
+      }
+      return matrix[second.length][first.length];
+    }
   </script>
+
 </head>
 
 <body onload="init()">
@@ -83,10 +155,10 @@
       <nav class="navbar bg-body-tertiary sticky-top bg-black">
         <div class="container-fluid">
           <a class="navbar-brand"></a>
-          <form class="d-flex" role="search">
-            <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
-            <button class="btn btn-outline-white btn-secondary" type="submit">Search</button>
-            <a class="btn mx-2 btn-primary" type="submit" href="warenkorb.html">Cart</a>
+          <form class="d-flex needs-validation" novalidate>
+            <input id="query" class="form-control me-2" type="text" placeholder="Search" aria-label="Search" required>
+            <button class="btn btn-outline-white btn-secondary" type="submit" id="search">Search</button>
+            <a class="btn mx-2 btn-primary" href="warenkorb.html">Cart</a>
           </form>
         </div>
       </nav>
