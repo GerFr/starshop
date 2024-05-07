@@ -28,6 +28,7 @@
         render({ "query": query }, '[type="text/x-handlebars-query"]')
       }
 
+      // form code
       const form = document.querySelector('.needs-validation')
       form.addEventListener('submit', event => {
         if (!form.checkValidity()) {
@@ -39,6 +40,7 @@
       function handleForm(event) { event.preventDefault(); }
       form.addEventListener('submit', handleForm);
 
+      // get Star data to render cards and modals
       const queryData = sessionStorage.getItem("queryData")
       const baseData = localStorage.getItem("data")
 
