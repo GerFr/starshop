@@ -22,6 +22,11 @@
       $on($('#search'), 'click', search)
       render({}, '[type="text/x-handlebars-navbar"]')
       render({}, '[type="text/x-handlebars-footer"]')
+      
+      query = sessionStorage.getItem("query")
+      if (!(query===null)){
+        render({"query": query}, '[type="text/x-handlebars-query"]')
+      }
 
       const form = document.querySelector('.needs-validation')
       form.addEventListener('submit', event => {
@@ -34,7 +39,7 @@
       function handleForm(event) { event.preventDefault(); }
       form.addEventListener('submit', handleForm);
 
-      const queryData = localStorage.getItem("queryData")
+      const queryData = sessionStorage.getItem("queryData")
       const baseData = localStorage.getItem("data")
 
       if (!(queryData === null)) {
@@ -57,12 +62,13 @@
     }
 
     function search(event) {
-      var query = document.getElementById("query").value
+      const query = document.getElementById("query").value
       if (!(query == "")) {
         console.log(query);
         data = JSON.parse(localStorage.getItem("data"))
         const queryData = searchData(query, data)
-        localStorage.setItem("queryData", JSON.stringify(queryData))
+        sessionStorage.setItem("queryData", JSON.stringify(queryData))
+        sessionStorage.setItem("query", query)
         location.reload();
       }
     }
@@ -94,6 +100,9 @@
     }
 
     function levenshteinDistance(first, second) {
+      first = first.toLowerCase()
+      second = second.toLowerCase()
+
       const matrix = [];
 
       for (let i = 0; i <= second.length; i++) {
@@ -169,6 +178,10 @@
         <div class="container-fluid">
           <a class="navbar-brand"></a>
           <form class="d-flex needs-validation" novalidate>
+            <script id="template" type="text/x-handlebars-query">
+              {{query}}
+            </script>
+            <div class="text-light px-4"></div>
             <input id="query" class="form-control me-2" type="text" placeholder="Search" aria-label="Search" required>
             <button class="btn btn-outline-white btn-secondary" type="submit" id="search">Search</button>
             <a class="btn mx-2 btn-primary" href="warenkorb.html">Cart</a>
