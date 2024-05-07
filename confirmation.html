@@ -25,45 +25,48 @@
 </head>
 
 <body onload="init()">
-    <script id="template" type="text/x-handlebars-navbar">{{>navbar
-    }}</script><div></div>
-    <main>
-        <!-- MARK: Support Card
+    <script id="template" type="text/x-handlebars-navbar">
+        {{> navbar }}
+    </script>
+    <div></div>
+    <!-- MARK: Support Card
          -->
-        <section id="Support Card">
-            <div class="container-lg justify-content-center">
-                <div class="row align-content-center justify-content-center">
-                    <div class="col-lg-8">
-                        <div class="card bg-dark ">
-                            <div class="card-body ">
-                                <script id="template" type="text/x-handlebars-template">
-                                    <h4 class="card-title pb-4 text-center">Ihre Bestellung ist auf dem Weg</h4>
-                                    <p class="card-text text-light"><strong>Sender:</strong> {{first}} {{last}}</p>
-                                    <p class="card-text text-light"><strong>Email:</strong> {{email}}</p>
-                                    <p class="card-text text-light"><strong>Address:</strong> {{address}}</p>
-                                    <p class="card-text text-light"><strong>2nd Address:</strong> {{address2}}</p>
-                                    <p class="card-text text-light"><strong>Country:</strong> {{country}}</p>
-                                    <p class="card-text text-light"><strong>City:</strong> {{city}}</p>
-                                    <p class="card-text text-light"><strong>Zip:</strong> {{zip}}</p>
-                                    <p class="card-text text-light"><strong>Card Name:</strong> {{card-name}}</p>
-                                    <p class="card-text text-light"><strong>Card Number:</strong> {{card-number}}</p>
-                                    <p class="card-text text-light"><strong>Expiration:</strong> {{expiration}}</p>
-                                    <p class="card-text text-light"><strong>CVV:</strong> {{cvv}}</p>
-                                    </script>
-                                <div class="card-body "></div>
-                                <div class="card-footer text-center ">
-                                    <a href="/index.html" class="btn btn-primary btn-lg">Home</a>
-                                </div>
+    <section id="Support Card">
+        <div class="container-lg justify-content-center">
+            <div class="row align-content-center justify-content-center">
+                <div class="col-lg-8">
+                    <div class="card bg-dark ">
+                        <div class="card-body ">
+                            <script id="template" type="text/x-handlebars-template">
+                                <h4 class="card-title pb-4 text-center">Ihre Bestellung ist auf dem Weg</h4>
+                                <p class="card-text text-light"><strong>Sender:</strong> {{first}} {{last}}</p>
+                                <p class="card-text text-light"><strong>Email:</strong> {{email}}</p>
+                                <p class="card-text text-light"><strong>Address:</strong> {{address}}</p>
+                                <p class="card-text text-light"><strong>2nd Address:</strong> {{address2}}</p>
+                                <p class="card-text text-light"><strong>Country:</strong> {{country}}</p>
+                                <p class="card-text text-light"><strong>City:</strong> {{city}}</p>
+                                <p class="card-text text-light"><strong>Zip:</strong> {{zip}}</p>
+                                <p class="card-text text-light"><strong>Card Name:</strong> {{card-name}}</p>
+                                <p class="card-text text-light"><strong>Card Number:</strong> {{card-number}}</p>
+                                <p class="card-text text-light"><strong>Expiration:</strong> {{expiration}}</p>
+                                <p class="card-text text-light"><strong>CVV:</strong> {{cvv}}</p>
+                            </script>
+                            <div class="card-body "></div>
+                            <div class="card-footer text-center ">
+                                <a href="/index.html" class="btn btn-primary btn-lg">Home</a>
                             </div>
                         </div>
                     </div>
                 </div>
-        </section>
+            </div>
+    </section>
     </main>
     <!-- MARK: footer
          -->
-    <script id="template" type="text/x-handlebars-footer">{{>footer
-    }}</script><div></div>
+    <script id="template" type="text/x-handlebars-footer">
+        {{> footer }}
+    </script>
+    <div></div>
 
     <!-- Bootstrap JavaScript Libraries -->
     <script src="js/bootstrap.js"></script>

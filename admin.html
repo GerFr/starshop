@@ -18,8 +18,11 @@
 </head>
 
 <body onload="init()">
-    <script id="template" type="text/x-handlebars-navbar">{{>navbar
-    }}</script><div></div>
+    <script id="template" type="text/x-handlebars-navbar">
+        {{> navbar }}
+    </script>
+    <div></div>
+
     <main>
         <!-- MARK: Crud Cards
          -->
@@ -297,8 +300,10 @@
         </div>
     </main>
 
-    <script id="template" type="text/x-handlebars-footer">{{>footer
-    }}</script><div></div>
+    <script id="template" type="text/x-handlebars-footer">
+        {{> footer }}
+    </script>
+    <div></div>
 
     <script>
         dynamicIdSelector("SelectId")

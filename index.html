@@ -40,8 +40,10 @@
 
 <body onload="init()">
 
-  <script id="template" type="text/x-handlebars-navbar">{{>navbar
-  }}</script><div></div>
+  <script id="template" type="text/x-handlebars-navbar">
+    {{> navbar }}
+  </script>
+  <div></div>
 
   <!-- MARK:image and intro
     -->
@@ -90,11 +92,9 @@
       </nav>
 
       <script id="template" type="text/x-handlebars-template">
-        {{>card
-        }}
+        {{> card }}
       </script>
-      <div class="row mx-sm-5 align-items-center justify-content-center g-2">
-      </div>
+      <div class="row mx-sm-5 align-items-center justify-content-center g-2"></div>
     </div>
   </section>
 
@@ -102,8 +102,7 @@
   <!-- MARK: modal
    -->
   <script id="template" type="text/x-handlebars-template">
-   {{>modal
-  }}
+   {{> modal }}
   </script>
   <div></div>
 
@@ -124,8 +123,10 @@
   </script>
 
 
-  <script id="template" type="text/x-handlebars-footer">{{>footer
-  }}</script><div></div>
+  <script id="template" type="text/x-handlebars-footer">
+    {{> footer }}
+  </script>
+  <div></div>
 
   <!-- Bootstrap JavaScript Libraries -->
   <script src="js/bootstrap.js"></script>
