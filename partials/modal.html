@@ -1,0 +1,128 @@
+{{#each this}}
+<div class="modal fade" id="{{StarID}}-modal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h1 class="modal-title fs-5">{{ProperName}}</h1>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <div class="text-center"><img src="assets/stars/{{Color}}.png" class="card-img-top align-center" >
+        </div>
+        <div class="accordion" id="{{StarID}}-accordion">
+          <div class="accordion-item">
+            <h2 class="accordion-header" id="{{StarID}}-heading">
+              <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#{{StarID}}-collapseOne"
+                aria-expanded="true" aria-controls="{{StarID}}-collapseOne">
+                General Information
+              </button>
+            </h2>
+            <div id="{{StarID}}-collapseOne" class="accordion-collapse collapse show" aria-labelledby="{{StarID}}-heading"
+              data-bs-parent="#{{StarID}}-accordion">
+              <div class="accordion-body">
+                <p>
+                  {{GeneralInformation}}
+                </p>
+              </div>
+            </div>
+          </div>
+          <div class="accordion-item">
+            <h2 class="accordion-header" id="{{StarID}}-headingTwo">
+              <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+                data-bs-target="#{{StarID}}-collapseTwo" aria-expanded="false" aria-controls="{{StarID}}-collapseTwo">
+                Stats
+              </button>
+            </h2>
+            <div id="{{StarID}}-collapseTwo" class="accordion-collapse collapse" aria-labelledby="{{StarID}}-headingTwo"
+              data-bs-parent="#{{StarID}}-accordion">
+              <div class="accordion-body">
+                <table class="table">
+                  <thead>
+                    <tr>
+                      <th scope="col"></th>
+                      <th scope="col">Value</th>
+                      <th scope="col">Description</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr>
+                      <td>Id</td>
+                      <td>{{StarID}}</td>
+                      <td>ID of the Star</td>
+                    </tr>
+                    <tr>
+                      <td>Hip</td>
+                      <td>{{Hip}}</td>
+                      <td>ID in the Hipparcos catalog</td>
+                    </tr>
+                    <tr>
+                      <td>HD</td>
+                      <td>{{HD}}</td>
+                      <td>ID in the Henry Draper catalog</td>
+                    </tr>
+                    <tr>
+                      <td>RA</td>
+                      <td> {{RA}}</td>
+                      <td>right ascension, for epoch and equinox 2000.0.</td>
+                    </tr>
+                    <tr>
+                      <td>Dec</td>
+                      <td>{{Dec}}</td>
+                      <td>declination, for epoch and equinox 2000.0.</td>
+                    </tr>
+                    <tr>
+                      <td>Distance</td>
+                      <td>{{Distance}}</td>
+                      <td>distance in parsecs</td>
+                      <!-- To convert parsecs to light years, multiply by 3.262. A value >= 100000 indicates missing or dubious (e.g., negative) parallax data in Hipparcos. -->
+                    </tr>
+                    <tr>
+                      <td>Mag</td>
+                      <td>{{Mag}}</td>
+                      <td>apparent visual magnitude</td>
+                    </tr>
+                    <tr>
+                      <td>Abs Mag</td>
+                      <td>{{AbsMag}}</td>
+                      <td>absolute visual magnitude</td>
+                      <!-- its apparent magnitude from a distance of 10 parsecs -->
+                    </tr>
+                    <tr>
+                      <td>Spectrum</td>
+                      <td>{{Spectrum}}</td>
+                      <td>spectral type</td>
+                    </tr>
+                    <tr>
+                      <td>Color Index</td>
+                      <td>{{ColorIndex}}</td>
+                      <td>color index (blue magnitude - visual magnitude)</td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+          <div class="accordion-item">
+            <h2 class="accordion-header" id="{{StarID}}-headingThree">
+              <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+                data-bs-target="#{{StarID}}-collapseThree" aria-expanded="false" aria-controls="{{StarID}}-collapseThree">
+                Pricing
+              </button>
+            </h2>
+            <div id="{{StarID}}-collapseThree" class="accordion-collapse collapse" aria-labelledby="{{StarID}}-headingThree"
+              data-bs-parent="#{{StarID}}-accordion">
+              <div class="accordion-body">
+                € {{Price}}
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+        <button onclick="tocart({{StarID}})" id="cart" class="btn btn-primary">Add to Cart</button>
+      </div>
+    </div>
+  </div>
+</div>
+{{/each}}

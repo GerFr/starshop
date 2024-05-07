@@ -1,0 +1,22 @@
+{{#each this}}
+<div class="col-8 col-sm-6 col-md-4 col-xl-3" id="{{StarID}}-card">
+  <button type="button" class="btn" data-bs-toggle="modal" data-bs-target="#{{StarID}}-modal">
+    <div class="card border-1">
+      <img src="assets/stars/{{Color}}.png" class="card-img-top img-fluid"  >
+      {{#if (lt Price 100000)}}
+        <div class="badge position-absolute rounded-pill bg-danger text-white p-2 m-2">Sale</div>
+      {{/if}} 
+      <div class="card-body text-center py-4">
+        <h4 class="card-title">
+          {{ProperName}}
+        </h4>
+        <p class="lead card-subtitle">
+          distance:<br />
+            <strong>{{Distance}}</strong><br />
+            magnitude:<br />
+            <strong>{{AbsMag}}</strong><br />
+        </p>
+      </div>
+    </div>
+</div>
+{{/each}}

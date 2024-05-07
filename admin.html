@@ -18,9 +18,11 @@
 </head>
 
 <body onload="init()">
-    <div>
-        <script id="replace_with_navbar" src="js/navbar.js"></script>
-    </div>
+    <script id="template" type="text/x-handlebars-navbar">
+        {{> navbar }}
+    </script>
+    <div></div>
+
     <main>
         <!-- MARK: Crud Cards
          -->
@@ -319,9 +321,10 @@
         </div>
     </main>
 
-    <div>
-        <script id="replace_with_footer" src="js/footer.js"></script>
-    </div>
+    <script id="template" type="text/x-handlebars-footer">
+        {{> footer }}
+    </script>
+    <div></div>
 
     <script>
         dynamicIdSelector("SelectId")
