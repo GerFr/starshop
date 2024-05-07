@@ -60,7 +60,7 @@
       var query = document.getElementById("query").value
       if (!(query == "")) {
         console.log(query);
-        data = JSON.parse(getItem("data"))
+        data = JSON.parse(localStorage.getItem("data"))
         const queryData = searchData(query, data)
         localStorage.setItem("queryData", JSON.stringify(queryData))
         location.reload();
@@ -73,11 +73,24 @@
         starName = element["ProperName"]
         starID = element["StarID"]
         distance = levenshteinDistance(starName, query)
-        words.push({"id":starID, "dist":distance})
+        const star = {"id":starID, "dist":distance}
+        words.push(star)
       });
-      const sortedIDs = words.sort((a, b) => a.dist - b.dist).map(obj => obj.starId).slice(0,20)
-      const queryData = get
-      return names
+      const sortedIDs = words.sort((a, b) => a.dist - b.dist).map(obj => obj.id).slice(0,20)
+      const queryData = getById(sortedIDs, data)
+      return queryData
+    }
+
+    function getById(sortedIDs, data){
+      const queryData = []
+      sortedIDs.forEach(ID => {
+        data.forEach(star => {
+          if (star.StarID === ID){
+            queryData.push(star)
+          }
+        });
+      });
+      return queryData
     }
 
     function levenshteinDistance(first, second) {
@@ -181,16 +194,23 @@
   <script>
     CART = "cart"
     function tocart(sID) {
+      setTimeout(function() {
+        document.getElementById('cartAlert'+sID).classList.remove('d-none');
+   
+        setTimeout(function() {
+          document.getElementById('cartAlert'+sID).classList.add('d-none');
+        }, 500);
+      }, 20);
+
       var cartarr = sessionStorage.getItem(CART)
       if (cartarr === null) {
         cartarr = [sID]
-        sessionStorage.setItem(CART, JSON.stringify(cartarr))
       }
       else if (JSON.parse(cartarr).includes(sID) === false) {
         cartarr = JSON.parse(cartarr)
         cartarr.push(sID);
-        sessionStorage.setItem(CART, JSON.stringify(cartarr))
       }
+      sessionStorage.setItem(CART, JSON.stringify(cartarr))
     }
   </script>
 
