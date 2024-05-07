@@ -40,11 +40,8 @@
 
 <body onload="init()">
 
-  <script id="template" type="text/x-handlebars-navbar">
-  {{>navbar
-  }}</script>
-  <div>
-  </div>
+  <script id="template" type="text/x-handlebars-navbar">{{>navbar
+  }}</script><div></div>
 
   <!-- MARK:image and intro
     -->
@@ -87,7 +84,7 @@
           <form class="d-flex" role="search">
             <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
             <button class="btn btn-outline-white btn-secondary" type="submit">Search</button>
-            <button class="btn mx-2 btn-primary" type="submit">Cart</button>
+            <a class="btn mx-2 btn-primary" type="submit" href="warenkorb.html">Cart</a>
           </form>
         </div>
       </nav>
@@ -126,12 +123,9 @@
     }
   </script>
 
-  
-  <script id="template" type="text/x-handlebars-footer">
-    {{>footer
-    }}</script>
-  <div>
-  </div>
+
+  <script id="template" type="text/x-handlebars-footer">{{>footer
+  }}</script><div></div>
 
   <!-- Bootstrap JavaScript Libraries -->
   <script src="js/bootstrap.js"></script>

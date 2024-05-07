@@ -26,12 +26,17 @@
             }
             // console.log(data);
             render(data, '[type="text/x-handlebars-template"]')
+            render({}, '[type="text/x-handlebars-navbar"]')
+            render({}, '[type="text/x-handlebars-footer"]')
         }
     </script>
 </head>
 
 <body onload="init()">
-    <div><script id="replace_with_navbar" src="js/navbar.js"></script></div>
+    <script id="template" type="text/x-handlebars-navbar">{{>navbar
+    }}</script>
+    <div></div>
+
     <main>
         <!-- MARK: Support Card
          -->
@@ -60,8 +65,9 @@
     </main>
     <!-- MARK: footer
          -->
-    <div><script id="replace_with_footer" src="js/footer.js"></script></div>
-
+    <script id="template" type="text/x-handlebars-footer">{{>footer
+    }}</script>
+    <div></div>
 
     <!-- Bootstrap JavaScript Libraries -->
     <script src="js/bootstrap.js"></script>

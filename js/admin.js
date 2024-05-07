@@ -27,6 +27,8 @@ function dynamicIdSelector(id) {
 
 // MARK: Init Function onload, sets event listeners
 function init() {
+    render({}, '[type="text/x-handlebars-navbar"]')
+    render({}, '[type="text/x-handlebars-footer"]')
     $on($('#createnew'), 'click', create)
     $on($('#editold'), 'click', edit)
     $on($('#submitDelete'), 'click', deleteId)
