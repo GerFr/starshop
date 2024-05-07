@@ -199,8 +199,29 @@
                             <!-- script der alle vorhandenen IDs reinlädt -->
                             <label for="SelectId" class="form-label">Select Id:</label>
                             <select name="SelectId" id="SelectIdRead" class="form-select" required></select>
+
+                            <select name="Attribute" id="AttributeRead" class="form-select" required>
+
+                                <option value="Hip">Hip</option>
+                                <option value="HD">HD</option>
+                                <option value="RA">RA</option>
+                                <option value="Dec">Dec</option>
+                                <option value="Distance">Distance</option>
+                                <option value="Mag">Mag</option>
+                                <option value="AbsMag">AbsMag</option>
+                                <option value="Spectrum">Spectrum</option>
+                                <option value="ColorIndex">ColorIndex</option>
+                                <option value="GeneralInformation">GeneralInformation</option>
+                                <option value="Price">Price</option>
+                                <option value="Color">Color</option>
+                            </select>
+
+                            <label for="infos" class="form-label">Infos:</label>
+                            <input name="infos" id="infos" type="text" value="" class="form-control"
+                                readonly>
+
                             <div class="mt-2 text-center">
-                                <button type="submit" id="submitRead" class="btn btn-secondary">read</button>
+                                <button type="submit" id="submitRead" class="btn btn-secondary">copy</button>
                             </div>
                         </form>
                     </div>
@@ -248,8 +269,8 @@
                                 <option value="GeneralInformation">GeneralInformation</option>
                                 <option value="Price">Price</option>
                                 <option value="Color">Color</option>
-
                             </select>
+
                             <label for="previous" class="form-label">Previous Value:</label>
                             <input name="previous" id="previousvalue" type="text" value="" class="form-control"
                                 readonly>
@@ -307,6 +328,7 @@
         dynamicIdSelector("SelectIdDel")
         dynamicIdSelector("SelectIdRead")
         dynamicEdit()
+        dynamicRead()
     </script>
 
     <!-- Bootstrap JavaScript Libraries -->

@@ -110,23 +110,29 @@ function deleteId(event) {
 }
 // MARK: Read existing ID
 function read(event) {
-    const StarId = Number(document.getElementById('SelectIdRead').value)
-    const StarIndex = StarIDarr.indexOf(StarId)
-    alert(JSON.stringify(data[StarIndex], null, 2))
+    var infos = document.getElementById("infos")
+    infos.select()
+    document.execCommand('copy');
+    alert("Data copied")
     setTimeout(function () { location.reload(); }, 0)
-    localStorage.setItem("data", JSON.stringify(data))
 }
 // MARK: Dynamic Edit
 function dynamicEdit() {
-    const stringList = ["HD", "ProperName", "Spectrum", "ColorIndex", "GeneralInformation"];
-    document.getElementById('Attribute').addEventListener('change', function () {
-        // von der ID wird der ausgewählt wert entnommen
-        var selectedValue = this.value;
+
+
+    document.getElementById('editform').addEventListener('change', function () {
+        var selectedValue = document.getElementById('Attribute').value
         var StarId = Number(document.getElementById('SelectId').value)
         var StarIndex = StarIDarr.indexOf(StarId)
         var previousvalue = document.getElementById('previousvalue');
         previousvalue.setAttribute('value', data[StarIndex][selectedValue])
 
+    })
+
+    const stringList = ["HD", "ProperName", "Spectrum", "ColorIndex", "GeneralInformation"];
+    document.getElementById('Attribute').addEventListener('change', function () {
+        // von der ID wird der ausgewählt wert entnommen
+        var selectedValue = this.value
         // wenn der slected value in der Stringlist ist
         if (stringList.includes(selectedValue)) {
             var newTextInput = document.createElement('input');
@@ -163,6 +169,17 @@ function dynamicEdit() {
             oldTextInput.parentNode.replaceChild(newNumberInput, oldTextInput);
         }
     });
-
-
 }
+// MARK: Dynamic Read
+function dynamicRead() {
+    document.getElementById('readform').addEventListener('change', function () {
+        // von der ID wird der ausgewählt wert entnommen
+        var StarId = Number(document.getElementById('SelectIdRead').value)
+        var StarIndex = StarIDarr.indexOf(StarId)
+        var infos = document.getElementById('infos');
+        var attribute = document.getElementById('AttributeRead').value
+        infos.setAttribute('value', data[StarIndex][attribute])
+
+    })
+}
+
