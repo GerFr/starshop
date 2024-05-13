@@ -61,11 +61,6 @@
           })
           .catch(error => console.error('Error fetching JSON file:', error));
       }
-      const data = JSON.parse(localStorage.getItem("data"));
-      const StarIDarr = [];
-      for (let i = 0; i < data.length; i++) {
-        StarIDarr.push(data[i]["StarID"]);
-      }
     }
   </script>
 
