@@ -20,14 +20,20 @@
   <script src="js/admin.js"></script>
   <script>
     function init() {
-      $on($('#search'), 'click', search)
+      $on($('#search'), 'click', setSearch)
       $on($('#createnew'), 'click', create)
+
       render({}, '[type="text/x-handlebars-navbar"]')
       render({}, '[type="text/x-handlebars-footer"]')
 
-      query = sessionStorage.getItem("query")
-      if (!(query === null)) {
-        render({ "query": query }, '[type="text/x-handlebars-query"]')
+      const params = new URLSearchParams(window.location.search)
+      const query = params.get("search")
+      
+      // only search if data is in local storage and ther is a query
+      if (!(query === null) && !(localStorage.getItem("data")===null)) {
+        search(query)
+      } else {
+        removQueryData();
       }
 
       // form code
@@ -42,7 +48,8 @@
       function handleForm(event) { event.preventDefault(); }
       form.addEventListener('submit', handleForm);
 
-      // get Star data to render cards and modals
+      
+      // get Star data to render cards and modals, if search was made, render query data
       const queryData = sessionStorage.getItem("queryData")
       const baseData = localStorage.getItem("data")
 
@@ -59,7 +66,7 @@
             localStorage.setItem("data", JSON.stringify(data))
             location.reload()
           })
-          .catch(error => console.error('Error fetching JSON file:', error));
+          .catch(error => console.error('Error fetching JSON file:', error))
       }
       const data = JSON.parse(localStorage.getItem("data"));
       const StarIDarr = [];
@@ -272,6 +279,10 @@
       }
       sessionStorage.setItem(CART, JSON.stringify(cartarr))
     }
+  </script>
+
+  <script>
+    setSearchPlaceholder()
   </script>
 
 
