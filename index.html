@@ -17,9 +17,12 @@
   <script src="js/handlebars.min-v4.7.8.js"></script>
   <script src="js/vanilla.js"></script>
   <script src="js/search.js"></script>
+  <script src="js/admin.js"></script>
   <script>
     function init() {
       $on($('#search'), 'click', setSearch)
+      $on($('#createnew'), 'click', create)
+
       render({}, '[type="text/x-handlebars-navbar"]')
       render({}, '[type="text/x-handlebars-footer"]')
 
@@ -51,12 +54,10 @@
       const baseData = localStorage.getItem("data")
 
       if (!(queryData === null)) {
-        const data = JSON.parse(queryData)
-        render(data.slice(0, 20), '[type="text/x-handlebars-template"]')
+        render(JSON.parse(queryData).slice(0, 20), '[type="text/x-handlebars-template"]')
       }
       else if (!(baseData === null)) {
-        const data = JSON.parse(baseData)
-        render(data.slice(0, 20), '[type="text/x-handlebars-template"]')
+        render(JSON.parse(baseData).slice(0, 20), '[type="text/x-handlebars-template"]')
       }
       else {
         fetch('data/hygfull.json')
@@ -66,6 +67,11 @@
             location.reload()
           })
           .catch(error => console.error('Error fetching JSON file:', error))
+      }
+      const data = JSON.parse(localStorage.getItem("data"));
+      const StarIDarr = [];
+      for (let i = 0; i < data.length; i++) {
+        StarIDarr.push(data[i]["StarID"]);
       }
     }
   </script>
@@ -115,13 +121,15 @@
       </div>
 
       <nav class="navbar bg-body-tertiary sticky-top bg-black">
-        <div class="container-fluid">
+        <div class="container-fluid justify-content-end">
           <a class="navbar-brand"></a>
+          <a href="#" class="btn btn-primary m-2 " data-bs-toggle="modal" data-bs-target="#createModal"><i
+              class="bi bi-plus-square"></i></a>
           <form class="d-flex needs-validation" novalidate>
+
             <script id="template" type="text/x-handlebars-query">
               {{query}}
             </script>
-            <div class="text-light px-4"></div>
             <input id="query" class="form-control me-2" type="text" placeholder="Search" aria-label="Search" required>
             <button class="btn btn-outline-white btn-secondary" type="submit" id="search">Search</button>
             <a class="btn mx-2 btn-primary" href="warenkorb.html">Cart</a>
@@ -144,7 +152,113 @@
   </script>
   <div></div>
 
+
+  <!-- MARK: Create Modal 
+    -->
+  <div class="modal fade" id="createModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLabel">Create</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          <div class="text-center">
+            <h2>Create new Item</h2>
+            <p class="lead">Fill out the form</p>
+          </div>
+          <!-- MARK: Form - Create
+                   -->
+          <form id="createForm" class="needs-validation" novalidate action="#">
+            <div class="row justify-content-center align-items-center g-2">
+              <div class="col">
+                <label for="number" class="form-label">StarID:</label>
+                <input type="number" class="form-control" id="starId" placeholder="e.g. 65795" required>
+                <div class="invalid-feedback">Please enter a valid StarID</div>
+
+                <label for="number" class="form-label">Hip:</label>
+                <input type="number" class="form-control" id="Hip" placeholder="e.g. 91262" required>
+                <div class="invalid-feedback">Please enter a valid Hip</div>
+
+                <label for="number" class="form-label">HD:</label>
+                <input type="number" class="form-control" id="HD" placeholder="e.g. 172167" required>
+                <div class="invalid-feedback">Please enter a valid HD</div>
+
+                <label for="name" class="form-label">Name:</label>
+                <input type="name" class="form-control" id="name" placeholder="e.g. Vega" required>
+                <div class="invalid-feedback">Please enter a name</div>
+
+                <label for="number" class="form-label">RA:</label>
+                <input type="number" step="any" class="form-control" id="RA" placeholder="e.g. 18.61560722" required>
+                <div class="invalid-feedback">Please enter a valid RA</div>
+
+                <label for="number" class="form-label">Dec:</label>
+                <input type="number" step="any" class="form-control" id="Dec" placeholder="e.g. 38.78299311" required>
+                <div class="invalid-feedback">Please enter a valid Dec</div>
+
+                <label for="number" class="form-label">Distance:</label>
+                <input type="number" step="any" class="form-control" id="Distance" placeholder="e.g. 7.76" required>
+                <div class="invalid-feedback">Please enter a valid Distance</div>
+
+                <label for="number" class="form-label">Mag:</label>
+                <input type="number" step="any" class="form-control" id="Mag" placeholder="e.g. 0.03" required>
+                <div class="invalid-feedback">Please enter a valid Mag</div>
+
+              
+              </div>
+              <div class="col mb-4">
+
+                <label for="number" class="form-label">AbsMag:</label>
+                <input type="number" step="any" class="form-control" id="AbsMag" placeholder="e.g. 0.58" required>
+                <div class="invalid-feedback">Please enter a valid AbsMag</div>
+                
+                <label for="text" class="form-label">Spectrum:</label>
+                <input type="text" class="form-control" id="Spectrum" placeholder="e.g. B2.5V" required>
+                <div class="invalid-feedback">Please enter a Spectrum</div>
+
+                <label for="number" class="form-label">ColorIndex:</label>
+                <input type="number" step="any" class="form-control" id="ColorIndex" placeholder="e.g. -0.134" required>
+                <div class="invalid-feedback">Please enter a valid ColorIndex</div>
+
+                <div class="form-floating mb-4 mt-4">
+                  <textarea name="GeneralInformation" class="form-control" id="GeneralInformation"
+                    style="height: 140px;" required></textarea>
+                  <label for="GeneralInformation">General information:</label>
+                  <div class="invalid-feedback">Please enter General Information</div>
+                </div>
+
+                <label for="number" class="form-label">Price:</label>
+                <input type="number" class="form-control" id="Price" placeholder="e.g. 83506" required>
+                <div class="invalid-feedback">Please enter a valid Price</div>
+
+                <label for="Color" class="form-label">Color:</label>
+                <select name="Color" id="Color" class="form-select" required>
+                  <!-- "yellowWhiteStar", "yellowStar", "whiteStar", "orangeStar", "orangeRedStar", "blueStar", "blueWhiteStar" -->
+                  <option value="yellowWhiteStar" selected>yellowWhiteStar</option>
+                  <option value="yellowStar">yellowStar</option>
+                  <option value="whiteStar">whiteStar</option>
+                  <option value="orangeStar">orangeStar</option>
+                  <option value="orangeRedStar">orangeRedStar</option>
+                  <option value="blueStar">blueStar</option>
+                  <option value="blueWhiteStar">blueWhiteStar</option>
+                </select>
+              </div>
+            </div>
+
+
+            <div class="mt-2 text-center">
+              <button type="submit" id="createnew" class="btn btn-secondary">save changes</button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- MARK: To Cart Skript 
+-->
   <script>
+
     CART = "cart"
     function tocart(sID) {
       setTimeout(function () {
