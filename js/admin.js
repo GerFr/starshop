@@ -1,21 +1,29 @@
 // MARK: Datensatz in local storage
-if (localStorage.getItem("data") === null) {
-    fetch('data/hygfull.json')
-        .then(response => response.json())
-        .then(data => {
-            localStorage.setItem("data", JSON.stringify(data))
-            location.reload()
-        })
-        .catch(error => console.error('Error fetching JSON file:', error));
+
+function getStarIdArr(){
+    if (localStorage.getItem("data") === null) {
+        fetch('data/hygfull.json')
+            .then(response => response.json())
+            .then(data => {
+                localStorage.setItem("data", JSON.stringify(data))
+                location.reload()
+            })
+            .catch(error => console.error('Error fetching JSON file:', error));
+    }
+    const data = JSON.parse(localStorage.getItem("data"));
+    const StarIDarr = [];
+    for (let i = 0; i < data.length; i++) {
+        StarIDarr.push(data[i]["StarID"]);
+    }
+    return [StarIDarr, data]
 }
-const data = JSON.parse(localStorage.getItem("data"));
-const StarIDarr = [];
-for (let i = 0; i < data.length; i++) {
-    StarIDarr.push(data[i]["StarID"]);
-}
+
 
 // MARK: Dynamic StarId selector
 function dynamicIdSelector(id) {
+    var temp = getStarIdArr()
+    const StarIDarr = temp[0]
+    const data = temp[1]
     const selectOptions = document.getElementById(id);
     for (let i = 0; i < StarIDarr.length; i++) {
         const option = document.createElement('option');
@@ -37,6 +45,9 @@ function init() {
 
 // MARK: Create new Item function
 function create(event) {
+    var temp = getStarIdArr()
+    const StarIDarr = temp[0]
+    const data = temp[1]
     const form1 = document.getElementById('createForm')
     form1.addEventListener('submit', event => {
         if (!form1.checkValidity()) {
@@ -79,6 +90,9 @@ function create(event) {
 }
 // MARK: Edit existing function
 function edit(event) {
+    var temp = getStarIdArr()
+    const StarIDarr = temp[0]
+    const data = temp[1]
     const form2 = document.getElementById('editform');
     form2.addEventListener('submit', event => {
         if (!form2.checkValidity()) {
@@ -104,6 +118,9 @@ function edit(event) {
 }
 // MARK: Delete existing ID
 function deleteId(event) {
+    var temp = getStarIdArr()
+    const StarIDarr = temp[0]
+    const data = temp[1]
     const StarId = Number(document.getElementById('SelectIdDel').value)
     const StarIndex = StarIDarr.indexOf(StarId)
     data.splice(StarIndex, 1)
@@ -121,7 +138,9 @@ function read(event) {
 // MARK: Dynamic Edit
 function dynamicEdit() {
 
-
+    var temp = getStarIdArr()
+    const StarIDarr = temp[0]
+    const data = temp[1]
     document.getElementById('editform').addEventListener('change', function () {
         var selectedValue = document.getElementById('Attribute').value
         var StarId = Number(document.getElementById('SelectId').value)
@@ -174,6 +193,9 @@ function dynamicEdit() {
 }
 // MARK: Dynamic Read
 function dynamicRead() {
+    var temp = getStarIdArr()
+    const StarIDarr = temp[0]
+    const data = temp[1]
     document.getElementById('readform').addEventListener('change', function () {
         // von der ID wird der ausgewählt wert entnommen
         var StarId = Number(document.getElementById('SelectIdRead').value)
