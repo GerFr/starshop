@@ -28,27 +28,27 @@
 
       const params = new URLSearchParams(window.location.search)
       const query = params.get("search")
-      
+
       // only search if data is in local storage and ther is a query
-      if (!(query === null) && !(localStorage.getItem("data")===null)) {
+      if (!(query === null) && !(localStorage.getItem("data") === null)) {
         search(query)
       } else {
-        removQueryData();
+        removQueryData()
       }
 
       // form code
-      const form = document.querySelector('.needs-validation')
-      form.addEventListener('submit', event => {
-        if (!form.checkValidity()) {
+      const searchForm = document.getElementById("searchForm")
+      searchForm.addEventListener('submit', event => {
+        if (!searchForm.checkValidity()) {
           event.preventDefault()
           event.stopPropagation()
         }
-        form.classList.add('was-validated')
+        searchForm.classList.add('was-validated')
       }, false)
       function handleForm(event) { event.preventDefault(); }
-      form.addEventListener('submit', handleForm);
+      searchForm.addEventListener('submit', handleForm);
 
-      
+
       // get Star data to render cards and modals, if search was made, render query data
       const queryData = sessionStorage.getItem("queryData")
       const baseData = localStorage.getItem("data")
@@ -120,8 +120,7 @@
           <a class="navbar-brand"></a>
           <a href="#" class="btn btn-primary m-2 " data-bs-toggle="modal" data-bs-target="#createModal"><i
               class="bi bi-plus-square"></i></a>
-          <form class="d-flex needs-validation" novalidate>
-
+          <form class="d-flex needs-validation" id="searchForm" novalidate>
             <script id="template" type="text/x-handlebars-query">
               {{query}}
             </script>
@@ -199,14 +198,14 @@
                 <input type="number" step="any" class="form-control" id="Mag" placeholder="e.g. 0.03" required>
                 <div class="invalid-feedback">Please enter a valid Mag</div>
 
-              
+
               </div>
               <div class="col mb-4">
 
                 <label for="number" class="form-label">AbsMag:</label>
                 <input type="number" step="any" class="form-control" id="AbsMag" placeholder="e.g. 0.58" required>
                 <div class="invalid-feedback">Please enter a valid AbsMag</div>
-                
+
                 <label for="text" class="form-label">Spectrum:</label>
                 <input type="text" class="form-control" id="Spectrum" placeholder="e.g. B2.5V" required>
                 <div class="invalid-feedback">Please enter a Spectrum</div>
