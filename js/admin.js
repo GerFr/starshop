@@ -80,6 +80,7 @@ function create() {
                 }
                 data.push(NewStar)
                 localStorage.setItem("data", JSON.stringify(data))
+                location.reload()
             }
         }
         form.classList.add('was-validated')
