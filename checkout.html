@@ -59,7 +59,6 @@
         .then(data => { localStorage.setItem("data", JSON.stringify(data)) })
         .catch(error => console.error('Error fetching JSON file:', error));
     }
-
     function getElement(starId) {
       if (localStorage.getItem("data") === null) {
         fetchDataset()
@@ -77,15 +76,24 @@
       }
       return result
     }
-
-
     function toLocal(event) {
-      const names = ['first', 'last', 'email', 'address', 'address2', 'country', 'city', 'zip', 'card-name', 'card-number', 'expiration', 'cvv'];
+      const paypal = document.getElementById("paypalRadio")
+      const card = document.getElementById("ccRadio")
       var checkout = {};
+
+      const names = ['first', 'last', 'email', 'address', 'address2', 'country', 'city', 'zip', 'card-name', 'card-number', 'expiration', 'cvv'];
       for (const name of names) {
         var element = document.getElementById(name)
         checkout[name] = element.value
       }
+
+      if (card.checked) {
+        checkout["payment"] = "card"
+
+      } else if (paypal.checked) {
+        checkout["payment"] = "paypal"
+      }
+
       localStorage.setItem("checkout", JSON.stringify(checkout))
     }
   </script>
@@ -226,32 +234,56 @@
 
           <h4 class="mb-3">Payment</h4>
 
-          <div class="row">
-            <div class="col-md-6 mb-3">
-              <label for="card-name">Name on card</label>
-              <input type="text" class="form-control" id="card-name" placeholder="" required>
-              <small class="text-muted">Full name as displayed on card</small>
-              <div class="invalid-feedback">Name on card is required</div>
-            </div>
-            <div class="col-md-6 mb-3">
-              <label for="card-number">Credit card number</label>
-              <input type="number" class="form-control" id="card-number" placeholder="" required>
-              <div class="invalid-feedback">Credit card number is required</div>
-            </div>
+
+          <div class="form-check">
+            <input class="form-check-input" type="radio" name="flexRadioDefault" value="card" id="ccRadio">
+            <label class="form-check-label" for="ccRadio">
+              Credit card
+            </label>
           </div>
-          <div class="row">
-            <div class="col-md-3 mb-3">
-              <label for="expiration">Expiration</label>
-              <input type="month" class="form-control" id="expiration" required>
-              <div class="invalid-feedback">
-                Expiration date required
+          <div class="form-check py-3">
+            <input class="form-check-input" type="radio" name="flexRadioDefault" value="paypal" id="paypalRadio"
+              checked>
+            <label class="form-check-label" for="paypalRadio">
+              Paypal
+            </label>
+          </div>
+
+
+          <div id="paypal-content" style="display: none;">
+            paypal
+          </div>
+
+          <div id="card-content" style="display: none;">
+            <div id="ccForm">
+              <div class="row">
+                <div class="col-md-6 mb-3">
+                  <label for="card-name">Name on card</label>
+                  <input type="text" class="form-control" id="card-name" placeholder="" required>
+                  <small class="text-muted">Full name as displayed on card</small>
+                  <div class="invalid-feedback">Name on card is required</div>
+                </div>
+                <div class="col-md-6 mb-3">
+                  <label for="card-number">Credit card number</label>
+                  <input type="number" class="form-control" id="card-number" placeholder="" required>
+                  <div class="invalid-feedback">Credit card number is required</div>
+                </div>
               </div>
-            </div>
-            <div class="col-md-3 mb-3">
-              <label for="cvv">CVV</label>
-              <input type="number" class="form-control" id="cvv" placeholder="" required>
-              <div class="invalid-feedback">
-                Security code required
+              <div class="row">
+                <div class="col-md-3 mb-3">
+                  <label for="expiration">Expiration</label>
+                  <input type="month" class="form-control" id="expiration" required>
+                  <div class="invalid-feedback">
+                    Expiration date required
+                  </div>
+                </div>
+                <div class="col-md-3 mb-3">
+                  <label for="cvv">CVV</label>
+                  <input type="number" class="form-control" id="cvv" placeholder="" required>
+                  <div class="invalid-feedback">
+                    Security code required
+                  </div>
+                </div>
               </div>
             </div>
           </div>
@@ -262,6 +294,43 @@
       </div>
     </div>
   </div>
+
+
+  <script>
+    function setCardPlaceholder() {
+      document.getElementById("card-name").value = "placeholder"
+      document.getElementById("card-number").value = 1234
+      document.getElementById("expiration").value = "2001-01"
+      document.getElementById("cvv").value = 123
+    }
+
+    function resetCardPlaceholder() {
+      document.getElementById("card-name").value = ""
+      document.getElementById("card-number").value = null
+      document.getElementById("expiration").value = ""
+      document.getElementById("cvv").value = null
+    }
+
+    document.querySelectorAll('.form-check-input').forEach(input => {
+      input.addEventListener('change', function () {
+        if (this.checked) {
+          document.querySelectorAll('#paypal-content, #card-content').forEach(content => {
+            content.style.display = 'none'
+          });
+
+          if (this.value === 'paypal') {
+            document.getElementById('paypal-content').style.display = 'block'
+            setCardPlaceholder()
+
+          } else if (this.value === 'card') {
+            document.getElementById('card-content').style.display = 'block'
+            resetCardPlaceholder()
+          }
+        }
+      });
+    });
+
+  </script>
 
   <!-- MARK: footer-->
   <script id="template" type="text/x-handlebars-footer">
