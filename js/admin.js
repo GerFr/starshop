@@ -44,6 +44,7 @@ function IndexEdit(ID) {
                 }
             }
             localStorage.setItem("data", JSON.stringify(data))
+            location.reload()
         }
         form.classList.add('was-validated')
     }, false)
