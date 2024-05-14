@@ -20,7 +20,6 @@ function getStarIdArr() {
 
 // MARK: Edit Funktion für Indexpage
 function IndexEdit(ID) {
-    console.log("Erfolg");
     var temp = getStarIdArr()
     const StarIDarr = temp[0]
     const data = temp[1]
