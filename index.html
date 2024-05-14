@@ -262,14 +262,14 @@
       }, 20);
 
       var cartarr = sessionStorage.getItem(CART)
+      var parsedCartarr = JSON.parse(cartarr)
       if (cartarr === null) {
-        cartarr = [sID]
+        parsedCartarr = [sID]
       }
-      else if (JSON.parse(cartarr).includes(sID) === false) {
-        cartarr = JSON.parse(cartarr)
-        cartarr.push(sID);
+      else if (parsedCartarr.includes(sID) === false) {
+        parsedCartarr.push(sID);
       }
-      sessionStorage.setItem(CART, JSON.stringify(cartarr))
+      sessionStorage.setItem(CART, JSON.stringify(parsedCartarr))
     }
   </script>
 

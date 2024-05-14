@@ -85,7 +85,7 @@ function create() {
         form.classList.add('was-validated')
     }, false)
 }
-
+// MARK: Delete id on Index
 function deleteIdIndex(Id) {
     var temp = getStarIdArr()
     const StarIDarr = temp[0]
