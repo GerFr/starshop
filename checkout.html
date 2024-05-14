@@ -15,9 +15,8 @@
   <!-- handlebars -->
   <script src="js/handlebars.min-v4.7.8.js"></script>
   <script src="js/vanilla.js"></script>
+  <script src="js/checkout.js"></script>
 
-  <!-- MARK:validation handlebars
-     -->
   <script>
 
     function init() {
@@ -53,48 +52,36 @@
         }
       }
     }
-    function fetchDataset() {
-      fetch('data/hygfull.json')
-        .then(response => response.json())
-        .then(data => { localStorage.setItem("data", JSON.stringify(data)) })
-        .catch(error => console.error('Error fetching JSON file:', error));
-    }
-    function getElement(starId) {
-      if (localStorage.getItem("data") === null) {
-        fetchDataset()
-      }
-      const data = JSON.parse(localStorage.getItem("data"))
 
-      var result = null
-      for (const iterator of data) {
-        if (iterator["StarID"] === starId) {
-          result = iterator
-        }
-      }
-      if (result === null) {
-        console.log("couldnt find the star");
-      }
-      return result
-    }
     function toLocal(event) {
       const paypal = document.getElementById("paypalRadio")
       const card = document.getElementById("ccRadio")
       var checkout = {};
 
-      const names = ['first', 'last', 'email', 'address', 'address2', 'country', 'city', 'zip', 'card-name', 'card-number', 'expiration', 'cvv'];
-      for (const name of names) {
-        var element = document.getElementById(name)
-        checkout[name] = element.value
-      }
+      const namesPaypal = ['first', 'last', 'email', 'address', 'address2', 'country', 'city', 'zip'];
+      const displayNamesPaypal = ['First Name', 'Last name', 'Email', 'Address', 'Address2', 'Country', 'City', 'Zip'];
+      const namesCard = [...namesPaypal, ...['card-name', 'card-number', 'expiration', 'cvv']];
+      const displayNamesCard = [...displayNamesPaypal, ...['Card Name', 'Card Number', 'Expiration', 'CVV']];
 
       if (card.checked) {
-        checkout["payment"] = "card"
+        const names = namesCard
+        const displayNames = displayNamesCard
+        const payment = "card"
 
       } else if (paypal.checked) {
-        checkout["payment"] = "paypal"
-      }
+        const names = namesPaypal
+        const displayNames = displayNamesPaypal
+        const payment = "paypal"
 
-      localStorage.setItem("checkout", JSON.stringify(checkout))
+        var data = [];
+        for (let index = 0; index < names.length; index++) {
+          const value = document.getElementById(names[index]).value;
+          const name = displayNames[index]
+          data.push({ "value": value, "name": name })
+        }
+        data.push({ "value": payment, "name": "Payment" })
+        sessionStorage.setItem("checkout", JSON.stringify(data))
+      }
     }
   </script>
 </head>
@@ -107,13 +94,6 @@
   </script>
   <div></div>
 
-  <!-- MARK:MODAL
-     -->
-  <script id="template" type="text/x-handlebars-template">
-  {{> modal }}
-  </script>
-  <div></div>
-
   <div class="container">
     <div class="row">
       <!-- MARK: cart overview
@@ -121,12 +101,11 @@
       <div class="col-md-4 order-md-2 mb-4">
         <h4 class="d-flex justify-content-between align-items-center mb-3">
           <span class="text-muted">Your cart</span>
-          <span class="badge badge-secondary badge-pill">3</span>
         </h4>
         <script id="template" type="text/x-handlebars-template">
                 {{#each this}}
                 <li class="list-group-item d-flex justify-content-between lh-condensed">
-                    <button type="button" class="btn" data-bs-toggle="modal" data-bs-target="#{{StarID}}-modal">
+                    <div>
                         <h6 class="my-0 text-start">{{ProperName}}</h6>
                         <small class="text-muted">
                             {{#if (lt Price 100000)}}
@@ -134,7 +113,7 @@
                             {{/if}}
                             Distance: {{Distance}}
                         </small>
-                    </button>
+                      </div>
                     <span class="text-muted">€{{Price}}</span>
                 </li>
                 {{/each}}
@@ -207,10 +186,6 @@
             </div>
 
             <div class="col-md-4 mb-3">
-              <!-- <label for="city">City</label>
-                            <select class="custom-select d-block w-100" id="city" required>
-                                <option>Berlin</option>
-                            </select> -->
               <label for="city" class="form-label">City</label>
               <input class="form-control" list="datalistOptionscity" id="city" placeholder="Type to search..." required>
               <datalist id="datalistOptionscity">
@@ -229,12 +204,8 @@
             </div>
 
           </div>
-
           <hr class="mb-4">
-
           <h4 class="mb-3">Payment</h4>
-
-
           <div class="form-check">
             <input class="form-check-input" type="radio" name="flexRadioDefault" value="card" id="ccRadio">
             <label class="form-check-label" for="ccRadio">
@@ -242,8 +213,7 @@
             </label>
           </div>
           <div class="form-check py-3">
-            <input class="form-check-input" type="radio" name="flexRadioDefault" value="paypal" id="paypalRadio"
-              checked>
+            <input class="form-check-input" type="radio" name="flexRadioDefault" value="paypal" id="paypalRadio">
             <label class="form-check-label" for="paypalRadio">
               Paypal
             </label>
@@ -251,7 +221,10 @@
 
 
           <div id="paypal-content" style="display: none;">
-            paypal
+            <div class="row">
+              <div class="display-6"><i class="bi bi-paypal"></i> Paypal</div>
+            </div>
+            <div class="text-light">login after confirmation</div>
           </div>
 
           <div id="card-content" style="display: none;">
