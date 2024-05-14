@@ -51,8 +51,7 @@
             if (orders === null) {
                 orders = [{"checkout":checkout, "data":data, "total":total}]
             }
-            else if (validateOrder(JSON.parse(orders), total)){
-                orders = JSON.parse(orders)
+            else if (validateOrder(orders, total)){
                 orders.push({"checkout":checkout, "data":data, "total":total});
             }
             localStorage.setItem("orders", JSON.stringify(orders))

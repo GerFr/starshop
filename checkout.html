@@ -56,7 +56,6 @@
     function toLocal(event) {
       const paypal = document.getElementById("paypalRadio")
       const card = document.getElementById("ccRadio")
-      var checkout = {};
 
       const namesPaypal = ['first', 'last', 'email', 'address', 'address2', 'country', 'city', 'zip'];
       const displayNamesPaypal = ['First Name', 'Last name', 'Email', 'Address', 'Address2', 'Country', 'City', 'Zip'];
@@ -64,14 +63,16 @@
       const displayNamesCard = [...displayNamesPaypal, ...['Card Name', 'Card Number', 'Expiration', 'CVV']];
 
       if (card.checked) {
+        console.log("card checked");
         const names = namesCard
         const displayNames = displayNamesCard
         const payment = "card"
-
       } else if (paypal.checked) {
+        console.log("paypal checked");
         const names = namesPaypal
         const displayNames = displayNamesPaypal
         const payment = "paypal"
+      }
 
         var data = [];
         for (let index = 0; index < names.length; index++) {
@@ -82,7 +83,7 @@
         data.push({ "value": payment, "name": "Payment" })
         sessionStorage.setItem("checkout", JSON.stringify(data))
       }
-    }
+    
   </script>
 </head>
 
