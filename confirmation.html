@@ -22,26 +22,18 @@
             const checkout = JSON.parse(sessionStorage.getItem("checkout"))
             render(checkout, '[type="text/x-handlebars-checkout"]')
 
-            if (!(sessionStorage.getItem('cart') === null)) {
-                const cartIDs = JSON.parse(sessionStorage.getItem("cart"))
-                const cart = []
-                cartIDs.forEach(element => {
-                    const data = getElement(element)
-                    if (!(data === null)) {
-                        cart.push(data)
-                    }
-                });
-                total = 0
-                cart.forEach(element => {
-                    total += element["Price"]
-                });
-                render({ "total": total }, '[type="text/x-handlebars-template-2"]')
+            const cart = JSON.parse(sessionStorage.getItem("boughtStars"))
+            total = 0
+            cart.forEach(element => {
+                total += element["Price"]
+            });
+            render({ "total": total }, '[type="text/x-handlebars-template-2"]')
 
-                if (cart.length > 0) {
-                    render(cart, '[type="text/x-handlebars-cart"]')
-                }
-            toOrders(checkout, cart, total)
+            if (cart.length > 0) {
+                render(cart, '[type="text/x-handlebars-cart"]')
             }
+            toOrders(checkout, cart, total)
+
             render({}, '[type="text/x-handlebars-navbar"]')
             render({}, '[type="text/x-handlebars-footer"]')
         }
@@ -49,17 +41,17 @@
         function toOrders(checkout, data, total) {
             var orders = JSON.parse(localStorage.getItem("orders"))
             if (orders === null) {
-                orders = [{"checkout":checkout, "data":data, "total":total}]
+                orders = [{ "checkout": checkout, "data": data, "total": total }]
             }
-            else if (validateOrder(orders, total)){
-                orders.push({"checkout":checkout, "data":data, "total":total});
+            else if (validateOrder(orders, total)) {
+                orders.push({ "checkout": checkout, "data": data, "total": total });
             }
             localStorage.setItem("orders", JSON.stringify(orders))
         }
 
-        function validateOrder(orders, total){
-            	orders.forEach(element => {
-                if (element.total === total){
+        function validateOrder(orders, total) {
+            orders.forEach(element => {
+                if (element.total === total) {
                     return false;
                 }
                 return true;

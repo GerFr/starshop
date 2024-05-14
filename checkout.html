@@ -22,22 +22,33 @@
     function init() {
       render({}, '[type="text/x-handlebars-navbar"]')
       render({}, '[type="text/x-handlebars-footer"]')
-      $on($('#bestellen'), 'click', toLocal)
+      // $on($('#bestellen'), 'click', toLocal)
 
-      const form = document.querySelector('.needs-validation')
-      form.addEventListener('submit', event => {
-        if (!form.checkValidity()) {
+      const checkoutForm = document.querySelector('.needs-validation')
+      checkoutForm.addEventListener('submit', event => {
+
+        // no validation check if no stars in cart
+        if (sessionStorage.getItem("cart") === null) {
+          event.preventDefault()
+          event.stopPropagation()
+          return
+          // validation check
+        } else if (!checkoutForm.checkValidity()) {
           event.preventDefault()
           event.stopPropagation()
         }
-        form.classList.add('was-validated')
+        // add data to local storage
+        checkoutForm.classList.add('was-validated')
+        toLocal()
+        clearCart()
       }, false)
 
+      // render cart information
       if (!(sessionStorage.getItem('cart') === null)) {
         const cartIDs = JSON.parse(sessionStorage.getItem("cart"))
         const cart = []
         cartIDs.forEach(element => {
-          const data = getElement(element)
+          const data = getElement(element, localStorage.getItem("data"))
           if (!(data === null)) {
             cart.push(data)
           }
@@ -52,38 +63,6 @@
         }
       }
     }
-
-    function toLocal(event) {
-      const paypal = document.getElementById("paypalRadio")
-      const card = document.getElementById("ccRadio")
-
-      const namesPaypal = ['first', 'last', 'email', 'address', 'address2', 'country', 'city', 'zip'];
-      const displayNamesPaypal = ['First Name', 'Last name', 'Email', 'Address', 'Address2', 'Country', 'City', 'Zip'];
-      const namesCard = [...namesPaypal, ...['card-name', 'card-number', 'expiration', 'cvv']];
-      const displayNamesCard = [...displayNamesPaypal, ...['Card Name', 'Card Number', 'Expiration', 'CVV']];
-
-      if (card.checked) {
-        console.log("card checked");
-        const names = namesCard
-        const displayNames = displayNamesCard
-        const payment = "card"
-      } else if (paypal.checked) {
-        console.log("paypal checked");
-        const names = namesPaypal
-        const displayNames = displayNamesPaypal
-        const payment = "paypal"
-      }
-
-        var data = [];
-        for (let index = 0; index < names.length; index++) {
-          const value = document.getElementById(names[index]).value;
-          const name = displayNames[index]
-          data.push({ "value": value, "name": name })
-        }
-        data.push({ "value": payment, "name": "Payment" })
-        sessionStorage.setItem("checkout", JSON.stringify(data))
-      }
-    
   </script>
 </head>
 
@@ -208,13 +187,13 @@
           <hr class="mb-4">
           <h4 class="mb-3">Payment</h4>
           <div class="form-check">
-            <input class="form-check-input" type="radio" name="flexRadioDefault" value="card" id="ccRadio">
+            <input class="form-check-input" type="radio" value="card" id="ccRadio" required>
             <label class="form-check-label" for="ccRadio">
               Credit card
             </label>
           </div>
           <div class="form-check py-3">
-            <input class="form-check-input" type="radio" name="flexRadioDefault" value="paypal" id="paypalRadio">
+            <input class="form-check-input" type="radio" value="paypal" id="paypalRadio" required>
             <label class="form-check-label" for="paypalRadio">
               Paypal
             </label>
@@ -271,22 +250,9 @@
 
 
   <script>
-    function setCardPlaceholder() {
-      document.getElementById("card-name").value = "placeholder"
-      document.getElementById("card-number").value = 1234
-      document.getElementById("expiration").value = "2001-01"
-      document.getElementById("cvv").value = 123
-    }
-
-    function resetCardPlaceholder() {
-      document.getElementById("card-name").value = ""
-      document.getElementById("card-number").value = null
-      document.getElementById("expiration").value = ""
-      document.getElementById("cvv").value = null
-    }
-
     document.querySelectorAll('.form-check-input').forEach(input => {
-      input.addEventListener('change', function () {
+      input.addEventListener('change', function (even) {
+        event.preventDefault()
         if (this.checked) {
           document.querySelectorAll('#paypal-content, #card-content').forEach(content => {
             content.style.display = 'none'
@@ -294,10 +260,12 @@
 
           if (this.value === 'paypal') {
             document.getElementById('paypal-content').style.display = 'block'
+            document.getElementById('ccRadio').checked = false;
             setCardPlaceholder()
 
           } else if (this.value === 'card') {
             document.getElementById('card-content').style.display = 'block'
+            document.getElementById('paypalRadio').checked = false;
             resetCardPlaceholder()
           }
         }
