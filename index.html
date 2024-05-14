@@ -54,10 +54,10 @@
       const baseData = localStorage.getItem("data")
 
       if (!(queryData === null)) {
-        render(JSON.parse(queryData).slice(0, 20), '[type="text/x-handlebars-template"]')
+        render(JSON.parse(queryData).slice(0, 12), '[type="text/x-handlebars-template"]')
       }
       else if (!(baseData === null)) {
-        render(JSON.parse(baseData).slice(0, 20), '[type="text/x-handlebars-template"]')
+        render(JSON.parse(baseData).slice(0, 12), '[type="text/x-handlebars-template"]')
       }
       else {
         fetch('data/hygfull.json')
@@ -224,8 +224,8 @@
                 <input type="number" class="form-control" id="Price" placeholder="e.g. 83506" required>
                 <div class="invalid-feedback">Please enter a valid Price</div>
 
-                <label for="Color" class="form-label">Color:</label>
-                <select name="Color" id="Color" class="form-select" required>
+                <label class="form-label">Color:</label>
+                <select  id="Color" class="form-select" required>
                   <option value="yellowWhiteStar" selected>yellowWhiteStar</option>
                   <option value="yellowStar">yellowStar</option>
                   <option value="whiteStar">whiteStar</option>

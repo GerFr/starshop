@@ -1,4 +1,6 @@
 {{#each this}}
+<!-- MARK: Info modal for id: {{StarID}}
+ -->
 <div class="modal fade" id="{{StarID}}-modal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
   aria-hidden="true">
   <div class="modal-dialog modal-dialog-scrollable modal-lg">
@@ -130,6 +132,8 @@
     </div>
   </div>
 </div>
+<!--MARK: Delete Modal for id: {{StarID}}
+ -->
 <div class="modal fade" id="{{StarID}}-deleteModal" tabindex="-1" aria-labelledby="exampleModalLabel"
   aria-hidden="true">
   <div class="modal-dialog">
@@ -141,6 +145,7 @@
         <div class="text-center">
           <h2>Delete Item</h2>
           <p class="lead"> {{ProperName}}</p>
+          <p class="lead">id: {{StarID}}</p>
         </div>
         <div class="mt-2 text-center">
           <button type="button" class="btn btn-secondary mx-2" data-bs-dismiss="modal">Close</button>
@@ -151,6 +156,8 @@
     </div>
   </div>
 </div>
+<!-- MARK: Edit Modal for id: {{StarID}}
+ -->
 <div class="modal fade" id="{{StarID}}-editModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
   <div class="modal-dialog">
     <div class="modal-content">
@@ -239,7 +246,7 @@
               <label for="previous" class="form-label">Color:</label>
               <input id="previousvalue_{{StarID}}" type="text" value="{{Color}}" class="form-control" readonly>
 
-              <select name="Color" id="Color_{{StarID}}" class="form-select" required>
+              <select  id="Color_{{StarID}}" class="form-select" required>
                 <option value="yellowWhiteStar" selected>yellowWhiteStar</option>
                 <option value="yellowStar">yellowStar</option>
                 <option value="whiteStar">whiteStar</option>
