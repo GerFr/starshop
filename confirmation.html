@@ -15,12 +15,49 @@
     <!-- handlebars -->
     <script src="js/handlebars.min-v4.7.8.js"></script>
     <script src="js/vanilla.js"></script>
+    <script src="js/checkout.js"></script>
+
     <script>
         function init() {
-            render(JSON.parse(localStorage.getItem("checkout")), '[type="text/x-handlebars-template"]')
+            const checkout = JSON.parse(sessionStorage.getItem("checkout"))
+            render(checkout, '[type="text/x-handlebars-checkout"]')
+
+            const cart = JSON.parse(sessionStorage.getItem("boughtStars"))
+            total = 0
+            cart.forEach(element => {
+                total += element["Price"]
+            });
+            render({ "total": total }, '[type="text/x-handlebars-template-2"]')
+
+            if (cart.length > 0) {
+                render(cart, '[type="text/x-handlebars-cart"]')
+            }
+            toOrders(checkout, cart, total)
+
             render({}, '[type="text/x-handlebars-navbar"]')
             render({}, '[type="text/x-handlebars-footer"]')
         }
+
+        function toOrders(checkout, data, total) {
+            var orders = JSON.parse(localStorage.getItem("orders"))
+            if (orders === null) {
+                orders = [{ "checkout": checkout, "data": data, "total": total }]
+            }
+            else if (validateOrder(orders, total)) {
+                orders.push({ "checkout": checkout, "data": data, "total": total });
+            }
+            localStorage.setItem("orders", JSON.stringify(orders))
+        }
+
+        function validateOrder(orders, total) {
+            orders.forEach(element => {
+                if (element.total === total) {
+                    return false;
+                }
+                return true;
+            });
+        }
+
     </script>
 </head>
 
@@ -37,21 +74,52 @@
                 <div class="col-lg-8">
                     <div class="card bg-dark ">
                         <div class="card-body ">
-                            <script id="template" type="text/x-handlebars-template">
-                                <h4 class="card-title pb-4 text-center">Ihre Bestellung ist auf dem Weg</h4>
-                                <p class="card-text text-light"><strong>Sender:</strong> {{first}} {{last}}</p>
-                                <p class="card-text text-light"><strong>Email:</strong> {{email}}</p>
-                                <p class="card-text text-light"><strong>Address:</strong> {{address}}</p>
-                                <p class="card-text text-light"><strong>2nd Address:</strong> {{address2}}</p>
-                                <p class="card-text text-light"><strong>Country:</strong> {{country}}</p>
-                                <p class="card-text text-light"><strong>City:</strong> {{city}}</p>
-                                <p class="card-text text-light"><strong>Zip:</strong> {{zip}}</p>
-                                <p class="card-text text-light"><strong>Card Name:</strong> {{card-name}}</p>
-                                <p class="card-text text-light"><strong>Card Number:</strong> {{card-number}}</p>
-                                <p class="card-text text-light"><strong>Expiration:</strong> {{expiration}}</p>
-                                <p class="card-text text-light"><strong>CVV:</strong> {{cvv}}</p>
+                            <h4 class="card-title pb-4 text-center">Your order is arriving soon</h4>
+                            <script id="template" type="text/x-handlebars-cart">
+                                {{#each this}}
+                                <li class="list-group-item d-flex justify-content-between lh-condensed">
+                                    <div>
+                                        <h6 class="my-0 text-start">{{ProperName}}</h6>
+                                        <small class="text-muted">
+                                            {{#if (lt Price 100000)}}
+                                            <strong>Sale</strong>
+                                            {{/if}}
+                                            Distance: {{Distance}}
+                                        </small>
+                                      </div>
+                                    <span class="text-muted">€{{Price}}</span>
+                                </li>
+                                {{/each}}
+                                </script>
+
+                            <ul class="list-group mb-3">
+                            </ul>
+                            <script id="template" type="text/x-handlebars-template-2">
+                                <li class="list-group-item d-flex justify-content-between">
+                                    <span>
+                                        Total
+                                    </span>
+                                    <strong>
+                                        €{{total}}
+                                    </strong>
+                                </li>
                             </script>
-                            <div class="card-body "></div>
+                            <ul class="list-group mb-3">
+                            </ul>
+
+                            <script id="template" type="text/x-handlebars-checkout">
+                                {{#each this}}
+                                <li class="list-group-item d-flex justify-content-between lh-condensed">
+                                    <div>
+                                        <h6 class="my-0 text-start">{{name}}</h6>
+                                        
+                                      </div>
+                                    <span class="text-muted">{{value}}</span>
+                                </li>
+                                {{/each}}
+                            </script>
+                            <ul class="list-group mb-3">
+                            </ul>
                             <div class="card-footer text-center ">
                                 <a href="/index.html" class="btn btn-primary btn-lg">Home</a>
                             </div>
