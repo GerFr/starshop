@@ -1,0 +1,340 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <title>admin</title>
+    <!-- Required meta tags -->
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+    <!-- bootstrap -->
+    <link rel="stylesheet" href="css/bootstrap.min.css">
+    <!-- icons -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+    <link rel="icon" href="assets/icons/admin.png">
+    <!-- handlebars -->
+    <script src="js/handlebars.min-v4.7.8.js"></script>
+    <script src="js/vanilla.js"></script>
+    <script src="js/admin.js"></script>
+</head>
+
+<body onload="init()">
+    <script id="template" type="text/x-handlebars-navbar">
+        {{> navbar }}
+    </script>
+    <div></div>
+
+    <main>
+        <!-- MARK: Crud Cards
+         -->
+        <section id="CRUD Cards">
+            <div class="container-lg justify-content-center">
+                <div class="row align-content-center justify-content-center">
+                    <div class="col-md-3">
+                        <div class="card bg-secondary ">
+                            <div class="card-body text-center ">
+
+                                <!-- Button trigger modal -->
+                                <button type="button" class="btn btn-light" data-bs-toggle="modal"
+                                    data-bs-target="#createModal">
+                                    Create
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="card bg-secondary ">
+                            <div class="card-body text-center">
+
+                                <!-- Button trigger modal -->
+                                <button type="button" class="btn btn-light" data-bs-toggle="modal"
+                                    data-bs-target="#readModal">
+                                    read
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="card bg-secondary ">
+                            <div class="card-body text-center">
+
+                                <!-- Button trigger modal -->
+                                <button type="button" class="btn btn-light" data-bs-toggle="modal"
+                                    data-bs-target="#editModal">
+                                    edit
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="card bg-secondary ">
+                            <div class="card-body text-center">
+
+                                <!-- Button trigger modal -->
+                                <button type="button" class="btn btn-light" data-bs-toggle="modal"
+                                    data-bs-target="#deleteModal">
+                                    delete
+                                </button>
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+        </section>
+        <!-- MARK: Create Modal 
+    -->
+        <div class="modal fade" id="createModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLabel">Create</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <div class="text-center">
+                            <h2>Create new Item</h2>
+                            <p class="lead">Fill out the form</p>
+                        </div>
+                        <!-- MARK: Form - Create
+                         -->
+                        <form id="createForm" class="needs-validation" novalidate action="#">
+
+                            <label for="number" class="form-label">StarID:</label>
+                            <input type="number" class="form-control" id="starId" placeholder="e.g. 65795" required>
+                            <div class="invalid-feedback">Please enter a valid StarID</div>
+
+                            <label for="number" class="form-label">Hip:</label>
+                            <input type="number" class="form-control" id="Hip" placeholder="e.g. 91262" required>
+                            <div class="invalid-feedback">Please enter a valid Hip</div>
+
+                            <label for="number" class="form-label">HD:</label>
+                            <input type="number" class="form-control" id="HD" placeholder="e.g. 172167" required>
+                            <div class="invalid-feedback">Please enter a valid HD</div>
+
+                            <label for="name" class="form-label">Name:</label>
+                            <input type="name" class="form-control" id="name" placeholder="e.g. Vega" required>
+                            <div class="invalid-feedback">Please enter a name</div>
+
+                            <label for="number" class="form-label">RA:</label>
+                            <input type="number" step="any" class="form-control" id="RA" placeholder="e.g. 18.61560722"
+                                required>
+                            <div class="invalid-feedback">Please enter a valid RA</div>
+
+                            <label for="number" class="form-label">Dec:</label>
+                            <input type="number" step="any" class="form-control" id="Dec" placeholder="e.g. 38.78299311"
+                                required>
+                            <div class="invalid-feedback">Please enter a valid Dec</div>
+
+                            <label for="number" class="form-label">Distance:</label>
+                            <input type="number" step="any" class="form-control" id="Distance" placeholder="e.g. 7.76"
+                                required>
+                            <div class="invalid-feedback">Please enter a valid Distance</div>
+
+                            <label for="number" class="form-label">Mag:</label>
+                            <input type="number" step="any" class="form-control" id="Mag" placeholder="e.g. 0.03"
+                                required>
+                            <div class="invalid-feedback">Please enter a valid Mag</div>
+
+                            <label for="number" class="form-label">AbsMag:</label>
+                            <input type="number" step="any" class="form-control" id="AbsMag" placeholder="e.g. 0.58"
+                                required>
+                            <div class="invalid-feedback">Please enter a valid AbsMag</div>
+
+                            <label for="text" class="form-label">Spectrum:</label>
+                            <input type="text" class="form-control" id="Spectrum" placeholder="e.g. B2.5V" required>
+                            <div class="invalid-feedback">Please enter a Spectrum</div>
+
+                            <label for="number" class="form-label">ColorIndex:</label>
+                            <input type="number" step="any" class="form-control" id="ColorIndex"
+                                placeholder="e.g. -0.134" required>
+                            <div class="invalid-feedback">Please enter a valid ColorIndex</div>
+
+                            <div class="form-floating mb-4 mt-4">
+                                <textarea name="GeneralInformation" class="form-control" id="GeneralInformation"
+                                    style="height: 140px;" required></textarea>
+                                <label for="GeneralInformation">General information:</label>
+                                <div class="invalid-feedback">Please enter General Information</div>
+                            </div>
+
+                            <label for="number" class="form-label">Price:</label>
+                            <input type="number" class="form-control" id="Price" placeholder="e.g. 83506" required>
+                            <div class="invalid-feedback">Please enter a valid Price</div>
+
+                            <label for="Color" class="form-label">Color:</label>
+                            <select name="Color" id="Color" class="form-select" required>
+                                <!-- "yellowWhiteStar", "yellowStar", "whiteStar", "orangeStar", "orangeRedStar", "blueStar", "blueWhiteStar" -->
+                                <option value="yellowWhiteStar" selected>yellowWhiteStar</option>
+                                <option value="yellowStar">yellowStar</option>
+                                <option value="whiteStar">whiteStar</option>
+                                <option value="orangeStar">orangeStar</option>
+                                <option value="orangeRedStar">orangeRedStar</option>
+                                <option value="blueStar">blueStar</option>
+                                <option value="blueWhiteStar">blueWhiteStar</option>
+                            </select>
+
+                            <div class="mt-2 text-center">
+                                <button type="submit" id="createnew" class="btn btn-secondary">save changes</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+        <!-- MARK: Read Modal 
+    -->
+        <div class="modal fade" id="readModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLabel">Read</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <div class="text-center">
+                            <h2>Read Item</h2>
+                            <p class="lead">Select the Id</p>
+                        </div>
+                        <!-- MARK: Form - Read
+                         -->
+                        <form id="readform" class="needs-validation" novalidate>
+                            <!-- script der alle vorhandenen IDs reinlädt -->
+                            <label for="SelectId" class="form-label">Select Id:</label>
+                            <select name="SelectId" id="SelectIdRead" class="form-select" required></select>
+
+                            <select name="Attribute" id="AttributeRead" class="form-select" required>
+
+                                <option value="Hip">Hip</option>
+                                <option value="HD">HD</option>
+                                <option value="RA">RA</option>
+                                <option value="Dec">Dec</option>
+                                <option value="Distance">Distance</option>
+                                <option value="Mag">Mag</option>
+                                <option value="AbsMag">AbsMag</option>
+                                <option value="Spectrum">Spectrum</option>
+                                <option value="ColorIndex">ColorIndex</option>
+                                <option value="GeneralInformation">GeneralInformation</option>
+                                <option value="Price">Price</option>
+                                <option value="Color">Color</option>
+                            </select>
+
+                            <label for="infos" class="form-label">Infos:</label>
+                            <input name="infos" id="infos" type="text" value="" class="form-control" readonly>
+
+                            <div class="mt-2 text-center">
+                                <button type="submit" id="submitRead" class="btn btn-secondary">copy</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- MARK: edit Modal 
+    -->
+        <div class="modal fade" id="editModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLabel">Edit</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <div class="text-center">
+                            <h2>Edit Item</h2>
+                            <p class="lead">Fill out the form</p>
+                        </div>
+                        <!-- MARK: Form - edit
+                         -->
+                        <form id="editform" class="needs-validation" novalidate action="#">
+
+                            <!-- script der alle vorhandenen IDs reinlädt -->
+                            <label for="SelectId" class="form-label">Select Id:</label>
+                            <select name="SelectId" id="SelectId" class="form-select" required>
+                                <!-- <option selected disabled>Select an option</option> -->
+                            </select>
+                            <div class="invalid-feedback">Please enter a valid edit</div>
+
+                            <label for="Attribute" class="form-label">Attribute:</label>
+                            <select name="Attribute" id="Attribute" class="form-select" required>
+
+                                <option value="Hip">Hip</option>
+                                <option value="HD">HD</option>
+                                <option value="RA">RA</option>
+                                <option value="Dec">Dec</option>
+                                <option value="Distance">Distance</option>
+                                <option value="Mag">Mag</option>
+                                <option value="AbsMag">AbsMag</option>
+                                <option value="Spectrum">Spectrum</option>
+                                <option value="ColorIndex">ColorIndex</option>
+                                <option value="GeneralInformation">GeneralInformation</option>
+                                <option value="Price">Price</option>
+                                <option value="Color">Color</option>
+                            </select>
+
+                            <label for="previous" class="form-label">Previous Value:</label>
+                            <input name="previous" id="previousvalue" type="text" value="" class="form-control"
+                                readonly>
+
+                            <div class="form-floating mb-4 mt-4">
+                                <input type="number" step="any" class="form-control" id="edittext" required>
+                                <label for="GeneralInformation">edit:</label>
+                                <div class="invalid-feedback">Please enter a valid edit</div>
+                            </div>
+
+                            <div class="mt-2 text-center">
+                                <button type="submit" id="editold" class="btn btn-secondary">save changes</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- MARK: delete Modal 
+    -->
+        <div class="modal fade" id="deleteModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLabel">delete</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <div class="text-center">
+                            <h2>Delete Item</h2>
+                            <p class="lead">Select the Id</p>
+                        </div>
+                        <!-- MARK: Form - delete
+                         -->
+                        <form id="deleteform" class="needs-validation" novalidate action="#">
+                            <!-- script der alle vorhandenen IDs reinlädt -->
+                            <label for="SelectId" class="form-label">Select Id:</label>
+                            <select name="SelectId" id="SelectIdDel" class="form-select" required></select>
+                            <div class="mt-2 text-center">
+                                <button type="submit" id="submitDelete" class="btn btn-secondary">delete</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <script id="template" type="text/x-handlebars-footer">
+        {{> footer }}
+    </script>
+    <div></div>
+
+    <script>
+        dynamicIdSelector("SelectId")
+        dynamicIdSelector("SelectIdDel")
+        dynamicIdSelector("SelectIdRead")
+        dynamicEdit()
+        dynamicRead()
+    </script>
+
+    <!-- Bootstrap JavaScript Libraries -->
+    <script src="js/bootstrap.js"></script>
+</body>
+
+</html>

@@ -1,0 +1,276 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+  <title>Checkout</title>
+  <!-- Required meta tags -->
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+
+  <!-- bootstrap -->
+  <link rel="stylesheet" href="css/bootstrap.min.css">
+  <!-- icons -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+  <link rel="icon" href="assets/icons/cart.png">
+  <!-- handlebars -->
+  <script src="js/handlebars.min-v4.7.8.js"></script>
+  <script src="js/vanilla.js"></script>
+
+  <!-- MARK:validation handlebars
+     -->
+  <script>
+
+    function init() {
+      render({}, '[type="text/x-handlebars-navbar"]')
+      render({}, '[type="text/x-handlebars-footer"]')
+      $on($('#bestellen'), 'click', toLocal)
+
+      const form = document.querySelector('.needs-validation')
+      form.addEventListener('submit', event => {
+        if (!form.checkValidity()) {
+          event.preventDefault()
+          event.stopPropagation()
+        }
+        form.classList.add('was-validated')
+      }, false)
+
+      if (!(sessionStorage.getItem('cart') === null)) {
+        const cartIDs = JSON.parse(sessionStorage.getItem("cart"))
+        const cart = []
+        cartIDs.forEach(element => {
+          const data = getElement(element)
+          if (!(data === null)) {
+            cart.push(data)
+          }
+        });
+        var total = 0
+        cart.forEach(element => {
+          total += element["Price"]
+        });
+        render({ "total": total }, '[type="text/x-handlebars-template-2"]')
+        if (cart.length > 0) {
+          render(cart, '[type="text/x-handlebars-template"]')
+        }
+      }
+    }
+    function fetchDataset() {
+      fetch('data/hygfull.json')
+        .then(response => response.json())
+        .then(data => { localStorage.setItem("data", JSON.stringify(data)) })
+        .catch(error => console.error('Error fetching JSON file:', error));
+    }
+
+    function getElement(starId) {
+      if (localStorage.getItem("data") === null) {
+        fetchDataset()
+      }
+      const data = JSON.parse(localStorage.getItem("data"))
+
+      var result = null
+      for (const iterator of data) {
+        if (iterator["StarID"] === starId) {
+          result = iterator
+        }
+      }
+      if (result === null) {
+        console.log("couldnt find the star");
+      }
+      return result
+    }
+
+
+    function toLocal(event) {
+      const names = ['first', 'last', 'email', 'address', 'address2', 'country', 'city', 'zip', 'card-name', 'card-number', 'expiration', 'cvv'];
+      var checkout = {};
+      for (const name of names) {
+        var element = document.getElementById(name)
+        checkout[name] = element.value
+      }
+      localStorage.setItem("checkout", JSON.stringify(checkout))
+    }
+  </script>
+</head>
+
+
+<body onload="init()">
+
+  <script id="template" type="text/x-handlebars-navbar">
+    {{> navbar }}
+  </script>
+  <div></div>
+
+  <!-- MARK:MODAL
+     -->
+  <script id="template" type="text/x-handlebars-template">
+  {{> modal }}
+  </script>
+  <div></div>
+
+  <div class="container">
+    <div class="row">
+      <!-- MARK: cart overview
+                 -->
+      <div class="col-md-4 order-md-2 mb-4">
+        <h4 class="d-flex justify-content-between align-items-center mb-3">
+          <span class="text-muted">Your cart</span>
+          <span class="badge badge-secondary badge-pill">3</span>
+        </h4>
+        <script id="template" type="text/x-handlebars-template">
+                {{#each this}}
+                <li class="list-group-item d-flex justify-content-between lh-condensed">
+                    <button type="button" class="btn" data-bs-toggle="modal" data-bs-target="#{{StarID}}-modal">
+                        <h6 class="my-0 text-start">{{ProperName}}</h6>
+                        <small class="text-muted">
+                            {{#if (lt Price 100000)}}
+                            <strong>Sale</strong>
+                            {{/if}}
+                            Distance: {{Distance}}
+                        </small>
+                    </button>
+                    <span class="text-muted">€{{Price}}</span>
+                </li>
+                {{/each}}
+                </script>
+
+        <ul class="list-group mb-3">
+        </ul>
+        <script id="template" type="text/x-handlebars-template-2">
+                    <li class="list-group-item d-flex justify-content-between">
+                        <span>
+                            Total
+                        </span>
+                        <strong>
+                            €{{total}}
+                        </strong>
+                    </li>
+                </script>
+        <ul class="list-group mb-3">
+        </ul>
+      </div>
+      <!-- MARK: billing Form
+                 -->
+      <div class="col-md-8 order-md-1">
+        <h4 class="mb-3">Checkout</h4>
+        <form class="needs-validation" novalidate action="confirmation.html">
+
+          <div class="row">
+            <div class="col-md-6 mb-3">
+              <label for="first">First name</label>
+              <input type="name" class="form-control" id="first" placeholder="Ursa" required>
+              <div class="invalid-feedback"> Valid first name is required.</div>
+            </div>
+            <div class="col-md-6 mb-3">
+              <label for="last">Last name</label>
+              <input type="name" class="form-control" id="last" placeholder="Major" required>
+              <div class="invalid-feedback">Valid last name is required.</div>
+            </div>
+          </div>
+
+          <div class="mb-3">
+            <label for="email">Email</label>
+            <input type="email" class="form-control" id="email" placeholder="you@example.com" required>
+            <div class="invalid-feedback">Please enter a valid email address for shipping updates.</div>
+          </div>
+
+          <div class="mb-3">
+            <label for="address">Address</label>
+            <input type="text" class="form-control" id="address" placeholder="1234 Main St" required>
+            <div class="invalid-feedback">Please enter your shipping address.</div>
+          </div>
+
+          <div class="mb-3">
+            <label for="address2">Address 2 <span class="text-muted">(Optional)</span></label>
+            <input type="text" class="form-control" id="address2" placeholder="">
+          </div>
+
+          <div class="row">
+
+            <div class="col-md-5 mb-3">
+              <label for="country" class="form-label">Country</label>
+              <input class="form-control" list="datalistOptions" id="country" placeholder="Type to search..." required>
+              <datalist id="datalistOptions">
+                <option value="USA">
+                <option value="Germany">
+                <option value="Canada">
+                <option value="United Kingdom">
+                <option value="France">
+              </datalist>
+              <div class="invalid-feedback"> Please select a valid country.</div>
+            </div>
+
+            <div class="col-md-4 mb-3">
+              <!-- <label for="city">City</label>
+                            <select class="custom-select d-block w-100" id="city" required>
+                                <option>Berlin</option>
+                            </select> -->
+              <label for="city" class="form-label">City</label>
+              <input class="form-control" list="datalistOptionscity" id="city" placeholder="Type to search..." required>
+              <datalist id="datalistOptionscity">
+                <option value="Berlin">
+                <option value="New York">
+                <option value="Seattle">
+                <option value="Paris">
+                <option value="London">
+              </datalist>
+            </div>
+
+            <div class="col-md-3 mb-3">
+              <label for="zip">Zip</label>
+              <input type="number" class="form-control" id="zip" placeholder="12345" required>
+              <div class="invalid-feedback">Zip code required.</div>
+            </div>
+
+          </div>
+
+          <hr class="mb-4">
+
+          <h4 class="mb-3">Payment</h4>
+
+          <div class="row">
+            <div class="col-md-6 mb-3">
+              <label for="card-name">Name on card</label>
+              <input type="text" class="form-control" id="card-name" placeholder="" required>
+              <small class="text-muted">Full name as displayed on card</small>
+              <div class="invalid-feedback">Name on card is required</div>
+            </div>
+            <div class="col-md-6 mb-3">
+              <label for="card-number">Credit card number</label>
+              <input type="number" class="form-control" id="card-number" placeholder="" required>
+              <div class="invalid-feedback">Credit card number is required</div>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-md-3 mb-3">
+              <label for="expiration">Expiration</label>
+              <input type="month" class="form-control" id="expiration" required>
+              <div class="invalid-feedback">
+                Expiration date required
+              </div>
+            </div>
+            <div class="col-md-3 mb-3">
+              <label for="cvv">CVV</label>
+              <input type="number" class="form-control" id="cvv" placeholder="" required>
+              <div class="invalid-feedback">
+                Security code required
+              </div>
+            </div>
+          </div>
+          <hr class="mb-4">
+          <button class="btn btn-primary btn-lg btn-block" id="bestellen" type="submit">Continue to
+            checkout</button>
+        </form>
+      </div>
+    </div>
+  </div>
+
+  <!-- MARK: footer-->
+  <script id="template" type="text/x-handlebars-footer">
+    {{> footer }}
+  </script>
+  <div></div>
+
+  <!-- Bootstrap JavaScript Libraries -->
+  <script src="js/bootstrap.js"></script>
+</body>
+
+</html>

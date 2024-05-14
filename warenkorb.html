@@ -26,85 +26,65 @@
         }
     </script>
 
+    <script>
+        function init() {
+            render({}, '[type="text/x-handlebars-navbar"]')
+            render({}, '[type="text/x-handlebars-footer"]')
+        }
+    </script>
 </head>
 
 <body onload="init()">
     <div><script id="replace_with_navbar" src="js/navbar.js"></script></div>
    
+<body onload="init()">
+
+    <script id="template" type="text/x-handlebars-navbar">
+        {{> navbar }}
+    </script>
+    <div></div>
+
     <main>
         <div class="container">
-            <script id="template" type="text/x-handlebars-template">
-                
-            </script>
-                <div class="container">
-                    <div class="row">
-                        <div class="card mb-3">
-                            <div class="card-body">
-                              <div class="d-flex justify-content-between">
-                                <div class="d-flex flex-row align-items-center">
-                                  <div>
-                                    <img
-                                      src="https://mdbcdn.b-cdn.net/img/Photos/new-templates/bootstrap-shopping-carts/img1.webp"
-                                      class="img-fluid rounded-3" alt="Shopping item" style="width: 65px;">
-                                  </div>
-                                  <div class="ms-3">
-                                    <h5>Iphone 11 pro</h5>
-                                    <p class="small mb-0">256GB, Navy Blue</p>
-                                  </div>
-                                </div>
-                                <div class="d-flex flex-row align-items-center">
-                                  <div style="width: 50px;">
-                                    <h5 class="fw-normal mb-0">2</h5>
-                                  </div>
-                                  <div style="width: 80px;">
-                                    <h5 class="mb-0">$900</h5>
-                                  </div>
-                                  <a href="#!" style="color: #cecece;"><i class="fas fa-trash-alt"></i></a>
-                                </div>
-                              </div>
-                            </div>
-                          </div>
-                        
-                <a
-                    name="checkout"
-                    id=""
-                    class="btn btn-primary"
-                    href="checkout.html"
-                    role="button"
-                    >Checkout</a>
-                        <div class="ibox">
-                            <div class="ibox-content">        
-                                <p class="font-bold">
-                                Other products you may be interested
-                                </p>
-                                <hr>
-                                <div>
-                                    <a href="index.html#495-card" class="product-name"> Product 1</a>
-                                    <div class="small m-t-xs">
-                                        Star "n"
-                                    </div>
-                                    <div class="m-t text-righ">
-            
-                                        <a class="btn btn-xs btn-outline btn-primary">Info <i class="fa fa-long-arrow-right"></i> </a>
-                                    </div>
-                                </div>
-                                <hr>
-                                <div>
-                                    <a href="#" class="product-name"> Product 2</a>
-                                    <div class="small m-t-xs">
-                                        Star "m"
-                                    </div>
-                                    <div class="m-t text-righ">
-            
-                                        <a href="#" class="btn btn-xs btn-outline btn-primary">Info <i class="fa fa-long-arrow-right"></i> </a>
-                                    </div>
-                                </div>
-                            </div>
+            <a name="checkout" id="" class="btn btn-primary" href="checkout.html" role="button">Checkout</a>
+            <div class="ibox">
+                <div class="ibox-content">
+                    <p class="font-bold">
+                        Other products you may be interested
+                    </p>
+                    <hr>
+                    <div>
+                        <a href="index.html#495-card" class="product-name"> Product 1</a>
+                        <div class="small m-t-xs">
+                            Star "n"
                         </div>
+                        <div class="m-t text-righ">
+
+                            <a class="btn btn-xs btn-outline btn-primary">Info <i class="fa fa-long-arrow-right"></i>
+                            </a>
+                        </div>
+                    </div>
+                    <hr>
+                    <div>
+                        <a href="#" class="product-name"> Product 2</a>
+                        <div class="small m-t-xs">
+                            Star "m"
+                        </div>
+                        <div class="m-t text-righ">
+
+                            <a href="#" class="btn btn-xs btn-outline btn-primary">Info <i
+                                    class="fa fa-long-arrow-right"></i> </a>
+                        </div>
+                    </div>
+                </div>
             </div>
+        </div>
     </main>
 
-    <div><script id="replace_with_footer" src="js/footer.js"></script></div>
+    <script id="template" type="text/x-handlebars-footer">
+        {{> footer }}
+    </script>
+    <div></div>
 
     <!-- Bootstrap JavaScript Libraries -->
     <script src="js/bootstrap.js"></script>
