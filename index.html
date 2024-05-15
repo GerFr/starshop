@@ -18,18 +18,23 @@
   <script src="js/vanilla.js"></script>
   <script src="js/search.js"></script>
   <script src="js/admin.js"></script>
+  <script src="js/index.js"></script>
   <script>
     function init() {
       $on($('#search'), 'click', setSearch)
       $on($('#createnew'), 'click', create)
+      $on($('#increment'), 'click', increment)
+      $on($('#decrement'), 'click', decrement)
+
 
       render({}, '[type="text/x-handlebars-navbar"]')
       render({}, '[type="text/x-handlebars-footer"]')
 
       const params = new URLSearchParams(window.location.search)
       const query = params.get("search")
+      const page = params.get("page")
 
-      // only search if data is in local storage and ther is a query
+      // only search if data is in local storage and there is a query
       if (!(query === null) && !(localStorage.getItem("data") === null)) {
         search(query)
       } else {
@@ -53,11 +58,21 @@
       const queryData = sessionStorage.getItem("queryData")
       const baseData = localStorage.getItem("data")
 
+      var start;
+      var end;
+      if (!(page === null)) {
+        start = 12 * (page - 1)
+        end = 12 * (page)
+      } else {
+        start = 0
+        end = 12
+      }
+
       if (!(queryData === null)) {
-        render(JSON.parse(queryData).slice(0, 12), '[type="text/x-handlebars-template"]')
+        render(JSON.parse(queryData).slice(start, end), '[type="text/x-handlebars-template"]')
       }
       else if (!(baseData === null)) {
-        render(JSON.parse(baseData).slice(0, 12), '[type="text/x-handlebars-template"]')
+        render(JSON.parse(baseData).slice(start, end), '[type="text/x-handlebars-template"]')
       }
       else {
         fetch('data/hygfull.json')
@@ -136,6 +151,22 @@
       </script>
       <div class="row mx-sm-5 align-items-center justify-content-center g-2"></div>
     </div>
+
+    <div class="container">
+      <div class="row justify-content-center align-items-center">
+        <div class="col text-center">
+          <div class="btn-group">
+            <button class="btn btn-outline-white btn md-3" id="decrement">
+              <i class="bi bi-arrow-left"></i>
+            </button>
+            <button class="btn btn-outline-white btn md-3" id="increment">
+              <i class="bi bi-arrow-right"></i>
+              </button>
+          </div>
+        </div>
+      </div>
+    </div>
+
   </section>
 
 
@@ -225,7 +256,7 @@
                 <div class="invalid-feedback">Please enter a valid Price</div>
 
                 <label class="form-label">Color:</label>
-                <select  id="Color" class="form-select" required>
+                <select id="Color" class="form-select" required>
                   <option value="yellowWhiteStar" selected>yellowWhiteStar</option>
                   <option value="yellowStar">yellowStar</option>
                   <option value="whiteStar">whiteStar</option>
