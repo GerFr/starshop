@@ -46,11 +46,10 @@
                 var neworders = [{ "checkout": checkout, "data": data, "total": total }]
                 localStorage.setItem("orders", JSON.stringify(neworders))
             }
-            else if (validateOrder(orders, total)===true) {
+            else if (validateOrder(orders, total) === true) {
                 orders.push({ "checkout": checkout, "data": data, "total": total })
                 localStorage.setItem("orders", JSON.stringify(orders))
             }
-            
         }
 
         function validateOrder(orders, total) {
@@ -58,7 +57,7 @@
             orders.forEach(element => {
                 if (element.total === total) {
                     validated = false;
-                }                
+                }
             });
             return validated
         }
