@@ -39,23 +39,27 @@
         }
 
         function toOrders(checkout, data, total) {
-            var orders = JSON.parse(localStorage.getItem("orders"))
-            if (orders === null) {
-                orders = [{ "checkout": checkout, "data": data, "total": total }]
+            ordersString = localStorage.getItem("orders")
+            var orders = JSON.parse(ordersString)
+
+            if (ordersString === null) {
+                var neworders = [{ "checkout": checkout, "data": data, "total": total }]
+                localStorage.setItem("orders", JSON.stringify(neworders))
             }
-            else if (validateOrder(orders, total)) {
-                orders.push({ "checkout": checkout, "data": data, "total": total });
+            else if (validateOrder(orders, total) === true) {
+                orders.push({ "checkout": checkout, "data": data, "total": total })
+                localStorage.setItem("orders", JSON.stringify(orders))
             }
-            localStorage.setItem("orders", JSON.stringify(orders))
         }
 
         function validateOrder(orders, total) {
+            var validated = true
             orders.forEach(element => {
                 if (element.total === total) {
-                    return false;
+                    validated = false;
                 }
-                return true;
             });
+            return validated
         }
 
     </script>
