@@ -19,7 +19,13 @@
     <script>
         function init() {
             render({}, '[type="text/x-handlebars-navbar"]')
-            render({}, '[type="text/x-handlebars-footer"]') 
+            render({}, '[type="text/x-handlebars-footer"]')
+
+            ordersString = localStorage.getItem("orders")
+            orders = JSON.parse(ordersString)
+            if (!(ordersString === null)) {
+                render(orders, '[type="text/x-handlebars-orders"]')
+            }
         }
 
     </script>
@@ -39,7 +45,36 @@
                     <div class="card bg-dark ">
                         <div class="card-body ">
                             <h4 class="card-title pb-4 text-center">You're orders</h4>
-                               
+                            <script id="template" type="text/x-handlebars-orders">
+                                {{#each this}}
+                                <li class="list-group-item d-flex justify-content-between lh-condensed">
+                                    <div>
+                                        <h6 class="my-0 text-start">{{checkout.0.value}}{{checkout.1.value}}</h6>
+                                        <small class="text-muted">
+                                            {{checkout.3.value}}
+                                        </small>
+                                    </div>
+                                        <div class="row px-3">
+                                    <div class = "col">
+                                        <h6 class="my-0 text-light">Stars:</h6>
+                                      </div>  
+                                    {{#each data}}
+                                      <div class = "col">
+                                        <h6 class="my-0 text-start">{{ProperName}}</h6>
+                                      </div>     
+                                    {{/each}}
+                                    
+                                    </div>
+                                    <span class="text-muted">€{{total}}</span>
+
+                                </li>
+                                {{/each}}
+
+                                </script>
+
+                            <ul class="list-group mb-3">
+                            </ul>
+
                             <div class="card-footer text-center ">
                                 <a href="/index.html" class="btn btn-primary btn-lg">Home</a>
                             </div>
