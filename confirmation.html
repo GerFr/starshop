@@ -47,9 +47,7 @@
                 localStorage.setItem("orders", JSON.stringify(neworders))
             }
             else if (validateOrder(orders, total)===true) {
-                console.log(orders);
                 orders.push({ "checkout": checkout, "data": data, "total": total })
-                console.log(orders);
                 localStorage.setItem("orders", JSON.stringify(orders))
             }
             
