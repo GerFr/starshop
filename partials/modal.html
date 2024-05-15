@@ -1,4 +1,6 @@
 {{#each this}}
+<!-- MARK: Info modal for id: {{StarID}}
+ -->
 <div class="modal fade" id="{{StarID}}-modal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
   aria-hidden="true">
   <div class="modal-dialog modal-dialog-scrollable modal-lg">
@@ -126,6 +128,141 @@
         </div>
         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
         <button onclick="tocart({{StarID}})" id="cart" class="btn btn-primary">Add to Cart</button>
+      </div>
+    </div>
+  </div>
+</div>
+<!--MARK: Delete Modal for id: {{StarID}}
+ -->
+<div class="modal fade" id="{{StarID}}-deleteModal" tabindex="-1" aria-labelledby="exampleModalLabel"
+  aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <div class="text-center">
+          <h2>Delete Item</h2>
+          <p class="lead"> {{ProperName}}</p>
+          <p class="lead">id: {{StarID}}</p>
+        </div>
+        <div class="mt-2 text-center">
+          <button type="button" class="btn btn-secondary mx-2" data-bs-dismiss="modal">Close</button>
+          <button href="#" id="{{StarID}}-deleteBtn" class="btn btn-danger mx-2"
+            onclick="deleteIdIndex({{StarID}})">delete</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- MARK: Edit Modal for id: {{StarID}}
+ -->
+<div class="modal fade" id="{{StarID}}-editModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <div class="text-center">
+          <h2>Edit Item</h2>
+          <p class="lead">id: {{StarID}}</p>
+        </div>
+        <!--MARK: edit Form
+         -->
+        <form id="editForm_{{StarID}}" class="needs-validation" novalidate action="#">
+          <div class="row justify-content-center align-items-center g-2">
+            <div class="col">
+
+              <label for="number" class="form-label">Hip:</label>
+              <input type="number" class="form-control" value="{{Hip}}" id="Hip_{{StarID}}" placeholder="e.g. 91262"
+                required>
+              <div class="invalid-feedback">Please enter a valid Hip</div>
+
+              <label for="name" class="form-label">HD:</label>
+              <input type="name" class="form-control" value="{{HD}}" id="HD_{{StarID}}" placeholder="e.g. 172167"
+                required>
+              <div class="invalid-feedback">Please enter a valid HD</div>
+
+              <label for="name" class="form-label">Name:</label>
+              <input type="name" class="form-control" value="{{ProperName}}" id="ProperName_{{StarID}}"
+                placeholder="e.g. Vega" required>
+              <div class="invalid-feedback">Please enter a name</div>
+
+              <label for="number" class="form-label">RA:</label>
+              <input type="number" step="any" class="form-control" value="{{RA}}" id="RA_{{StarID}}"
+                placeholder="e.g. 18.61560722" required>
+              <div class="invalid-feedback">Please enter a valid RA</div>
+
+              <label for="number" class="form-label">Dec:</label>
+              <input type="number" step="any" class="form-control" value="{{Dec}}" id="Dec_{{StarID}}"
+                placeholder="e.g. 38.78299311" required>
+              <div class="invalid-feedback">Please enter a valid Dec</div>
+
+              <label for="number" class="form-label">Distance:</label>
+              <input type="number" step="any" class="form-control" value="{{Distance}}" id="Distance_{{StarID}}"
+                placeholder="e.g. 7.76" required>
+              <div class="invalid-feedback">Please enter a valid Distance</div>
+
+              <label for="number" class="form-label">Mag:</label>
+              <input type="number" step="any" class="form-control" value="{{Mag}}" id="Mag_{{StarID}}"
+                placeholder="e.g. 0.03" required>
+              <div class="invalid-feedback">Please enter a valid Mag</div>
+
+              <label for="number" class="form-label">AbsMag:</label>
+              <input type="number" step="any" class="form-control" value="{{AbsMag}}" id="AbsMag_{{StarID}}"
+                placeholder="e.g. 0.58" required>
+              <div class="invalid-feedback">Please enter a valid AbsMag</div>
+
+
+
+            </div>
+            <div class="col mb-auto">
+
+
+              <label for="text" class="form-label">Spectrum:</label>
+              <input type="text" class="form-control" value="{{Spectrum}}" id="Spectrum_{{StarID}}"
+                placeholder="e.g. B2.5V" required>
+              <div class="invalid-feedback">Please enter a Spectrum</div>
+
+              <label for="tel" class="form-label">ColorIndex:</label>
+              <input type="tel" step="any" class="form-control" value="{{ColorIndex}}" id="ColorIndex_{{StarID}}"
+                placeholder="e.g. -0.134" required>
+              <div class="invalid-feedback">Please enter a valid ColorIndex</div>
+
+              <div class="form-floating">
+                <p><label for="GeneralInformation">General information:</label></p>
+                <textarea class="form-control" id="GeneralInformation_{{StarID}}" style="height: 140px;"
+                  required>{{GeneralInformation}}</textarea>
+                <div class="invalid-feedback">Please enter General Information</div>
+              </div>
+
+              <label for="number" class="form-label">Price:</label>
+              <input type="number" class="form-control" value="{{Price}}" id="Price_{{StarID}}" placeholder="e.g. 83506"
+                required>
+              <div class="invalid-feedback">Please enter a valid Price</div>
+
+              <label for="previous" class="form-label">Color:</label>
+              <input id="previousvalue_{{StarID}}" type="text" value="{{Color}}" class="form-control" readonly>
+
+              <select  id="Color_{{StarID}}" class="form-select" required>
+                <option value="yellowWhiteStar" selected>yellowWhiteStar</option>
+                <option value="yellowStar">yellowStar</option>
+                <option value="whiteStar">whiteStar</option>
+                <option value="orangeStar">orangeStar</option>
+                <option value="orangeRedStar">orangeRedStar</option>
+                <option value="blueStar">blueStar</option>
+                <option value="blueWhiteStar">blueWhiteStar</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="mt-2 text-center">
+            <button type="submit" id="edit_{{StarID}}" onclick="IndexEdit({{StarID}})" class="btn btn-secondary">save
+              changes</button>
+          </div>
+        </form>
       </div>
     </div>
   </div>

@@ -15,30 +15,40 @@
   <!-- handlebars -->
   <script src="js/handlebars.min-v4.7.8.js"></script>
   <script src="js/vanilla.js"></script>
+  <script src="js/checkout.js"></script>
 
-  <!-- MARK:validation handlebars
-     -->
   <script>
 
     function init() {
       render({}, '[type="text/x-handlebars-navbar"]')
       render({}, '[type="text/x-handlebars-footer"]')
-      $on($('#bestellen'), 'click', toLocal)
+      // $on($('#bestellen'), 'click', toLocal)
 
-      const form = document.querySelector('.needs-validation')
-      form.addEventListener('submit', event => {
-        if (!form.checkValidity()) {
+      const checkoutForm = document.querySelector('.needs-validation')
+      checkoutForm.addEventListener('submit', event => {
+
+        // no validation check if no stars in cart
+        if (sessionStorage.getItem("cart") === null) {
+          event.preventDefault()
+          event.stopPropagation()
+          return
+          // validation check
+        } else if (!checkoutForm.checkValidity()) {
           event.preventDefault()
           event.stopPropagation()
         }
-        form.classList.add('was-validated')
+        // add data to local storage
+        checkoutForm.classList.add('was-validated')
+        toLocal()
+        clearCart()
       }, false)
 
+      // render cart information
       if (!(sessionStorage.getItem('cart') === null)) {
         const cartIDs = JSON.parse(sessionStorage.getItem("cart"))
         const cart = []
         cartIDs.forEach(element => {
-          const data = getElement(element)
+          const data = getElement(element, localStorage.getItem("data"))
           if (!(data === null)) {
             cart.push(data)
           }
@@ -53,41 +63,6 @@
         }
       }
     }
-    function fetchDataset() {
-      fetch('data/hygfull.json')
-        .then(response => response.json())
-        .then(data => { localStorage.setItem("data", JSON.stringify(data)) })
-        .catch(error => console.error('Error fetching JSON file:', error));
-    }
-
-    function getElement(starId) {
-      if (localStorage.getItem("data") === null) {
-        fetchDataset()
-      }
-      const data = JSON.parse(localStorage.getItem("data"))
-
-      var result = null
-      for (const iterator of data) {
-        if (iterator["StarID"] === starId) {
-          result = iterator
-        }
-      }
-      if (result === null) {
-        console.log("couldnt find the star");
-      }
-      return result
-    }
-
-
-    function toLocal(event) {
-      const names = ['first', 'last', 'email', 'address', 'address2', 'country', 'city', 'zip', 'card-name', 'card-number', 'expiration', 'cvv'];
-      var checkout = {};
-      for (const name of names) {
-        var element = document.getElementById(name)
-        checkout[name] = element.value
-      }
-      localStorage.setItem("checkout", JSON.stringify(checkout))
-    }
   </script>
 </head>
 
@@ -99,13 +74,6 @@
   </script>
   <div></div>
 
-  <!-- MARK:MODAL
-     -->
-  <script id="template" type="text/x-handlebars-template">
-  {{> modal }}
-  </script>
-  <div></div>
-
   <div class="container">
     <div class="row">
       <!-- MARK: cart overview
@@ -113,12 +81,11 @@
       <div class="col-md-4 order-md-2 mb-4">
         <h4 class="d-flex justify-content-between align-items-center mb-3">
           <span class="text-muted">Your cart</span>
-          <span class="badge badge-secondary badge-pill">3</span>
         </h4>
         <script id="template" type="text/x-handlebars-template">
                 {{#each this}}
                 <li class="list-group-item d-flex justify-content-between lh-condensed">
-                    <button type="button" class="btn" data-bs-toggle="modal" data-bs-target="#{{StarID}}-modal">
+                    <div>
                         <h6 class="my-0 text-start">{{ProperName}}</h6>
                         <small class="text-muted">
                             {{#if (lt Price 100000)}}
@@ -126,7 +93,7 @@
                             {{/if}}
                             Distance: {{Distance}}
                         </small>
-                    </button>
+                      </div>
                     <span class="text-muted">€{{Price}}</span>
                 </li>
                 {{/each}}
@@ -199,10 +166,6 @@
             </div>
 
             <div class="col-md-4 mb-3">
-              <!-- <label for="city">City</label>
-                            <select class="custom-select d-block w-100" id="city" required>
-                                <option>Berlin</option>
-                            </select> -->
               <label for="city" class="form-label">City</label>
               <input class="form-control" list="datalistOptionscity" id="city" placeholder="Type to search..." required>
               <datalist id="datalistOptionscity">
@@ -221,37 +184,59 @@
             </div>
 
           </div>
-
           <hr class="mb-4">
-
           <h4 class="mb-3">Payment</h4>
-
-          <div class="row">
-            <div class="col-md-6 mb-3">
-              <label for="card-name">Name on card</label>
-              <input type="text" class="form-control" id="card-name" placeholder="" required>
-              <small class="text-muted">Full name as displayed on card</small>
-              <div class="invalid-feedback">Name on card is required</div>
-            </div>
-            <div class="col-md-6 mb-3">
-              <label for="card-number">Credit card number</label>
-              <input type="number" class="form-control" id="card-number" placeholder="" required>
-              <div class="invalid-feedback">Credit card number is required</div>
-            </div>
+          <div class="form-check">
+            <input class="form-check-input" type="radio" value="card" id="ccRadio" required>
+            <label class="form-check-label" for="ccRadio">
+              Credit card
+            </label>
           </div>
-          <div class="row">
-            <div class="col-md-3 mb-3">
-              <label for="expiration">Expiration</label>
-              <input type="month" class="form-control" id="expiration" required>
-              <div class="invalid-feedback">
-                Expiration date required
-              </div>
+          <div class="form-check py-3">
+            <input class="form-check-input" type="radio" value="paypal" id="paypalRadio" required>
+            <label class="form-check-label" for="paypalRadio">
+              Paypal
+            </label>
+          </div>
+
+
+          <div id="paypal-content" style="display: none;">
+            <div class="row">
+              <div class="display-6"><i class="bi bi-paypal"></i> Paypal</div>
             </div>
-            <div class="col-md-3 mb-3">
-              <label for="cvv">CVV</label>
-              <input type="number" class="form-control" id="cvv" placeholder="" required>
-              <div class="invalid-feedback">
-                Security code required
+            <div class="text-light">login after confirmation</div>
+          </div>
+
+          <div id="card-content" style="display: none;">
+            <div id="ccForm">
+              <div class="row">
+                <div class="col-md-6 mb-3">
+                  <label for="card-name">Name on card</label>
+                  <input type="text" class="form-control" id="card-name" placeholder="" required>
+                  <small class="text-muted">Full name as displayed on card</small>
+                  <div class="invalid-feedback">Name on card is required</div>
+                </div>
+                <div class="col-md-6 mb-3">
+                  <label for="card-number">Credit card number</label>
+                  <input type="number" class="form-control" id="card-number" placeholder="" required>
+                  <div class="invalid-feedback">Credit card number is required</div>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-md-3 mb-3">
+                  <label for="expiration">Expiration</label>
+                  <input type="month" class="form-control" id="expiration" required>
+                  <div class="invalid-feedback">
+                    Expiration date required
+                  </div>
+                </div>
+                <div class="col-md-3 mb-3">
+                  <label for="cvv">CVV</label>
+                  <input type="number" class="form-control" id="cvv" placeholder="" required>
+                  <div class="invalid-feedback">
+                    Security code required
+                  </div>
+                </div>
               </div>
             </div>
           </div>
@@ -262,6 +247,32 @@
       </div>
     </div>
   </div>
+
+
+  <script>
+    document.querySelectorAll('.form-check-input').forEach(input => {
+      input.addEventListener('change', function (even) {
+        event.preventDefault()
+        if (this.checked) {
+          document.querySelectorAll('#paypal-content, #card-content').forEach(content => {
+            content.style.display = 'none'
+          });
+
+          if (this.value === 'paypal') {
+            document.getElementById('paypal-content').style.display = 'block'
+            document.getElementById('ccRadio').checked = false;
+            setCardPlaceholder()
+
+          } else if (this.value === 'card') {
+            document.getElementById('card-content').style.display = 'block'
+            document.getElementById('paypalRadio').checked = false;
+            resetCardPlaceholder()
+          }
+        }
+      });
+    });
+
+  </script>
 
   <!-- MARK: footer-->
   <script id="template" type="text/x-handlebars-footer">

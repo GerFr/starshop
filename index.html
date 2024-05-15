@@ -18,18 +18,23 @@
   <script src="js/vanilla.js"></script>
   <script src="js/search.js"></script>
   <script src="js/admin.js"></script>
+  <script src="js/index.js"></script>
   <script>
     function init() {
       $on($('#search'), 'click', setSearch)
       $on($('#createnew'), 'click', create)
+      $on($('#increment'), 'click', increment)
+      $on($('#decrement'), 'click', decrement)
+
 
       render({}, '[type="text/x-handlebars-navbar"]')
       render({}, '[type="text/x-handlebars-footer"]')
 
       const params = new URLSearchParams(window.location.search)
       const query = params.get("search")
+      const page = params.get("page")
 
-      // only search if data is in local storage and ther is a query
+      // only search if data is in local storage and there is a query
       if (!(query === null) && !(localStorage.getItem("data") === null)) {
         search(query)
       } else {
@@ -53,11 +58,21 @@
       const queryData = sessionStorage.getItem("queryData")
       const baseData = localStorage.getItem("data")
 
+      var start;
+      var end;
+      if (!(page === null)) {
+        start = 12 * (page - 1)
+        end = 12 * (page)
+      } else {
+        start = 0
+        end = 12
+      }
+
       if (!(queryData === null)) {
-        render(JSON.parse(queryData).slice(0, 20), '[type="text/x-handlebars-template"]')
+        render(JSON.parse(queryData).slice(start, end), '[type="text/x-handlebars-template"]')
       }
       else if (!(baseData === null)) {
-        render(JSON.parse(baseData).slice(0, 20), '[type="text/x-handlebars-template"]')
+        render(JSON.parse(baseData).slice(start, end), '[type="text/x-handlebars-template"]')
       }
       else {
         fetch('data/hygfull.json')
@@ -136,6 +151,22 @@
       </script>
       <div class="row mx-sm-5 align-items-center justify-content-center g-2"></div>
     </div>
+
+    <div class="container">
+      <div class="row justify-content-center align-items-center">
+        <div class="col text-center">
+          <div class="btn-group">
+            <button class="btn btn-outline-white btn md-3" id="decrement">
+              <i class="bi bi-arrow-left"></i>
+            </button>
+            <button class="btn btn-outline-white btn md-3" id="increment">
+              <i class="bi bi-arrow-right"></i>
+              </button>
+          </div>
+        </div>
+      </div>
+    </div>
+
   </section>
 
 
@@ -153,7 +184,7 @@
     <div class="modal-dialog">
       <div class="modal-content">
         <div class="modal-header">
-          <h5 class="modal-title" id="exampleModalLabel">Create</h5>
+          <h5 class="modal-title" id="exampleModalLabel"></h5>
           <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
         </div>
         <div class="modal-body">
@@ -167,7 +198,7 @@
             <div class="row justify-content-center align-items-center g-2">
               <div class="col">
                 <label for="number" class="form-label">StarID:</label>
-                <input type="number" class="form-control" id="starId" placeholder="e.g. 65795" required>
+                <input type="number" class="form-control" id="StarID" placeholder="e.g. 65795" required>
                 <div class="invalid-feedback">Please enter a valid StarID</div>
 
                 <label for="number" class="form-label">Hip:</label>
@@ -179,7 +210,7 @@
                 <div class="invalid-feedback">Please enter a valid HD</div>
 
                 <label for="name" class="form-label">Name:</label>
-                <input type="name" class="form-control" id="name" placeholder="e.g. Vega" required>
+                <input type="name" class="form-control" id="ProperName" placeholder="e.g. Vega" required>
                 <div class="invalid-feedback">Please enter a name</div>
 
                 <label for="number" class="form-label">RA:</label>
@@ -200,7 +231,7 @@
 
 
               </div>
-              <div class="col mb-4">
+              <div class="col mb-auto">
 
                 <label for="number" class="form-label">AbsMag:</label>
                 <input type="number" step="any" class="form-control" id="AbsMag" placeholder="e.g. 0.58" required>
@@ -215,8 +246,7 @@
                 <div class="invalid-feedback">Please enter a valid ColorIndex</div>
 
                 <div class="form-floating mb-4 mt-4">
-                  <textarea name="GeneralInformation" class="form-control" id="GeneralInformation"
-                    style="height: 140px;" required></textarea>
+                  <textarea class="form-control" id="GeneralInformation" style="height: 140px;" required></textarea>
                   <label for="GeneralInformation">General information:</label>
                   <div class="invalid-feedback">Please enter General Information</div>
                 </div>
@@ -225,9 +255,8 @@
                 <input type="number" class="form-control" id="Price" placeholder="e.g. 83506" required>
                 <div class="invalid-feedback">Please enter a valid Price</div>
 
-                <label for="Color" class="form-label">Color:</label>
-                <select name="Color" id="Color" class="form-select" required>
-                  <!-- "yellowWhiteStar", "yellowStar", "whiteStar", "orangeStar", "orangeRedStar", "blueStar", "blueWhiteStar" -->
+                <label class="form-label">Color:</label>
+                <select id="Color" class="form-select" required>
                   <option value="yellowWhiteStar" selected>yellowWhiteStar</option>
                   <option value="yellowStar">yellowStar</option>
                   <option value="whiteStar">whiteStar</option>
@@ -264,14 +293,14 @@
       }, 20);
 
       var cartarr = sessionStorage.getItem(CART)
+      var parsedCartarr = JSON.parse(cartarr)
       if (cartarr === null) {
-        cartarr = [sID]
+        parsedCartarr = [sID]
       }
-      else if (JSON.parse(cartarr).includes(sID) === false) {
-        cartarr = JSON.parse(cartarr)
-        cartarr.push(sID);
+      else if (parsedCartarr.includes(sID) === false) {
+        parsedCartarr.push(sID);
       }
-      sessionStorage.setItem(CART, JSON.stringify(cartarr))
+      sessionStorage.setItem(CART, JSON.stringify(parsedCartarr))
     }
   </script>
 
