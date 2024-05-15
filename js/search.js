@@ -3,13 +3,15 @@ function setSearch(event) {
     if (!(query == "")) {
         const params = new URLSearchParams(window.location.search)
         params.set('search', query)
+        params.set("page", 1)
         window.history.replaceState({}, "", `${window.location.pathname}?${params}`)
         window.location.reload()
     } else {
         removQueryData()
         const params = new URLSearchParams(window.location.search)
         params.delete("search")
-        window.history.replaceState({}, "", `${window.location.pathname}${params}`)
+        params.delete("page")
+        window.history.replaceState({}, "", `${window.location.pathname}?${params}`)
         window.location.reload()
     }
 }
@@ -18,7 +20,6 @@ function removQueryData() {
     // remove query data so the first 20 default entries of the data are shown
     sessionStorage.removeItem("queryData")
 }
-
 
 function search(query) {
     if (!(query == "")) {
@@ -37,7 +38,7 @@ function searchData(query, data) {
         const star = { "id": starID, "dist": distance }
         words.push(star)
     });
-    const sortedIDs = words.sort((a, b) => a.dist - b.dist).map(obj => obj.id).slice(0, 20)
+    const sortedIDs = words.sort((a, b) => a.dist - b.dist).map(obj => obj.id)
     const queryData = getById(sortedIDs, data)
     return queryData
 }

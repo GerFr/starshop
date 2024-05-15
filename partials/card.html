@@ -17,6 +17,16 @@
           <strong>{{AbsMag}}</strong><br />
         </p>
       </div>
+      <div class="card-footer">
+        <!-- MARK: Admin Buttons
+         -->
+        <div class="text-end">
+          <a href="#" data-bs-toggle="modal" data-bs-target="#{{StarID}}-editModal" class="btn mx-2 btn-primary"><i
+              class="bi bi-pencil-square"></i></a>
+          <a href="#" data-bs-toggle="modal" data-bs-target="#{{StarID}}-deleteModal" class="btn btn-danger"><i
+              class="bi bi-trash"></i></a>
+        </div>
+      </div>
     </div>
 </div>
 {{/each}}
