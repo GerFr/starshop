@@ -3,6 +3,6 @@ function setSort(event) {
 }
 
 
-function search(data, key) {
+function sort(data, key) {
     return data
 }

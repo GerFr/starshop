@@ -3,6 +3,6 @@ function setFilter(event) {
 }
 
 
-function search(data, key) {
+function filter(data, key) {
     return data
 }
