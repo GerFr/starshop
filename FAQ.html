@@ -24,31 +24,31 @@
 
       $on($('#bestellen'), 'click', toLocal)
 
+    }
+
+    function toLocal(event) {
       const form = document.querySelector('.needs-validation')
       form.addEventListener('submit', event => {
         if (!form.checkValidity()) {
           event.preventDefault()
           event.stopPropagation()
         }
+        else {
+          const email = document.getElementById('email');
+          const name = document.getElementById('name');
+          const subject = document.getElementById('subject');
+          const question = document.getElementById('question');
+          const submission = {
+            "email": email.value,
+            "name": name.value,
+            "subject": subject.value,
+            "question": question.value
+          }
+          localStorage.setItem("supportSubmission", JSON.stringify(submission))
+          location.replace("support.html")
+        }
         form.classList.add('was-validated')
       }, false)
-    }
-
-    //! wird irgendwie nicht ausgeführt nach Button click sondern nach seiten reload vllt. brauch das zu lange nach button click in der Zeit schon eine neue page geladen wird
-    function toLocal(event) {
-      const email = document.getElementById('email');
-      const name = document.getElementById('name');
-      const subject = document.getElementById('subject');
-      const question = document.getElementById('question');
-      // console.log(email.value);
-      // console.log(name.value);
-      // console.log(subject.value);
-      // console.log(question.value);
-      localStorage.setItem("email", email.value)
-      localStorage.setItem("name", name.value)
-      localStorage.setItem("subject", subject.value)
-      localStorage.setItem("question", question.value)
-      // console.log("done local");
     }
   </script>
 </head>
@@ -295,7 +295,7 @@
             <p class="lead">Questions? Fill out the form</p>
           </div>
 
-          <form class="needs-validation" novalidate action="support.html">
+          <form class="needs-validation" onsubmit="return false;" novalidate>
 
             <label for="email" class="form-label">Email address:</label>
             <input type="email" class="form-control" id="email" placeholder="e.g. name@example.com" required>
@@ -305,8 +305,8 @@
             <input type="name" class="form-control" id="name" placeholder="e.g. Name" required>
             <div class="invalid-feedback">Please enter a name</div>
 
-            <label for="subject" class="form-label">Subject:</label>
-            <select name="subject" id="subject" class="form-select" required>
+            <label class="form-label">Subject:</label>
+            <select id="subject" class="form-select" required>
               <option value="pricing" selected>Pricing</option>
               <option value="legal">Legal</option>
               <option value="other">Other</option>

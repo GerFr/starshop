@@ -104,8 +104,8 @@
       <nav class="navbar bg-body-tertiary sticky-top bg-black">
         <div class="container-fluid justify-content-end">
           <a class="navbar-brand"></a>
-          <a href="#" class="btn btn-primary m-2 " data-bs-toggle="modal" data-bs-target="#createModal"><i
-              class="bi bi-plus-square"></i></a>
+          <a id="createBtn" href="#" class="btn btn-primary m-2 d-none" data-bs-toggle="modal"
+            data-bs-target="#createModal"><i class="bi bi-plus-square"></i></a>
           <form class="d-flex needs-validation" id="searchForm" novalidate>
             <script id="template" type="text/x-handlebars-query">
               {{query}}
@@ -165,7 +165,7 @@
           </div>
           <!-- MARK: Form - Create
                    -->
-          <form id="createForm" class="needs-validation" novalidate action="#">
+          <form id="createForm" class="needs-validation" onsubmit="return false;" novalidate action="#">
             <div class="row justify-content-center align-items-center g-2">
               <div class="col">
                 <label for="number" class="form-label">StarID:</label>
@@ -252,6 +252,12 @@
 
   <script>
     setSearchPlaceholder()
+  </script>
+  <script>
+    const params = new URLSearchParams(window.location.search)
+    const admin = params.get("admin")
+    if (admin === "true") {document.getElementById('createBtn').classList.remove('d-none');}
+    else {document.getElementById('createBtn').classList.add('d-none');}
   </script>
 
 
