@@ -20,7 +20,7 @@
         function init() {
             render({}, '[type="text/x-handlebars-navbar"]')
             render({}, '[type="text/x-handlebars-footer"]')
-        }
+        
         const cartIDdata = JSON.parse(sessionStorage.getItem("cart"))
         const baseData =JSON.parse(localStorage.getItem("data"))
         //console.log(baseData[0].StarID)
@@ -38,9 +38,12 @@
 	        }
         }
         console.log(typeof cartData)
-        if (cartData>0){
-        render(cartData,  '[type="text/x-handlebars-template"]')
-        }
+        if (cartData.length>0){
+            console.log(cartData)
+            render(cartData,  '[type="text/x-handlebars-template"]')
+        }}
+
+
     </script>
 
 </head>   
@@ -57,23 +60,14 @@
             <h4 class="d-flex justify-content-between align-items-center mb-3">
               <span class="text-muted">Your cart</span>
             </h4>
+            
             <script id="template" type="text/x-handlebars-template">
-                    {{#each this}}
-                    <li class="list-group-item d-flex justify-content-between lh-condensed">
-                        <div>
-                            <h6 class="my-0 text-start">{{ProperName}}</h6>
-                            <small class="text-muted">
-                                {{#if (lt Price 100000)}}
-                                <strong>Sale</strong>
-                                {{/if}}
-                                Distance: {{Distance}}
-                            </small>
-                          </div>
-                        <span class="text-muted">€{{Price}}</span>
-                    </li>
-                    {{/each}}
-                    </script>
-    
+                {{> cartcard }}
+            </script><div></div>
+
+        <ul class="list-group mb-3">
+        </ul>
+            
             <a name="checkout" id="" class="btn btn-primary" href="checkout.html" role="button">Checkout</a>
             <div class="ibox">
                 <div class="ibox-content">
