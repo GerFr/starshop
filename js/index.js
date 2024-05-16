@@ -10,15 +10,18 @@ function decrement() {
 }
 
 function increment() {
+    const dataString = localStorage.getItem("data")
+    const dataLenght = JSON.parse(dataString).length
+    const max = Math.ceil(dataLenght / 12)
     const params = new URLSearchParams(window.location.search)
     var page = params.get("page")
-    if (!(page === null)) {
+    if (!(page === null) && (page < max)) {
         page = Number(page)
         page += 1
         params.set("page", page)
         window.history.replaceState({}, "", `${window.location.pathname}?${params}`)
         window.location.reload()
-    } else {
+    } else if (page===null) {
         page = 2
         params.set("page", page)
         window.history.replaceState({}, "", `${window.location.pathname}?${params}`)

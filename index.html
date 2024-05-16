@@ -31,7 +31,8 @@
       render({}, '[type="text/x-handlebars-footer"]')
 
       const params = new URLSearchParams(window.location.search)
-      const pageNumbers = getPageNumbers(params.get("page"), 12)
+      const pageParam = params.get("page")
+      const pageNumbers = getPageNumbers(pageParam, 12)
       const queryData = getQueryData(
         params.get("search"),      
         params.get("filter"),          
@@ -42,6 +43,7 @@
       const searchForm = document.getElementById("searchForm")
       startSearchForm(searchForm)
 
+      render({"page":pageParam}, '[type="text/x-handlebars-page"]')
       if (!(queryData === null)) {
         render(queryData, '[type="text/x-handlebars-template"]')
       }
@@ -130,6 +132,10 @@
             <button class="btn btn-outline-white btn md-3" id="decrement">
               <i class="bi bi-arrow-left"></i>
             </button>
+            <script id="template" type="text/x-handlebars-page">
+              {{page}}
+             </script>
+             <div></div>
             <button class="btn btn-outline-white btn md-3" id="increment">
               <i class="bi bi-arrow-right"></i>
             </button>
@@ -252,14 +258,12 @@
 
   <script>
     setSearchPlaceholder()
-  </script>
-  <script>
+
     const params = new URLSearchParams(window.location.search)
     const admin = params.get("admin")
     if (admin === "true") {document.getElementById('createBtn').classList.remove('d-none');}
     else {document.getElementById('createBtn').classList.add('d-none');}
   </script>
-
 
   <script id="template" type="text/x-handlebars-footer">
     {{> footer }}
