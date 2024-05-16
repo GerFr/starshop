@@ -134,6 +134,7 @@
 </div>
 <!--MARK: Delete Modal for id: {{StarID}}
  -->
+{{#if (admin)}}
 <div class="modal fade" id="{{StarID}}-deleteModal" tabindex="-1" aria-labelledby="exampleModalLabel"
   aria-hidden="true">
   <div class="modal-dialog">
@@ -171,7 +172,7 @@
         </div>
         <!--MARK: edit Form
          -->
-        <form id="editForm_{{StarID}}" class="needs-validation" novalidate action="#">
+        <form id="editForm_{{StarID}}"onsubmit="return false;" class="needs-validation" novalidate action="#">
           <div class="row justify-content-center align-items-center g-2">
             <div class="col">
 
@@ -267,4 +268,5 @@
     </div>
   </div>
 </div>
+{{/if}}
 {{/each}}
