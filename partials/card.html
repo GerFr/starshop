@@ -17,16 +17,18 @@
           <strong>{{AbsMag}}</strong><br />
         </p>
       </div>
+      {{#if (admin)}}
       <div class="card-footer">
         <!-- MARK: Admin Buttons
          -->
         <div class="text-end">
-          <a href="#" data-bs-toggle="modal" data-bs-target="#{{StarID}}-editModal" class="btn mx-2 btn-primary"><i
+          <a id="{{StarID}}-editBtn" href="#" data-bs-toggle="modal" data-bs-target="#{{StarID}}-editModal" class="btn mx-2 btn-primary "><i
               class="bi bi-pencil-square"></i></a>
-          <a href="#" data-bs-toggle="modal" data-bs-target="#{{StarID}}-deleteModal" class="btn btn-danger"><i
+          <a id="{{StarID}}-deleteBtn" href="#" data-bs-toggle="modal" data-bs-target="#{{StarID}}-deleteModal" class="btn btn-danger "><i
               class="bi bi-trash"></i></a>
         </div>
       </div>
+      {{/if}}
     </div>
 </div>
 {{/each}}

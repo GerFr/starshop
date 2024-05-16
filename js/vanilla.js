@@ -67,5 +67,10 @@ Handlebars.registerHelper({
   },
   or() {
     return Array.prototype.slice.call(arguments, 0, -1).some(Boolean);
+  },
+  admin() {
+    const params = new URLSearchParams(window.location.search)
+    const admin = params.get("admin")
+    return (admin === "true")
   }
 });
