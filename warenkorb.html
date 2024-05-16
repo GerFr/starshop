@@ -27,7 +27,6 @@
                 const cartData = []
 
                 if ((!(cartIDdata===null)) && (!(baseData===null))){
-                    console.log(typeof cartIDdata[0])
                     for (var j = 0; j < cartIDdata.length; j++){
 	                    for (var i = 0; i < baseData.length; i++){
 		                    if (baseData[i].StarID == (Number(cartIDdata[j]))){
@@ -36,10 +35,7 @@
                         }
 	                }
                 }
-                console.log(typeof cartIDdata[0], 'ich kann nicht mehr')
-                console.log(typeof cartData)
                 if (cartData.length>0){
-                console.log(cartData)
                 render(cartData,  '[type="text/x-handlebars-template"]')
                 }
             }
