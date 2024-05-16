@@ -21,26 +21,26 @@
             render({}, '[type="text/x-handlebars-navbar"]')
             render({}, '[type="text/x-handlebars-footer"]')
         }
-        const cartIDdata = sessionStorage.getItem("cart")
+        const cartIDdata = JSON.parse(sessionStorage.getItem("cart"))
         const baseData =JSON.parse(localStorage.getItem("data"))
         //console.log(baseData[0].StarID)
 
-        var cartData = []
+        const cartData = []
 
         if ((!(cartIDdata===null)) && (!(baseData===null))){
-            console.log(typeof cartIDdata)
+            console.log(typeof cartIDdata[0])
             for (var j = 0; j < cartIDdata.length; j++){
 	            for (var i = 0; i < baseData.length; i++){
 		            if (baseData[i].StarID == (Number(cartIDdata[j]))){
-                        console.log(baseData[i])
 			            cartData.push(baseData[i])
-                        console.log(cartData)
 		            }
                 }
 	        }
         }
-        
-        console.log(0)
+        console.log(typeof cartData)
+        if (cartData>0){
+        render(cartData,  '[type="text/x-handlebars-template"]')
+        }
     </script>
 
 </head>   
@@ -50,53 +50,30 @@
         {{> navbar }}
     </script>
     <div></div>
+   
 
     <main>
-        <div class="container">
-            <body>
-                <div>
-               
-                <main>
-                    <div class="container">
-                        <script id="template" type="text/x-handlebars-template">
-                            
-                        </script>
-                            <div class="container">
-                                <div class="row">
-                                    <div class="card mb-3">
-                                        <div class="card-body">
-                                          <div class="d-flex justify-content-between">
-                                            <div class="d-flex flex-row align-items-center">
-                                              <div>
-                                                <img
-                                                  src="assets/stars/blueStar.png"
-                                                  class="img-fluid rounded-3" alt="Shopping item" style="width: 65px;">
-                                              </div>
-                                              <div class="ms-3">
-                                                <h5>{{ProperName}}</h5>
-                                              </div>
-                                            </div>
-                                            <div class="d-flex flex-row align-items-center">
-                                              <div style="width: 10px;">
-                                              </div>
-                                              <div style="width: 100px;">
-                                                <h5 class="mb-0">{{Price}}</h5>
-                                              </div>
-                                               <a
-                                                name=""
-                                                id=""
-                                                class="btn btn-primary"
-                                                href="#"
-                                                role="button"
-                                                >Remove</a
-                                               >
-                                                                                          
-                                                                                              
-                                            </div>
-                                          </div>
-                                        </div>
-                                      </div>
-            
+        <div class="col-md-4 order-md-2 mb-4">
+            <h4 class="d-flex justify-content-between align-items-center mb-3">
+              <span class="text-muted">Your cart</span>
+            </h4>
+            <script id="template" type="text/x-handlebars-template">
+                    {{#each this}}
+                    <li class="list-group-item d-flex justify-content-between lh-condensed">
+                        <div>
+                            <h6 class="my-0 text-start">{{ProperName}}</h6>
+                            <small class="text-muted">
+                                {{#if (lt Price 100000)}}
+                                <strong>Sale</strong>
+                                {{/if}}
+                                Distance: {{Distance}}
+                            </small>
+                          </div>
+                        <span class="text-muted">€{{Price}}</span>
+                    </li>
+                    {{/each}}
+                    </script>
+    
             <a name="checkout" id="" class="btn btn-primary" href="checkout.html" role="button">Checkout</a>
             <div class="ibox">
                 <div class="ibox-content">
@@ -132,8 +109,9 @@
         </div>
     </main>
 
-    <div><script id="replace_with_footer" src="js/footer.js"></script></div>
-
+    <script id="template" type="text/x-handlebars-footer">{{>footer
+    }}</script>
+  <div></div>   
     <!-- Bootstrap JavaScript Libraries -->
     <script src="js/bootstrap.js"></script>
 </body>
