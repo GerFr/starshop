@@ -1,11 +1,8 @@
 // TODO:set url params
-function setSearch(event) {
-    
+function setSort(event) {
 }
 
 
-// TODO: compatibility with search, first filter, then sort, NO SEARCH, SEARCH is invalid
-function search(query) {
-    return queryData
-    
+function search(data, key) {
+    return data
 }

@@ -1,12 +1,8 @@
 // TODO:set url params
-function setSearch(event) {
-    
+function setFilter(event) {
 }
 
 
-// TODO: compatibility with search, first filter, then search
-function search(query) {
-
-    return queryData
-    
+function search(data, key) {
+    return data
 }
