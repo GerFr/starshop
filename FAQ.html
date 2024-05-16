@@ -24,29 +24,31 @@
 
       $on($('#bestellen'), 'click', toLocal)
 
+    }
+
+    function toLocal(event) {
       const form = document.querySelector('.needs-validation')
       form.addEventListener('submit', event => {
         if (!form.checkValidity()) {
           event.preventDefault()
           event.stopPropagation()
         }
+        else {
+          const email = document.getElementById('email');
+          const name = document.getElementById('name');
+          const subject = document.getElementById('subject');
+          const question = document.getElementById('question');
+          const submission = {
+            "email": email.value,
+            "name": name.value,
+            "subject": subject.value,
+            "question": question.value
+          }
+          localStorage.setItem("supportSubmission", JSON.stringify(submission))
+          location.replace("support.html")
+        }
         form.classList.add('was-validated')
       }, false)
-    }
-
-    function toLocal(event) {
-      const email = document.getElementById('email');
-      const name = document.getElementById('name');
-      const subject = document.getElementById('subject');
-      const question = document.getElementById('question');
-      const submission = {
-        "email": email.value,
-        "name": name.value,
-        "subject": subject.value,
-        "question": question.value
-      }
-      localStorage.setItem("supportSubmission",JSON.stringify(submission))
-      location.replace("support.html")
     }
   </script>
 </head>
