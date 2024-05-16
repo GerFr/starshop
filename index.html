@@ -31,48 +31,19 @@
       render({}, '[type="text/x-handlebars-footer"]')
 
       const params = new URLSearchParams(window.location.search)
-      const query = params.get("search")
-      const page = params.get("page")
+      const pageNumbers = getPageNumbers(params.get("page"), 12)
+      const queryData = getQueryData(
+        params.get("search"),      
+        params.get("filter"),          
+        params.get("sort"))          
+        .slice(pageNumbers[0], pageNumbers[1])
 
-      // only search if data is in local storage and there is a query
-      if (!(query === null) && !(localStorage.getItem("data") === null)) {
-        search(query)
-      } else {
-        removQueryData()
-      }
-
-      // form code
+      // Search form code
       const searchForm = document.getElementById("searchForm")
-      searchForm.addEventListener('submit', event => {
-        if (!searchForm.checkValidity()) {
-          event.preventDefault()
-          event.stopPropagation()
-        }
-        searchForm.classList.add('was-validated')
-      }, false)
-      function handleForm(event) { event.preventDefault(); }
-      searchForm.addEventListener('submit', handleForm);
-
-
-      // get Star data to render cards and modals, if search was made, render query data
-      const queryData = sessionStorage.getItem("queryData")
-      const baseData = localStorage.getItem("data")
-
-      var start;
-      var end;
-      if (!(page === null)) {
-        start = 12 * (page - 1)
-        end = 12 * (page)
-      } else {
-        start = 0
-        end = 12
-      }
+      startSearchForm(searchForm)
 
       if (!(queryData === null)) {
-        render(JSON.parse(queryData).slice(start, end), '[type="text/x-handlebars-template"]')
-      }
-      else if (!(baseData === null)) {
-        render(JSON.parse(baseData).slice(start, end), '[type="text/x-handlebars-template"]')
+        render(queryData, '[type="text/x-handlebars-template"]')
       }
       else {
         fetch('data/hygfull.json')
@@ -161,7 +132,7 @@
             </button>
             <button class="btn btn-outline-white btn md-3" id="increment">
               <i class="bi bi-arrow-right"></i>
-              </button>
+            </button>
           </div>
         </div>
       </div>
@@ -278,31 +249,6 @@
     </div>
   </div>
 
-  <!-- MARK: To Cart Skript 
--->
-  <script>
-
-    CART = "cart"
-    function tocart(sID) {
-      setTimeout(function () {
-        document.getElementById('cartAlert' + sID).classList.remove('d-none');
-
-        setTimeout(function () {
-          document.getElementById('cartAlert' + sID).classList.add('d-none');
-        }, 500);
-      }, 20);
-
-      var cartarr = sessionStorage.getItem(CART)
-      var parsedCartarr = JSON.parse(cartarr)
-      if (cartarr === null) {
-        parsedCartarr = [sID]
-      }
-      else if (parsedCartarr.includes(sID) === false) {
-        parsedCartarr.push(sID);
-      }
-      sessionStorage.setItem(CART, JSON.stringify(parsedCartarr))
-    }
-  </script>
 
   <script>
     setSearchPlaceholder()

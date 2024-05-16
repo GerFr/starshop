@@ -7,7 +7,6 @@ function setSearch(event) {
         window.history.replaceState({}, "", `${window.location.pathname}?${params}`)
         window.location.reload()
     } else {
-        removQueryData()
         const params = new URLSearchParams(window.location.search)
         params.delete("search")
         params.delete("page")
@@ -16,20 +15,21 @@ function setSearch(event) {
     }
 }
 
-function removQueryData() {
-    // remove query data so the first 20 default entries of the data are shown
-    sessionStorage.removeItem("queryData")
+function startSearchForm(searchForm) {
+    searchForm.addEventListener('submit', event => {
+        if (!searchForm.checkValidity()) {
+            event.preventDefault()
+            event.stopPropagation()
+        }
+        searchForm.classList.add('was-validated')
+    }, false)
+    function handleForm(event) { event.preventDefault(); }
+    searchForm.addEventListener('submit', handleForm);
 }
 
-function search(query) {
-    if (!(query == "")) {
-        data = JSON.parse(localStorage.getItem("data"))
-        const queryData = searchData(query, data)
-        sessionStorage.setItem("queryData", JSON.stringify(queryData))
-    }
-}
 
-function searchData(query, data) {
+
+function search(data, query) {
     const words = []
     data.forEach(element => {
         starName = element["ProperName"]
