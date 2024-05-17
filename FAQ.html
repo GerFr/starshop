@@ -44,7 +44,7 @@
             "subject": subject.value,
             "question": question.value
           }
-          localStorage.setItem("supportSubmission", JSON.stringify(submission))
+          sessionStorage.setItem("supportSubmission", JSON.stringify(submission))
           location.replace("support.html")
         }
         form.classList.add('was-validated')

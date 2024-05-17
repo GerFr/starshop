@@ -18,7 +18,7 @@
 
     <script>
         function init() {
-            const data = JSON.parse(localStorage.getItem("supportSubmission"))
+            const data = JSON.parse(sessionStorage.getItem("supportSubmission"))
             render(data, '[type="text/x-handlebars-template"]')
             render({}, '[type="text/x-handlebars-navbar"]')
             render({}, '[type="text/x-handlebars-footer"]')
