@@ -1,76 +1,205 @@
 <!doctype html>
 <html lang="en">
+    <head>
+        <title>Warenkorb</title>
+        <!-- Required meta tags -->
+        <meta charset="utf-8" />
+        <meta name="viewport"
+            content="width=device-width, initial-scale=1, shrink-to-fit=no" />
 
-<head>
-    <title>Warenkorb</title>
-    <!-- Required meta tags -->
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+        <!-- Bootstrap CSS v5.2.1 -->
+        <link href="css/bootstrap.min.css" rel="stylesheet" />
+        <!-- icons -->
+        <link rel="icon" href="assets/icons/cart.png">
+        <link rel="stylesheet"
+            href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
 
-    <!-- Bootstrap CSS v5.2.1 -->
-    <link href="css/bootstrap.min.css" rel="stylesheet" />
-    <!-- icons -->
-    <link rel="icon" href="assets/icons/cart.png">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
-    <script>
-        function init() {
-            render({}, '[type="text/x-handlebars-navbar"]')
-            render({}, '[type="text/x-handlebars-footer"]')
-        }
-    </script>
-</head>
+        <script src="js/handlebars.min-v4.7.8.js"></script>
+        <script src="js/vanilla.js"></script>
 
-<body onload="init()">
+        <script>
+            function init() {
+                render({}, '[type="text/x-handlebars-navbar"]')
+                render({}, '[type="text/x-handlebars-footer"]')
+        
+                const cartIDdata = JSON.parse(sessionStorage.getItem("cart"))
+                const baseData =JSON.parse(localStorage.getItem("data"))
+                const cartData = []
 
-    <script id="template" type="text/x-handlebars-navbar">
+                if ((!(cartIDdata===null)) && (!(baseData===null))){
+                    for (var j = 0; j < cartIDdata.length; j++){
+	                    for (var i = 0; i < baseData.length; i++){
+		                    if (baseData[i].StarID == (Number(cartIDdata[j]))){
+			                    cartData.push(baseData[i])
+		                    }
+                        }
+	                }
+                }
+                var total = 0
+                for (let i = 0; i < cartData.length; i++){
+                    total += cartData[i]["Price"]
+                }
+                var colorcount = {blueStar:0, 
+					              blueWhiteStar:0, 
+                                  orangeRedStar:0, 
+                                  orangeStar:0, 
+                                  whiteStar:0, 
+                                  ycount:0, 
+                                  yellowWhiteStar:0}
+
+                if (!(cartData.length==0)){
+                    for (let i = 0; i < cartData.length; i++){
+                        if (cartData[i]["Color"]=='blueStar'){
+                            colorcount.blueStar = colorcount.blueStar + 1
+                        }
+                        else if (cartData[i]["Color"]=='blueWhiteStar'){
+                            colorcount.blueWhiteStar = colorcount.blueWhiteStar+ 1
+                        }
+                        else if (cartData[i]["Color"]=='orangeRedStar'){
+                            colorcount.orangeRedStar = colorcount.orangeRedStar+ 1
+                        }
+                        else if (cartData[i]["Color"]=='orangeStar'){
+                            colorcount.orangeStar = colorcount.orangeStar+ 1
+                        }
+                        else if (cartData[i]["Color"]=='whiteStar'){
+                            colorcount.whiteStar = colorcount.whiteStar+ 1
+                        }
+                        else if (cartData[i]["Color"]=='yellowStar'){
+                            colorcount.ycount = colorcount.ycount+ 1
+                        }
+                        else if (cartData[i]["Color"]=='yellowWhiteStar'){
+                            colorcount.yellowWhiteStar = colorcount.yellowWhiteStar+ 1
+                        }
+                    }
+                    console.log(colorcount)
+                    var max = 0
+                    for (const [key, value] of Object.entries(colorcount)) {
+                        if (value > max){
+                            max = [key, value]
+                        }
+                    }
+                    console.log(max[0])
+                    var maxcolor = []
+                    for(let i = 0; i < baseData.length; i++){
+                        if (baseData[i].Color == max[0]){
+                            maxcolor.push(baseData[i])
+                        } 
+                    }
+                    console.log(maxcolor)
+                    const ran = Math.floor(Math.random() * (maxcolor.length-1))
+                    var ran2 = ran
+                    while(ran === ran2){
+                        ran2 = Math.floor(Math.random() * (maxcolor.length-1))
+                    }
+                    console.log('random number ', ran,' ', ran2)
+                    console.log(maxcolor[ran])
+                    const prod_suggestion = [maxcolor[ran],maxcolor[ran2]]
+                    console.log(prod_suggestion)
+                    console.log(cartData)
+
+
+                    render(prod_suggestion, '[type="text/x-handlebars-suggestion"]')
+
+                }
+
+              
+                                
+                var infos = document.getElementById('total');
+                infos.setAttribute('value', 'Total Summary '+  total + " €")
+                console.log(total)
+                if (cartData.length>0){
+                render(cartData, '[type="text/x-handlebars-template"]')
+                }
+
+
+            }
+        </script>
+        <script>
+            function deletecart(id){
+                cart = JSON.parse(sessionStorage.getItem('cart'))
+                for (let i = 0; i<cart.length; i++){
+                    if (cart[i]===id){
+                        cart.splice(i, 1)
+                        sessionStorage.setItem("cart", JSON.stringify(cart))
+                        location.reload()
+                    }
+                }
+            }
+        </script>
+        
+        <script>
+            CART = "cart"
+            function tocart(sID) {
+              setTimeout(function () {
+                document.getElementById('cartAlert' + sID).classList.remove('d-none');
+        
+                setTimeout(function () {
+                  document.getElementById('cartAlert' + sID).classList.add('d-none');
+                }, 500);
+              }, 20);
+        
+              var cartarr = sessionStorage.getItem(CART)
+              var parsedCartarr = JSON.parse(cartarr)
+              if (cartarr === null) {
+                parsedCartarr = [sID]
+              }
+              else if (parsedCartarr.includes(sID) === false) {
+                parsedCartarr.push(sID);
+              }
+              sessionStorage.setItem(CART, JSON.stringify(parsedCartarr))
+              location.reload()
+            }
+          </script>
+    </head>
+
+    <body onload="init()">
+        <script id="template" type="text/x-handlebars-navbar">
         {{> navbar }}
-    </script>
-    <div></div>
+        </script>
+        <div></div>
 
-    <main>
-        <div class="container">
-            <a name="checkout" id="" class="btn btn-primary" href="checkout.html" role="button">Checkout</a>
-            <div class="ibox">
-                <div class="ibox-content">
-                    <p class="font-bold">
-                        Other products you may be interested
-                    </p>
-                    <hr>
-                    <div>
-                        <a href="index.html#495-card" class="product-name"> Product 1</a>
-                        <div class="small m-t-xs">
-                            Star "n"
-                        </div>
-                        <div class="m-t text-righ">
-
-                            <a class="btn btn-xs btn-outline btn-primary">Info <i class="fa fa-long-arrow-right"></i>
-                            </a>
-                        </div>
-                    </div>
-                    <hr>
-                    <div>
-                        <a href="#" class="product-name"> Product 2</a>
-                        <div class="small m-t-xs">
-                            Star "m"
-                        </div>
-                        <div class="m-t text-righ">
-
-                            <a href="#" class="btn btn-xs btn-outline btn-primary">Info <i
-                                    class="fa fa-long-arrow-right"></i> </a>
-                        </div>
+        <main>
+            <div class="container-xl">
+                <h4
+                    class="d-flex justify-content-between align-items-center mb-3">
+                    <span class="text-muted">Your cart</span>
+                </h4>
+                <script id="template" type="text/x-handlebars-template">
+                    {{> cartcard }}
+                </script>
+                <div></div>
+                <input id="total" type="text" class="form-control" readonly>
+                <hr>
+                <a name="checkout" id class="btn btn-primary"
+                    href="checkout.html" role="button">Checkout</a>
+                <div class="ibox">
+                    <div class="ibox-content">
+                        <p class="font-bold">
+                            Other products you may be interested
+                        </p>
+                        <hr>
+                        <script id="template"
+                            type="text/x-handlebars-suggestion">
+                            {{> suggestion }}
+                        </script>
+                        <div></div>
+                        <script id="template"
+                            type="text/x-handlebars-suggestion">
+                            {{> modal }}
+                           </script>
+                        <div></div>
                     </div>
                 </div>
             </div>
-        </div>
-    </main>
+        </main>
 
-    <script id="template" type="text/x-handlebars-footer">
-        {{> footer }}
-    </script>
-    <div></div>
 
-    <!-- Bootstrap JavaScript Libraries -->
-    <script src="js/bootstrap.js"></script>
-</body>
+        <script id="template" type="text/x-handlebars-footer">
+            {{> footer }}
+        </script>
+        <div></div>
+        <!-- Bootstrap JavaScript Libraries -->
+        <script src="js/bootstrap.js"></script>
+    </body>
 
 </html>

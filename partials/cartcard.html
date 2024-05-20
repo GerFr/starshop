@@ -1,0 +1,37 @@
+{{#each this}}
+<div class="container-lg">
+  <div class="row">
+      <div class="card mb-3">
+          <div class="card-body">
+            <div class="d-flex justify-content-between">
+              <div class="d-flex flex-row align-items-center">
+                <div>
+                  <img
+                    src="assets/stars/{{Color}}.png"
+                    class="img-fluid rounded-3" alt="Shopping item" style="width: 65px;">
+                </div>
+                <div class="ms-3">
+                  <h5>{{ProperName}}</h5>
+                  <p class="small mb-0">{{Color}}</p>
+                </div>
+              </div>
+              <div class="d-flex flex-row align-items-center">
+
+                <div class='mx-sm-5'>
+                  <h5 class="mb-auto">{{Price}}€</h5>
+                </div>
+                <a
+                  name=""
+                  id=""
+                  class="btn btn-outline-secondary btn-sm"
+                  href="#"
+                  role="button"
+                  onclick="deletecart({{StarID}})"
+                  ><i
+                  class="bi bi-trash"></i></a                >
+                
+              </div>
+            </div>
+          </div>
+        </div>
+{{/each}}
