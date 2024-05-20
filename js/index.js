@@ -42,9 +42,9 @@ function getPageNumbers(page, pageLength) {
     return [start, end]
 }
 
-function getQueryData(searchParam, filterParam, sortParam) {
+function getQueryData(searchParam, filterParam, sortParam, filterValue, filterOperation) {
     const searching = !(searchParam === null)
-    const filtering = !(filterParam === null)
+    const filtering = !(filterParam === null)&&!(filterValue===null)&&!(filterOperation===null)
     const sorting = !(sortParam === null)
 
     const dataString = localStorage.getItem("data")
@@ -53,15 +53,15 @@ function getQueryData(searchParam, filterParam, sortParam) {
         if (!(searching || filtering || sorting)) {
             return data
         } else if (!searching && filtering && !sorting) {
-            return filter(data, filterParam)
+            return filterData(data, filterParam, filterValue, filterOperation)
         } else if (!searching && !filtering && sorting) {
-            return sort(data, sortParam)
+            return sortData(data, sortParam)
         } else if (!searching && filtering && sorting) {
-            return sort(filter(data, filterParam), sortParam)
+            return sortData(filterData(data, filterParam, filterValue, filterOperation), sortParam)
         } else if (searching && filtering) {
-            return search(filter(data, filterParam), searchParam)
+            return searchData(filterData(data, filterParam, filterValue, filterOperation), searchParam)
         } else if (searching && !filtering) {
-            return search(data, searchParam)
+            return searchData(data, searchParam)
         }
     } else {
         return null

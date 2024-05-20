@@ -29,7 +29,7 @@ function startSearchForm(searchForm) {
 
 
 
-function search(data, query) {
+function searchData(data, query) {
     const words = []
     data.forEach(element => {
         starName = element["ProperName"]

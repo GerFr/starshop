@@ -36,7 +36,9 @@
       const queryData = getQueryData(
         params.get("search"),      
         params.get("filter"),          
-        params.get("sort"))          
+        params.get("sort"),
+        params.get("filterValue"),
+        params.get("filterOperation"))          
         .slice(pageNumbers[0], pageNumbers[1])
 
       // Search form code
