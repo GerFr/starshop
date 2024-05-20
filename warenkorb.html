@@ -71,42 +71,31 @@
                             colorcount.yellowWhiteStar = colorcount.yellowWhiteStar+ 1
                         }
                     }
-                    console.log(colorcount)
                     var max = 0
                     for (const [key, value] of Object.entries(colorcount)) {
                         if (value > max){
                             max = [key, value]
                         }
                     }
-                    console.log(max[0])
                     var maxcolor = []
                     for(let i = 0; i < baseData.length; i++){
                         if (baseData[i].Color == max[0]){
                             maxcolor.push(baseData[i])
                         } 
                     }
-                    console.log(maxcolor)
                     const ran = Math.floor(Math.random() * (maxcolor.length-1))
                     var ran2 = ran
                     while(ran === ran2){
                         ran2 = Math.floor(Math.random() * (maxcolor.length-1))
                     }
-                    console.log('random number ', ran,' ', ran2)
-                    console.log(maxcolor[ran])
                     const prod_suggestion = [maxcolor[ran],maxcolor[ran2]]
-                    console.log(prod_suggestion)
-                    console.log(cartData)
-
-
                     render(prod_suggestion, '[type="text/x-handlebars-suggestion"]')
-
                 }
 
               
                                 
                 var infos = document.getElementById('total');
                 infos.setAttribute('value', 'Total Summary '+  total + " €")
-                console.log(total)
                 if (cartData.length>0){
                 render(cartData, '[type="text/x-handlebars-template"]')
                 }
