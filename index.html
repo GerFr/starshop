@@ -22,6 +22,7 @@
   <script>
     function init() {
       $on($('#search'), 'click', setSearch)
+      // adds eventlistener to Create new Item id: "#createnew" button which starts the method create() in admin.js
       $on($('#createnew'), 'click', create)
       $on($('#increment'), 'click', increment)
       $on($('#decrement'), 'click', decrement)
@@ -308,6 +309,7 @@
     setSearchPlaceholder()
   </script>
   <script>
+    // checks for admin param and shows the Button for Creating new elements if admin param equals "true"
     const params = new URLSearchParams(window.location.search)
     const admin = params.get("admin")
     if (admin === "true") {document.getElementById('createBtn').classList.remove('d-none');}

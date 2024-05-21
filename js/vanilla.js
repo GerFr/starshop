@@ -68,6 +68,7 @@ Handlebars.registerHelper({
   or() {
     return Array.prototype.slice.call(arguments, 0, -1).some(Boolean);
   },
+  // checks if admin param is equal to "true" and if so, reveals admin Buttons on each Star Card 
   admin() {
     const params = new URLSearchParams(window.location.search)
     const admin = params.get("admin")

@@ -18,6 +18,7 @@
 
     <script>
         function init() {
+            // die daten werden aus dem SessionStorage gerendered
             const data = JSON.parse(sessionStorage.getItem("supportSubmission"))
             render(data, '[type="text/x-handlebars-template"]')
             render({}, '[type="text/x-handlebars-navbar"]')
