@@ -30,22 +30,28 @@ function increment() {
 }
 
 function getPageNumbers(page, pageLength) {
-    var start;
-    var end;
+    var start
+    var end
+    var pageNum
     if (!(page === null)) {
         start = pageLength * (page - 1)
         end = pageLength * (page)
+        pageNum = page
     } else {
         start = 0
         end = pageLength
-    }
-    return [start, end]
+        pageNum = 1
+    }    
+    const params = new URLSearchParams(window.location.search)
+    params.set("page", pageNum)
+    window.history.replaceState({}, "", `${window.location.pathname}?${params}`)
+    return [start, end, pageNum]
 }
 
-function getQueryData(searchParam, filterParam, sortParam, filterValue, filterOperation) {
+function getQueryData(searchParam, filterParam, sortParam, filterValue, filterOperation, sortDirection) {
     const searching = !(searchParam === null)
     const filtering = !(filterParam === null)&&!(filterValue===null)&&!(filterOperation===null)
-    const sorting = !(sortParam === null)
+    const sorting = !(sortParam === null)&&!(sortDirection===null)
 
     const dataString = localStorage.getItem("data")
     if (!(dataString === null)) {
@@ -55,9 +61,9 @@ function getQueryData(searchParam, filterParam, sortParam, filterValue, filterOp
         } else if (!searching && filtering && !sorting) {
             return filterData(data, filterParam, filterValue, filterOperation)
         } else if (!searching && !filtering && sorting) {
-            return sortData(data, sortParam)
+            return sortData(data, sortParam, sortDirection)
         } else if (!searching && filtering && sorting) {
-            return sortData(filterData(data, filterParam, filterValue, filterOperation), sortParam)
+            return sortData(filterData(data, filterParam, filterValue, filterOperation), sortParam, sortDirection)
         } else if (searching && filtering) {
             return searchData(filterData(data, filterParam, filterValue, filterOperation), searchParam)
         } else if (searching && !filtering) {

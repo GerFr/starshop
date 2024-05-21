@@ -17,6 +17,8 @@
   <script src="js/handlebars.min-v4.7.8.js"></script>
   <script src="js/vanilla.js"></script>
   <script src="js/search.js"></script>
+  <script src="js/filter.js"></script>
+  <script src="js/sort.js"></script>
   <script src="js/admin.js"></script>
   <script src="js/index.js"></script>
   <script>
@@ -26,26 +28,32 @@
       $on($('#increment'), 'click', increment)
       $on($('#decrement'), 'click', decrement)
 
-
       render({}, '[type="text/x-handlebars-navbar"]')
       render({}, '[type="text/x-handlebars-footer"]')
 
       const params = new URLSearchParams(window.location.search)
       const pageParam = params.get("page")
       const pageNumbers = getPageNumbers(pageParam, 12)
-      const queryData = getQueryData(
-        params.get("search"),      
-        params.get("filter"),          
+      const queryDataFull = getQueryData(
+        params.get("search"),
+        params.get("filter"),
         params.get("sort"),
         params.get("filterValue"),
-        params.get("filterOperation"))          
-        .slice(pageNumbers[0], pageNumbers[1])
+        params.get("filterOperation"),
+        params.get("sortDirection"))
+
+      var queryData;
+      if (!(queryDataFull === null)) {
+        queryData = queryDataFull.slice(pageNumbers[0], pageNumbers[1])
+      } else {
+        queryData = null
+      }
 
       // Search form code
       const searchForm = document.getElementById("searchForm")
       startSearchForm(searchForm)
 
-      render({"page":pageParam}, '[type="text/x-handlebars-page"]')
+      render({ "page": pageNumbers[2] }, '[type="text/x-handlebars-page"]')
       if (!(queryData === null)) {
         render(queryData, '[type="text/x-handlebars-template"]')
       }
@@ -108,6 +116,33 @@
       <nav class="navbar bg-body-tertiary sticky-top bg-black">
         <div class="container-fluid justify-content-end">
           <a class="navbar-brand"></a>
+          <div class=" dropdown mx-2 my-2">
+            <button class="btn btn-dark dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
+              Sort
+            </button>
+            <ul class="dropdown-menu dropdown-menu-dark dropstart">
+              <li><a class="dropdown-item" onclick="setSort('Reset', null)">Reset</a></li>
+              <li><a class="dropdown-item" onclick="setSort('Price', 'asc')">Price lowest</a></li>
+              <li><a class="dropdown-item" onclick="setSort('Price', 'dsc')">Price highest</a></li>
+            </ul>
+          </div>
+          <div class=" dropdown mx-2 my-2">
+            <button class="btn btn-dark dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
+              Filter
+            </button>
+            <ul class="dropdown-menu dropdown-menu-dark dropstart">
+              <li><a class="dropdown-item" onclick="setFilter('Reset', null, null)">Reset</a></li>
+              <li><a class="dropdown-item" onclick="setFilter('Price', 100000, 'sm')">Sale</a></li>
+              <li><a class="dropdown-item" onclick="setFilter('Color', 'yellowWhiteStar', 'eq')">yellowWhiteStar</a>
+              </li>
+              <li><a class="dropdown-item" onclick="setFilter('Color', 'yellowStar', 'eq')">yellowStar</a></li>
+              <li><a class="dropdown-item" onclick="setFilter('Color', 'whiteStar', 'eq')">whiteStar</a></li>
+              <li><a class="dropdown-item" onclick="setFilter('Color', 'orangeStar', 'eq')">orangeStar</a></li>
+              <li><a class="dropdown-item" onclick="setFilter('Color', 'orangeRedStar', 'eq')">orangeRedStar</a></li>
+              <li><a class="dropdown-item" onclick="setFilter('Color', 'blueStar', 'eq')">blueStar</a></li>
+              <li><a class="dropdown-item" onclick="setFilter('Color', 'blueWhiteStar', 'eq')">blueWhiteStar</a></li>
+            </ul>
+          </div>
           <a id="createBtn" href="#" class="btn btn-primary m-2 d-none" data-bs-toggle="modal"
             data-bs-target="#createModal"><i class="bi bi-plus-square"></i></a>
           <form class="d-flex needs-validation" id="searchForm" novalidate>
@@ -137,7 +172,7 @@
             <script id="template" type="text/x-handlebars-page">
               {{page}}
              </script>
-             <div></div>
+            <div></div>
             <button class="btn btn-outline-white btn md-3" id="increment">
               <i class="bi bi-arrow-right"></i>
             </button>
@@ -263,8 +298,8 @@
 
     const params = new URLSearchParams(window.location.search)
     const admin = params.get("admin")
-    if (admin === "true") {document.getElementById('createBtn').classList.remove('d-none');}
-    else {document.getElementById('createBtn').classList.add('d-none');}
+    if (admin === "true") { document.getElementById('createBtn').classList.remove('d-none'); }
+    else { document.getElementById('createBtn').classList.add('d-none'); }
   </script>
 
   <script id="template" type="text/x-handlebars-footer">
@@ -274,7 +309,6 @@
 
   <!-- Bootstrap JavaScript Libraries -->
   <script src="js/bootstrap.js"></script>
-
 </body>
 
 </html>
