@@ -17,6 +17,8 @@
   <script src="js/handlebars.min-v4.7.8.js"></script>
   <script src="js/vanilla.js"></script>
   <script src="js/search.js"></script>
+  <script src="js/filter.js"></script>
+  <script src="js/sort.js"></script>
   <script src="js/admin.js"></script>
   <script src="js/index.js"></script>
   <script>
@@ -27,53 +29,34 @@
       $on($('#increment'), 'click', increment)
       $on($('#decrement'), 'click', decrement)
 
-
       render({}, '[type="text/x-handlebars-navbar"]')
       render({}, '[type="text/x-handlebars-footer"]')
 
       const params = new URLSearchParams(window.location.search)
-      const query = params.get("search")
-      const page = params.get("page")
+      const pageParam = params.get("page")
+      const pageNumbers = getPageNumbers(pageParam, 12)
+      const queryDataFull = getQueryData(
+        params.get("search"),
+        params.get("filter"),
+        params.get("sort"),
+        params.get("filterValue"),
+        params.get("filterOperation"),
+        params.get("sortDirection"))
 
-      // only search if data is in local storage and there is a query
-      if (!(query === null) && !(localStorage.getItem("data") === null)) {
-        search(query)
+      var queryData;
+      if (!(queryDataFull === null)) {
+        queryData = queryDataFull.slice(pageNumbers[0], pageNumbers[1])
       } else {
-        removQueryData()
+        queryData = null
       }
 
-      // form code
+      // Search form code
       const searchForm = document.getElementById("searchForm")
-      searchForm.addEventListener('submit', event => {
-        if (!searchForm.checkValidity()) {
-          event.preventDefault()
-          event.stopPropagation()
-        }
-        searchForm.classList.add('was-validated')
-      }, false)
-      function handleForm(event) { event.preventDefault(); }
-      searchForm.addEventListener('submit', handleForm);
+      startSearchForm(searchForm)
 
-
-      // get Star data to render cards and modals, if search was made, render query data
-      const queryData = sessionStorage.getItem("queryData")
-      const baseData = localStorage.getItem("data")
-
-      var start;
-      var end;
-      if (!(page === null)) {
-        start = 12 * (page - 1)
-        end = 12 * (page)
-      } else {
-        start = 0
-        end = 12
-      }
-
+      render({ "page": pageNumbers[2] }, '[type="text/x-handlebars-page"]')
       if (!(queryData === null)) {
-        render(JSON.parse(queryData).slice(start, end), '[type="text/x-handlebars-template"]')
-      }
-      else if (!(baseData === null)) {
-        render(JSON.parse(baseData).slice(start, end), '[type="text/x-handlebars-template"]')
+        render(queryData, '[type="text/x-handlebars-template"]')
       }
       else {
         fetch('data/hygfull.json')
@@ -134,6 +117,33 @@
       <nav class="navbar bg-body-tertiary sticky-top bg-black">
         <div class="container-fluid justify-content-end">
           <a class="navbar-brand"></a>
+          <div class=" dropdown mx-2 my-2">
+            <button class="btn btn-dark dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
+              Sort
+            </button>
+            <ul class="dropdown-menu dropdown-menu-dark dropstart">
+              <li><a class="dropdown-item" onclick="setSort('Reset', null)">Reset</a></li>
+              <li><a class="dropdown-item" onclick="setSort('Price', 'asc')">Price lowest</a></li>
+              <li><a class="dropdown-item" onclick="setSort('Price', 'dsc')">Price highest</a></li>
+            </ul>
+          </div>
+          <div class=" dropdown mx-2 my-2">
+            <button class="btn btn-dark dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
+              Filter
+            </button>
+            <ul class="dropdown-menu dropdown-menu-dark dropstart">
+              <li><a class="dropdown-item" onclick="setFilter('Reset', null, null)">Reset</a></li>
+              <li><a class="dropdown-item" onclick="setFilter('Price', 100000, 'sm')">Sale</a></li>
+              <li><a class="dropdown-item" onclick="setFilter('Color', 'yellowWhiteStar', 'eq')">yellowWhiteStar</a>
+              </li>
+              <li><a class="dropdown-item" onclick="setFilter('Color', 'yellowStar', 'eq')">yellowStar</a></li>
+              <li><a class="dropdown-item" onclick="setFilter('Color', 'whiteStar', 'eq')">whiteStar</a></li>
+              <li><a class="dropdown-item" onclick="setFilter('Color', 'orangeStar', 'eq')">orangeStar</a></li>
+              <li><a class="dropdown-item" onclick="setFilter('Color', 'orangeRedStar', 'eq')">orangeRedStar</a></li>
+              <li><a class="dropdown-item" onclick="setFilter('Color', 'blueStar', 'eq')">blueStar</a></li>
+              <li><a class="dropdown-item" onclick="setFilter('Color', 'blueWhiteStar', 'eq')">blueWhiteStar</a></li>
+            </ul>
+          </div>
           <a id="createBtn" href="#" class="btn btn-primary m-2 d-none" data-bs-toggle="modal"
             data-bs-target="#createModal"><i class="bi bi-plus-square"></i></a>
           <form class="d-flex needs-validation" id="searchForm" novalidate>
@@ -160,9 +170,13 @@
             <button class="btn btn-outline-white btn md-3" id="decrement">
               <i class="bi bi-arrow-left"></i>
             </button>
+            <script id="template" type="text/x-handlebars-page">
+              {{page}}
+             </script>
+            <div></div>
             <button class="btn btn-outline-white btn md-3" id="increment">
               <i class="bi bi-arrow-right"></i>
-              </button>
+            </button>
           </div>
         </div>
       </div>
@@ -279,43 +293,19 @@
     </div>
   </div>
 
-  <!-- MARK: To Cart Skript 
--->
-  <script>
-
-    CART = "cart"
-    function tocart(sID) {
-      setTimeout(function () {
-        document.getElementById('cartAlert' + sID).classList.remove('d-none');
-
-        setTimeout(function () {
-          document.getElementById('cartAlert' + sID).classList.add('d-none');
-        }, 500);
-      }, 20);
-
-      var cartarr = sessionStorage.getItem(CART)
-      var parsedCartarr = JSON.parse(cartarr)
-      if (cartarr === null) {
-        parsedCartarr = [sID]
-      }
-      else if (parsedCartarr.includes(sID) === false) {
-        parsedCartarr.push(sID);
-      }
-      sessionStorage.setItem(CART, JSON.stringify(parsedCartarr))
-    }
-  </script>
 
   <script>
     setSearchPlaceholder()
   </script>
+  
   <script>
     // checks for admin param and shows the Button for Creating new elements if admin param equals "true"
+
     const params = new URLSearchParams(window.location.search)
     const admin = params.get("admin")
-    if (admin === "true") {document.getElementById('createBtn').classList.remove('d-none');}
-    else {document.getElementById('createBtn').classList.add('d-none');}
+    if (admin === "true") { document.getElementById('createBtn').classList.remove('d-none'); }
+    else { document.getElementById('createBtn').classList.add('d-none'); }
   </script>
-
 
   <script id="template" type="text/x-handlebars-footer">
     {{> footer }}
@@ -324,7 +314,6 @@
 
   <!-- Bootstrap JavaScript Libraries -->
   <script src="js/bootstrap.js"></script>
-
 </body>
 
 </html>

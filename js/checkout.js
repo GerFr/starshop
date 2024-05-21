@@ -17,9 +17,6 @@ function getElement(starId, location) {
       result = iterator
     }
   }
-  if (result === null) {
-    console.log("couldnt find the star");
-  }
   return result
 }
 
