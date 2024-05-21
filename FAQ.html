@@ -17,23 +17,34 @@
   <!-- MARK: script local storage
    -->
   <script>
-
+    /**
+     * Is Run when body is fully loaded
+     * Renders the navbar and footer.
+     * Attaches an event listener to the "bestellen" button for handling support submission, uses function toSession.
+     */
     function init() {
       render({}, '[type="text/x-handlebars-navbar"]')
       render({}, '[type="text/x-handlebars-footer"]')
 
-      $on($('#bestellen'), 'click', toLocal)
+      $on($('#bestellen'), 'click', toSession)
 
     }
 
-    function toLocal(event) {
+    /**
+     * Handles form submission by storing form data in session storage and redirecting to support.html.
+     */
+    function toSession() {
+      // Selects the support submission form 
       const form = document.querySelector('.needs-validation')
+      // adds an eventlistener to the Submission form
       form.addEventListener('submit', event => {
+        // if the form is not valid, the submit action is stopped
         if (!form.checkValidity()) {
           event.preventDefault()
           event.stopPropagation()
         }
         else {
+          // saves all the relevant information from the support submission form to session Storage
           const email = document.getElementById('email');
           const name = document.getElementById('name');
           const subject = document.getElementById('subject');
@@ -44,7 +55,8 @@
             "subject": subject.value,
             "question": question.value
           }
-          localStorage.setItem("supportSubmission", JSON.stringify(submission))
+          sessionStorage.setItem("supportSubmission", JSON.stringify(submission))
+          // redirect to the support.html to review the sent submission
           location.replace("support.html")
         }
         form.classList.add('was-validated')
@@ -58,6 +70,11 @@
   <!-- MARK: script handlebars
   -->
   <script>
+    /**
+     * Calculates the number of items in the data and finds the maximum and minimum values of the "Distance" property.
+     * @param {Array<Object>} data - An array of objects to process.
+     * @returns {Object} An object containing the length of the data array, the maximum "Distance" value, and the minimum "Distance" value.
+     */
     const numItems = (data) => {
       length = data.length
       let maxValue = -Infinity
@@ -72,6 +89,7 @@
       let returnDict = { "length": length, "max": maxValue, "min": minValue }
       return returnDict
     }
+    // fetching the json data file
     fetch('data/hygfull.json')
       .then(response => response.json())
       .then(data => render(numItems(data), '[type="text/x-handlebars-template"]'))
