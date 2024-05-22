@@ -36,10 +36,7 @@
                         }
 	                }
                 }
-                var total = 0
-                for (let i = 0; i < cartData.length; i++){
-                    total += cartData[i]["Price"]
-                }
+
                 var colorcount = {blueStar:0, 
 					              blueWhiteStar:0, 
                                   orangeRedStar:0, 
@@ -99,7 +96,10 @@
 
 
               
-                                
+                var total = 0
+                for (let i = 0; i < cartData.length; i++){
+                    total += cartData[i]["Price"]
+                }               
                 var infos = document.getElementById('total');
                 infos.setAttribute('value', 'Total Summary '+  total + " €")
                 if (cartData.length>0){
