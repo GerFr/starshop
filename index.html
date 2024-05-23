@@ -12,6 +12,15 @@
   <!-- source: https://cdn.jsdelivr.net/npm/bootstrap-dark-5@1.1.3/dist/css/bootstrap-dark.min.css -->
   <!-- icons -->
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+<!-- TODO: css Style in extra Stylesheet file called style.css -->
+  <style>
+    .container-background-repeat {
+        background-image: url('assets/StarBackround.jpg');
+        background-repeat: repeat;
+        background-size:  auto;
+    }
+    
+</style>
   <link rel="icon" href="assets/icons/stars.png">
   <!-- handlebars -->
   <script src="js/handlebars.min-v4.7.8.js"></script>
@@ -109,7 +118,7 @@
 
   <!-- MARK: Articles 
   -->
-  <section id="pricing" class="bg-black mt-5">
+  <section id="pricing" class="container-background-repeat border-bottom bg-black mt-5">
 
 
 
@@ -197,27 +206,27 @@
       <div class="row mx-sm-5 align-items-center justify-content-center g-2"></div>
     </div>
 
-    <div class="container">
-      <div class="row justify-content-center align-items-center">
-        <div class="col text-center">
-          <div class="btn-group">
-            <button class="btn btn-outline-white btn md-3" id="decrement">
-              <i class="bi bi-arrow-left"></i>
-            </button>
-            <script id="template" type="text/x-handlebars-page">
-              {{page}}
-             </script>
-            <div></div>
-            <button class="btn btn-outline-white btn md-3" id="increment">
-              <i class="bi bi-arrow-right"></i>
-            </button>
-          </div>
+    
+
+  </section>
+  <div class="container mt-2">
+    <div class="row justify-content-center align-items-center">
+      <div class="col text-center">
+        <div class="btn-group">
+          <button class="btn btn-outline-white btn md-3" id="decrement">
+            <i class="bi bi-arrow-left"></i>
+          </button>
+          <script id="template" type="text/x-handlebars-page">
+            {{page}}
+           </script>
+          <div></div>
+          <button class="btn btn-outline-white btn md-3" id="increment">
+            <i class="bi bi-arrow-right"></i>
+          </button>
         </div>
       </div>
     </div>
-
-  </section>
-
+  </div>
 
   <!-- MARK: modal
    -->

@@ -1,8 +1,8 @@
 {{#each this}}
 <div class="col-8 col-sm-6 col-md-4 col-xl-3" id="{{StarID}}-card">
   <button type="button" class="btn" data-bs-toggle="modal" data-bs-target="#{{StarID}}-modal">
-    <div class="card border-1">
-      <img src="assets/stars/{{Color}}.png" class="card-img-top img-fluid">
+    <div class="card border border-1">
+      <img src="assets/stars/{{Color}}.png" class="card-img-top border-bottom img-fluid">
       {{#if (lt Price 100000)}}
       <div class="badge position-absolute rounded-pill bg-danger text-white p-2 m-2">Sale</div>
       {{/if}}
