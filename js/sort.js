@@ -28,6 +28,5 @@ function sortData(data, key, direction) {
         default:
             break;
     }
-    console.log(newData)
     return newData
 }

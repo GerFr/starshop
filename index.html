@@ -23,6 +23,7 @@
   <script src="js/index.js"></script>
   <script>
     function init() {
+
       $on($('#search'), 'click', setSearch)
       // adds eventlistener to Create new Item id: "#createnew" button which starts the method create() in admin.js
       $on($('#createnew'), 'click', create)
@@ -31,6 +32,8 @@
 
       render({}, '[type="text/x-handlebars-navbar"]')
       render({}, '[type="text/x-handlebars-footer"]')
+      render(colors, '[type="text/x-handlebars-color"]')
+
 
       const params = new URLSearchParams(window.location.search)
       const pageParam = params.get("page")
@@ -108,14 +111,53 @@
   -->
   <section id="pricing" class="bg-black mt-5">
 
+
+
     <div class="container-l py-4">
       <div class="text-center">
         <h2>Star Collection</h2>
         <p class="lead text-muted">choose the perfect star</p>
       </div>
 
+      <div class="accordion accordion-flush mx-5 py-3" id="filterAccordion">
+        <div class="accordion-item">
+          <h2 class="accordion-header">
+            <button class="accordion-button collapsed bg-black border-light border border-dark" type="button" data-bs-toggle="collapse" data-bs-target="#collapseFilter"
+              aria-expanded="false" aria-controls="collapseFilter">
+              Filter
+              <div id="filter_button" class="text-light px-3"></div>
+            </button>
+          </h2>
+          <div id="collapseFilter" class="accordion-collapse collapse " data-bs-parent="#filterAccordion">
+            <div class="accordion-body bg-black border border-dark">
+              <div class="container">
+                <script id="template" type="text/x-handlebars-color">
+                  {{#each this}}
+                  <div class="col-sm-6 col-md-4 col-xl-3">
+                    <button class="btn" onclick="setFilter('{{key}}', '{{color}}', 'eq')">
+                    <div class="card border-1">
+                      <img src="assets/stars/{{color}}.png" class="card-img-top image-fluid">
+                      <div class="card-body text-center">
+                        <p class="card-subtitle">
+                          {{title}}
+                        </p>
+                      </div>
+                    </div>
+                  </button>
+                  </div>
+                  {{/each}}
+                </script>
+                <div class="row">
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+
       <nav class="navbar bg-body-tertiary sticky-top bg-black">
-        <div class="container-fluid justify-content-end">
+        <div class="container-fluid justify-content-end px-5">
           <a class="navbar-brand"></a>
           <div class=" dropdown mx-2 my-2">
             <button class="btn btn-dark dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
@@ -127,23 +169,15 @@
               <li><a class="dropdown-item" onclick="setSort('Price', 'dsc')">Price highest</a></li>
             </ul>
           </div>
-          <div class=" dropdown mx-2 my-2">
-            <button class="btn btn-dark dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
-              Filter
-            </button>
-            <ul class="dropdown-menu dropdown-menu-dark dropstart">
-              <li><a class="dropdown-item" onclick="setFilter('Reset', null, null)">Reset</a></li>
-              <li><a class="dropdown-item" onclick="setFilter('Price', 100000, 'sm')">Sale</a></li>
-              <li><a class="dropdown-item" onclick="setFilter('Color', 'yellowWhiteStar', 'eq')">yellowWhiteStar</a>
-              </li>
-              <li><a class="dropdown-item" onclick="setFilter('Color', 'yellowStar', 'eq')">yellowStar</a></li>
-              <li><a class="dropdown-item" onclick="setFilter('Color', 'whiteStar', 'eq')">whiteStar</a></li>
-              <li><a class="dropdown-item" onclick="setFilter('Color', 'orangeStar', 'eq')">orangeStar</a></li>
-              <li><a class="dropdown-item" onclick="setFilter('Color', 'orangeRedStar', 'eq')">orangeRedStar</a></li>
-              <li><a class="dropdown-item" onclick="setFilter('Color', 'blueStar', 'eq')">blueStar</a></li>
-              <li><a class="dropdown-item" onclick="setFilter('Color', 'blueWhiteStar', 'eq')">blueWhiteStar</a></li>
-            </ul>
-          </div>
+          <a class="btn" onclick="filterSale()">
+            <div class="badge rounded-pill bg-danger text-white" >
+              <h5 id="sale_pill" class="my-1">
+                <i class="bi bi-currency-dollar"></i>
+                Sale
+                <i class="bi bi-currency-dollar"></i>
+              </h5>
+            </div>
+          </a>
           <a id="createBtn" href="#" class="btn btn-primary m-2 d-none" data-bs-toggle="modal"
             data-bs-target="#createModal"><i class="bi bi-plus-square"></i></a>
           <form class="d-flex needs-validation" id="searchForm" novalidate>
@@ -296,8 +330,10 @@
 
   <script>
     setSearchPlaceholder()
+    setFilterPlaceholder()
+    setSalePlaceholder()
   </script>
-  
+
   <script>
     // checks for admin param and shows the Button for Creating new elements if admin param equals "true"
 
