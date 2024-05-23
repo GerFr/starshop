@@ -13,6 +13,12 @@ function setSearch(event) {
         window.location.reload()
     }
 }
+function removeSearch(){
+    const params = new URLSearchParams(window.location.search)
+    params.delete("search")
+    window.history.replaceState({}, "", `${window.location.pathname}?${params}`)
+    window.location.reload()
+}
 
 function startSearchForm(searchForm) {
     searchForm.addEventListener('submit', event => {
@@ -86,12 +92,13 @@ function levenshteinDistance(first, second) {
 
 function setSearchPlaceholder() {
     const params = new URLSearchParams(window.location.search)
+    const field = document.getElementById('searchField')
     const input = document.getElementById('query')
-
     const query = params.get("search")
     if (!(query === null)) {
-        input.placeholder = query
+        field.innerHTML = "Search: "+query
+        input.value = query
     } else {
-        input.placeholder = "Search"
+        field.innerHTML = ""
     }
 }

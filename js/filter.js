@@ -35,9 +35,9 @@ const colors = [
         "key": "Color",
     },
     {
-        "color": "clear",
-        "title": "Clear",
-        "key": "Reset",
+        "color": "100000",
+        "title": "Sale",
+        "key": null,
     }
 ]
 
@@ -56,6 +56,7 @@ function setFilter(key, value, operation) {
         params.delete("filter")
         params.delete("filterValue")
         params.delete("filterOperation")
+        params.delete("sale")
         window.history.replaceState({}, "", `${window.location.pathname}?${params}`)
         window.location.reload()
     }
@@ -81,13 +82,13 @@ function filterData(data, key, value, operation) {
 
 function setFilterPlaceholder() {
     const params = new URLSearchParams(window.location.search)
-    const input = document.getElementById('filter_button')
+    const input = document.getElementById('filterField')
     const value = params.get("filterValue")
 
     if (value !== null) {
         let found = colors.find(obj => obj["color"] === value)
         if (found !== undefined) {
-            input.innerHTML = found["title"]
+            input.innerHTML = "Filter: "+found["title"]
         } else {
             input.innerHTML = ""
         }
@@ -96,28 +97,11 @@ function setFilterPlaceholder() {
     }
 }
 
-function filterSale() {
-    const params = new URLSearchParams(window.location.search)
-    const sale = params.get("sale")
-    if (sale !== null) {
-        params.delete("sale")
-        window.history.replaceState({}, "", `${window.location.pathname}?${params}`)
-        setFilter('Reset', 100000, 'sm')
-    } else {
-        params.set("sale", true)
-        window.history.replaceState({}, "", `${window.location.pathname}?${params}`)
-        setFilter('Price', 100000, 'sm')
-    }
-}
 
-function setSalePlaceholder() {
-    const params = new URLSearchParams(window.location.search)
-    const input = document.getElementById('sale_pill')
-    const sale = params.get("sale")
 
-    if (sale !== null) {
-        input.innerHTML = "reset"
-    }else{
-        input.innerHTML = "<i class='bi bi-currency-dollar'></i>Sale<i class='bi bi-currency-dollar'></i>"
-    }
+
+function toggleFilter(){
+        document.getElementById('filter').classList.toggle('d-none')
+        document.getElementById('filterButton').classList.toggle('btn-secondary')
+        document.getElementById('filterButton').classList.toggle('btn-dark')
 }

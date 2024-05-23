@@ -30,3 +30,22 @@ function sortData(data, key, direction) {
     }
     return newData
 }
+
+function toggleSort(){
+    document.getElementById('sort').classList.toggle('d-none')
+    document.getElementById('sortButton').classList.toggle('btn-secondary')    
+    document.getElementById('sortButton').classList.toggle('btn-dark')
+}
+
+function setSortPlaceholder() {
+    const params = new URLSearchParams(window.location.search)
+    const input = document.getElementById('sortField')
+    const value = params.get("sort")
+    const search = params.get("search")
+    const direction = params.get("sortDirection")
+    if ((value !== null)&&(search===null)) {
+            input.innerHTML = "Sort: "+value+" "+ direction
+     } else {
+        input.innerHTML = ""
+    }
+}
