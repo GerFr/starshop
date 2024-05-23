@@ -73,5 +73,8 @@ Handlebars.registerHelper({
     const params = new URLSearchParams(window.location.search)
     const admin = params.get("admin")
     return (admin === "true")
+  },
+  formatCurrency(value){
+    return value.toString().replace(/(\d)(?=(\d\d\d)+(?!\d))/g, "$1,")
   }
 });

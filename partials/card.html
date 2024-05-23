@@ -6,15 +6,14 @@
       {{#if (lt Price 100000)}}
       <div class="badge position-absolute rounded-pill bg-danger text-white ms-4 p-2 m-2">Sale</div>
       {{/if}}
-      <div class="card-body text-center py-4">
-        <h4 class="card-title">
+      <div class="card-body text-center py-4 ">
+        <h4 class="card-title mb-2 fs-4">
           {{ProperName}}
         </h4>
-        <p class="lead card-subtitle">
-          distance:<br />
-          <strong>{{Distance}}</strong><br />
-          magnitude:<br />
-          <strong>{{AbsMag}}</strong><br />
+        <div class="border-top border-2"></div>
+        <p class="lead card-subtitle mt-3">
+          <p class="text-light fs-4">€ {{formatCurrency Price}}</p>
+          <!-- <div class="display-6">€ {{formatCurrency Price}}</div> -->
         </p>
       </div>
       {{#if (admin)}}
