@@ -15,6 +15,8 @@ function setSearch(event) {
 }
 function removeSearch(){
     const params = new URLSearchParams(window.location.search)
+    const input = document.getElementById('query')
+    input.value = ""
     params.delete("search")
     window.history.replaceState({}, "", `${window.location.pathname}?${params}`)
     window.location.reload()

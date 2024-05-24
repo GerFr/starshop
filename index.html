@@ -135,7 +135,7 @@
         <p id="searchField" class="text-light mx-3"></p>
         <p id="filterField" class="text-light mx-3"></p>
         <p id="sortField" class="text-light mx-3"></p>
-        <div class="btn-group mx-2" role="group">
+        <div class="btn-group mx-2 my-2" role="group">
         <a onclick="toggleFilter()" class="btn btn-secondary" id="filterButton"><i class="bi bi-funnel"></i></a>
         <a onclick="toggleSort()" class="btn btn-secondary" id="sortButton"><i class="bi bi-filter-right"></i></a>
         </div>
@@ -144,8 +144,8 @@
         <form class="d-flex needs-validation" id="searchForm" novalidate>
           <input id="query" class="form-control me-2" type="text" placeholder="Search" aria-label="Search" required>
           <div class="btn-group" role="group">
-            <button class="btn btn-outline-white btn-secondary" type="submit" id="search">Search</button>
-            <a class="btn btn-secondary btn-outline-danger" onclick="removeSearch()">
+            <button class="btn btn-outline-white btn-secondary" type="submit" id="search"><i class="bi bi-search"></i></button>
+            <a class="btn btn-secondary" onclick="removeSearch()">
               <i class="bi bi-trash"></i>
             </a>
           </div>
