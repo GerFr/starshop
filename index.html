@@ -137,7 +137,11 @@
         <p id="sortField" class="text-light mx-3"></p>
         <div class="btn-group mx-2 my-2" role="group">
         <a onclick="toggleFilter()" class="btn btn-secondary" id="filterButton"><i class="bi bi-funnel"></i></a>
+        <a class="btn btn-secondary" onclick="setFilter('Reset', null, null)"><i class="bi bi-trash"></i></a>
+        </div>
+        <div class="btn-group mx-2 my-2" role="group">
         <a onclick="toggleSort()" class="btn btn-secondary" id="sortButton"><i class="bi bi-filter-right"></i></a>
+        <a class="btn btn-secondary" onclick="setSort('Reset', null)"><i class="bi bi-trash"></i></a>
         </div>
         <a id="createBtn" href="#" class="btn btn-primary m-2 d-none" data-bs-toggle="modal"
           data-bs-target="#createModal"><i class="bi bi-plus-square"></i></a>
@@ -168,11 +172,6 @@
             <img src="assets/icons/sale.png" class="card-img-top image-fluid">
           </a>
           </div>
-          <div class="col-4 col-sm-3 col-md-2 col-xl-1">
-          <a class="btn" onclick="setFilter('Reset', null, null)">
-            <img src="assets/icons/delete.png" class="card-img-top image-fluid">
-          </a>
-          </div>
           </script>
         <div class="row"></div>
       </div>
@@ -186,11 +185,6 @@
           <div class="col-4 col-sm-3 col-md-2 col-xl-1">
             <a class="btn" onclick="setSort('Price', 'dsc')">
               <img src="assets/icons/absteigend.png" class="card-img-top image-fluid">
-            </a>
-          </div>
-          <div class="col-4 col-sm-3 col-md-2 col-xl-1">
-            <a class="btn" onclick="setSort('Reset', null)">
-              <img src="assets/icons/delete.png" class="card-img-top image-fluid">
             </a>
           </div>
         </div>
