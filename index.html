@@ -15,12 +15,12 @@
   <!-- TODO: css Style in extra Stylesheet file called style.css -->
   <style>
     .container-background-repeat {
-        background-image: url('assets/StarBackround.jpg');
-        background-repeat: repeat;
-        background-size:  auto;
-        background-position: right;
+      background-image: url('assets/StarBackround.jpg');
+      background-repeat: repeat;
+      background-size: auto;
+      background-position: right;
     }
-</style>
+  </style>
 
   <link rel="icon" href="assets/icons/stars.png">
   <!-- handlebars -->
@@ -42,7 +42,7 @@
 
       render({}, '[type="text/x-handlebars-navbar"]')
       render({}, '[type="text/x-handlebars-footer"]')
-      render(colors.slice(0,7), '[type="text/x-handlebars-filter"]')
+      render(colors.slice(0, 7), '[type="text/x-handlebars-filter"]')
 
 
       const params = new URLSearchParams(window.location.search)
@@ -136,19 +136,20 @@
         <p id="filterField" class="text-light mx-3"></p>
         <p id="sortField" class="text-light mx-3"></p>
         <div class="btn-group mx-2 my-2" role="group">
-        <a onclick="toggleFilter()" class="btn btn-secondary" id="filterButton"><i class="bi bi-funnel"></i></a>
-        <a class="btn btn-secondary" onclick="setFilter('Reset', null, null)"><i class="bi bi-trash"></i></a>
+          <a onclick="toggleFilter()" class="btn btn-secondary" id="filterButton"><i class="bi bi-funnel"></i></a>
+          <a class="btn btn-secondary" onclick="setFilter('Reset', null, null)"><i class="bi bi-trash"></i></a>
         </div>
         <div class="btn-group mx-2 my-2" role="group">
-        <a onclick="toggleSort()" class="btn btn-secondary" id="sortButton"><i class="bi bi-filter-right"></i></a>
-        <a class="btn btn-secondary" onclick="setSort('Reset', null)"><i class="bi bi-trash"></i></a>
+          <a onclick="toggleSort()" class="btn btn-secondary" id="sortButton"><i class="bi bi-filter-right"></i></a>
+          <a class="btn btn-secondary" onclick="setSort('Reset', null)"><i class="bi bi-trash"></i></a>
         </div>
         <a id="createBtn" href="#" class="btn btn-primary m-2 d-none" data-bs-toggle="modal"
           data-bs-target="#createModal"><i class="bi bi-plus-square"></i></a>
         <form class="d-flex needs-validation" id="searchForm" novalidate>
           <input id="query" class="form-control me-2" type="text" placeholder="Search" aria-label="Search" required>
           <div class="btn-group" role="group">
-            <button class="btn btn-outline-white btn-secondary" type="submit" id="search"><i class="bi bi-search"></i></button>
+            <button class="btn btn-outline-white btn-secondary" type="submit" id="search"><i
+                class="bi bi-search"></i></button>
             <a class="btn btn-secondary" onclick="removeSearch()">
               <i class="bi bi-trash"></i>
             </a>
@@ -160,29 +161,29 @@
       <div class="container border border-dark mt-3 d-none" id="filter">
         <script id="template" type="text/x-handlebars-filter">
           {{#each this}}
-            <div class="col-4 col-sm-3 col-md-2 col-xl-1">
+            <div class="col-4 col-sm-3 col-md-2 col-xl-2">
               <button class="btn" onclick="setFilter('{{key}}', '{{color}}', 'eq')">
                 <img src="assets/stars/{{color}}.png" class="card-img-top image-fluid">
               </button>
             </div>
           {{/each}}
-          <div class="col-4 col-sm-3 col-md-2 col-xl-1">
+          <div class="col-4 col-sm-3 col-md-2 col-xl-2">
           <a class="btn" onclick="setFilter('Price', '100000', 'sm')">
             <img src="assets/icons/sale.png" class="card-img-top image-fluid">
           </a>
           </div>
           </script>
-        <div class="row"></div>
+        <div class="row justify-content-end"></div>
       </div>
 
       <div class="container border border-dark mt-2 d-none" id="sort">
-        <div class="row">
-          <div class="col-4 col-sm-3 col-md-2 col-xl-1">
+        <div class="row justify-content-end">
+          <div class="col-4 col-sm-3 col-md-2 col-xl-2">
             <a class="btn" onclick="setSort('Price', 'asc')">
               <img src="assets/icons/aufsteigend.png" class="card-img-top image-fluid">
             </a>
           </div>
-          <div class="col-4 col-sm-3 col-md-2 col-xl-1">
+          <div class="col-4 col-sm-3 col-md-2 col-xl-2">
             <a class="btn" onclick="setSort('Price', 'dsc')">
               <img src="assets/icons/absteigend.png" class="card-img-top image-fluid">
             </a>
