@@ -157,18 +157,18 @@
         <script id="template" type="text/x-handlebars-filter">
           
           {{#each this}}
-            <div class="col-4 col-sm-4 col-md-3 col-xl-1">
+            <div class="col-4 col-sm-3 col-md-2 col-xl-1">
               <button class="btn" onclick="setFilter('{{key}}', '{{color}}', 'eq')">
                 <img src="assets/stars/{{color}}.png" class="card-img-top image-fluid">
               </button>
             </div>
           {{/each}}
-          <div class="col-4 col-sm-4 col-md-3 col-xl-1">
+          <div class="col-4 col-sm-3 col-md-2 col-xl-1">
           <a class="btn" onclick="setFilter('Price', '100000', 'sm')">
             <img src="assets/icons/sale.png" class="card-img-top image-fluid">
           </a>
           </div>
-          <div class="col-4 col-sm-4 col-md-3 col-xl-1">
+          <div class="col-4 col-sm-3 col-md-2 col-xl-1">
           <a class="btn" onclick="setFilter('Reset', null, null)">
             <img src="assets/icons/delete.png" class="card-img-top image-fluid">
           </a>
@@ -178,17 +178,17 @@
       </div>
       <div class="container border border-dark mt-2 d-none" id="sort">
         <div class="row">
-          <div class="col-4 col-sm-4 col-md-3 col-xl-1">
+          <div class="col-4 col-sm-3 col-md-2 col-xl-1">
             <a class="btn" onclick="setSort('Price', 'asc')">
               <img src="assets/icons/aufsteigend.png" class="card-img-top image-fluid">
             </a>
           </div>
-          <div class="col-4 col-sm-4 col-md-3 col-xl-1">
+          <div class="col-4 col-sm-3 col-md-2 col-xl-1">
             <a class="btn" onclick="setSort('Price', 'dsc')">
               <img src="assets/icons/absteigend.png" class="card-img-top image-fluid">
             </a>
           </div>
-          <div class="col-4 col-sm-4 col-md-3 col-xl-1">
+          <div class="col-4 col-sm-3 col-md-2 col-xl-1">
             <a class="btn" onclick="setSort('Reset', null)">
               <img src="assets/icons/delete.png" class="card-img-top image-fluid">
             </a>
