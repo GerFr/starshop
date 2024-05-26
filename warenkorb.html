@@ -160,9 +160,14 @@
                     <span class="text-muted">Your cart</span>
                 </h4>
                 <script id="template" type="text/x-handlebars-template">
-                    {{> cartcard }}
+                    {{> cartcard2 }}
                 </script>
                 <div></div>
+                <script id="template"
+                                type="text/x-handlebars-template">
+                            {{> cartmodal }}
+                            </script>
+                            <div></div>
                 <input id="total" type="text" class="form-control" readonly>
                 <hr>
                 <a name="checkout" id class="btn btn-primary"
@@ -177,13 +182,14 @@
                             <script id="template"
                                 type="text/x-handlebars-suggestion">
                             {{> suggestion }}
-                        </script>
+                            </script>
                             <div></div>
                             <script id="template"
                                 type="text/x-handlebars-suggestion">
                             {{> modal }}
-                           </script>
-                            <div></div></div>
+                            </script>
+                            <div></div>
+                        </div>
                     </div>
                 </div>
             </div>
