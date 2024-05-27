@@ -125,8 +125,11 @@ function updateRecommendation() {
   }
   
   searchResults.innerHTML = ''
+  let last = names.length
+  let counter = 0
   if ((input!=="")&&(names!==null)){
   names.forEach(item => {
+    counter+=1
 
     let column = document.createElement('div')
     column.classList.add("col")
@@ -134,7 +137,11 @@ function updateRecommendation() {
 
     let resultDiv = document.createElement('button')
     resultDiv.classList.add("btn")
-    resultDiv.classList.add("btn-dark")
+    if (counter===last){
+        resultDiv.classList.add("btn-secondary")
+    }else {
+        resultDiv.classList.add("btn-dark")
+    }
     resultDiv.textContent = item
 
     resultDiv.addEventListener('click', () => {
