@@ -153,7 +153,7 @@
         <a id="createBtn" href="#" class="btn btn-primary m-2 d-none" data-bs-toggle="modal"
           data-bs-target="#createModal"><i class="bi bi-plus-square"></i></a>
         <form class="d-flex needs-validation" id="searchForm" novalidate>
-          <input id="query" class="form-control me-2" type="text" placeholder="Search" aria-label="Search" required>
+          <input id="query" class="form-control me-2" type="text" placeholder="Search" aria-label="Search" oninput="updateRecommendation()" required>
           <div class="btn-group" role="group">
             <button class="btn btn-outline-white btn-secondary" type="submit" id="search"><i
                 class="bi bi-search"></i></button>
@@ -180,7 +180,9 @@
 
         </form>
       </div>
-
+      <div class="container justify-content-center">
+        <div class="row"id="searchResults"></div>
+      </div>
       <div class="container border border-dark mt-3 d-none" id="filter">
         <script id="template" type="text/x-handlebars-filter">
           {{#each this}}
