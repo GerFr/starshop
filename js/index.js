@@ -93,4 +93,5 @@ function tocart(sID) {
         parsedCartarr.push(sID);
     }
     sessionStorage.setItem(CART, JSON.stringify(parsedCartarr))
+    document.getElementById("cartcounter").innerHTML = parsedCartarr.length
 }

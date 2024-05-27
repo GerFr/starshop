@@ -25,6 +25,7 @@
                 const cartIDdata = JSON.parse(sessionStorage.getItem("cart"))
                 const baseData =JSON.parse(localStorage.getItem("data"))
                 const cartData = []
+                
 
                 if ((!(cartIDdata===null)) && (!(baseData===null))){
                     for (var j = 0; j < cartIDdata.length; j++){
@@ -35,10 +36,7 @@
                         }
 	                }
                 }
-                var total = 0
-                for (let i = 0; i < cartData.length; i++){
-                    total += cartData[i]["Price"]
-                }
+
                 var colorcount = {blueStar:0, 
 					              blueWhiteStar:0, 
                                   orangeRedStar:0, 
@@ -71,10 +69,11 @@
                             colorcount.yellowWhiteStar = colorcount.yellowWhiteStar+ 1
                         }
                     }
-                    var max = 0
-                    for (const [key, value] of Object.entries(colorcount)) {
-                        if (value > max){
-                            max = [key, value]
+
+                    var max = ['',0]
+                    for (var i = 0; i < Object.entries(colorcount).length; i++) {
+                        if (Object.entries(colorcount)[i][1] > max[1]){
+                            max = Object.entries(colorcount)[i]
                         }
                     }
                     var maxcolor = []
@@ -88,12 +87,19 @@
                     while(ran === ran2){
                         ran2 = Math.floor(Math.random() * (maxcolor.length-1))
                     }
-                    const prod_suggestion = [maxcolor[ran],maxcolor[ran2]]
+                    const prod_suggestion = [maxcolor[ran], maxcolor[ran2]]
                     render(prod_suggestion, '[type="text/x-handlebars-suggestion"]')
+                    console.log(colorcount)
+                    console.log(max)
+                    console.log(prod_suggestion)
                 }
 
+
               
-                                
+                var total = 0
+                for (let i = 0; i < cartData.length; i++){
+                    total += cartData[i]["Price"]
+                }               
                 var infos = document.getElementById('total');
                 infos.setAttribute('value', 'Total Summary '+  total + " €")
                 if (cartData.length>0){
@@ -157,31 +163,37 @@
                     {{> cartcard }}
                 </script>
                 <div></div>
+                <script id="template"
+                                type="text/x-handlebars-template">
+                            {{> cartmodal }}
+                            </script>
+                            <div></div>
                 <input id="total" type="text" class="form-control" readonly>
                 <hr>
                 <a name="checkout" id class="btn btn-primary"
                     href="checkout.html" role="button">Checkout</a>
                 <div class="ibox">
                     <div class="ibox-content">
-                        <p class="font-bold">
-                            Other products you may be interested
-                        </p>
-                        <hr>
-                        <script id="template"
-                            type="text/x-handlebars-suggestion">
+                        <div>
+                            <hr>
+                            <p class="font-bold">
+                                Other products you may be interested
+                            </p>
+                            <script id="template"
+                                type="text/x-handlebars-suggestion">
                             {{> suggestion }}
-                        </script>
-                        <div></div>
-                        <script id="template"
-                            type="text/x-handlebars-suggestion">
+                            </script>
+                            <div></div>
+                            <script id="template"
+                                type="text/x-handlebars-suggestion">
                             {{> modal }}
-                           </script>
-                        <div></div>
+                            </script>
+                            <div></div>
+                        </div>
                     </div>
                 </div>
             </div>
         </main>
-
 
         <script id="template" type="text/x-handlebars-footer">
             {{> footer }}

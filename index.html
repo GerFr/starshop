@@ -56,6 +56,13 @@
         params.get("filterOperation"),
         params.get("sortDirection"))
 
+    // sets the number besides cart icon to display current amount of products inside of cart on reload
+      var CART = sessionStorage.getItem("cart")
+      if(!(CART === null)){
+        var parsedCart = JSON.parse(CART)
+        document.getElementById("cartcounter").innerHTML = parsedCart.length
+      }
+
       var queryData;
       if (!(queryDataFull === null)) {
         queryData = queryDataFull.slice(pageNumbers[0], pageNumbers[1])
@@ -154,7 +161,23 @@
               <i class="bi bi-trash"></i>
             </a>
           </div>
-          <a class="btn mx-2 btn-primary" href="warenkorb.html">Cart</a>
+        
+          <a class="btn btn-outline-dark mx-2" type="submit"
+                href="warenkorb.html">
+                <div class="container">
+                  <div class="row">
+                    <div class="col-sm-5"> 
+                      <i class="bi-cart-fill me-1"></i>
+                    </div>
+                    <div class="col-sm-5">
+                      <div id="cartcounter"
+                        class="badge bg-dark text-white ms-1 rounded-pill me-2">0
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </a>
+
         </form>
       </div>
 
