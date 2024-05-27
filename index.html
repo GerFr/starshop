@@ -1,86 +1,82 @@
 <!doctype html>
 <html lang="en">
 
-  <head>
-    <title>Starshop</title>
-    <!-- Required meta tags -->
-    <meta charset="utf-8" />
-    <meta name="viewport"
-      content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+<head>
+  <title>Starshop</title>
+  <!-- Required meta tags -->
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
 
-    <!-- bootstrap -->
-    <link rel="stylesheet" href="css/bootstrap.min.css">
-    <!-- source: https://cdn.jsdelivr.net/npm/bootstrap-dark-5@1.1.3/dist/css/bootstrap-dark.min.css -->
-    <!-- icons -->
-    <link rel="stylesheet"
-      href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
-    <link rel="icon" href="assets/icons/stars.png">
-    <!-- handlebars -->
-    <script src="js/handlebars.min-v4.7.8.js"></script>
-    <script src="js/vanilla.js"></script>
-    <script src="js/search.js"></script>
-    <script src="js/admin.js"></script>
-    <script src="js/index.js"></script>
-    <script>
+  <!-- bootstrap -->
+  <link rel="stylesheet" href="css/bootstrap-dark.css">
+  <!-- source: https://cdn.jsdelivr.net/npm/bootstrap-dark-5@1.1.3/dist/css/bootstrap-dark.min.css -->
+  <!-- icons -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+  <!-- TODO: css Style in extra Stylesheet file called style.css -->
+  <style>
+    .container-background-repeat {
+      background-image: url('assets/StarBackround.jpg');
+      background-repeat: repeat;
+      background-size: auto;
+      background-position: right;
+    }
+  </style>
+
+  <link rel="icon" href="assets/icons/stars.png">
+  <!-- handlebars -->
+  <script src="js/handlebars.min-v4.7.8.js"></script>
+  <script src="js/vanilla.js"></script>
+  <script src="js/search.js"></script>
+  <script src="js/filter.js"></script>
+  <script src="js/sort.js"></script>
+  <script src="js/admin.js"></script>
+  <script src="js/index.js"></script>
+  <script>
     function init() {
+
       $on($('#search'), 'click', setSearch)
+      // adds eventlistener to Create new Item id: "#createnew" button which starts the method create() in admin.js
       $on($('#createnew'), 'click', create)
       $on($('#increment'), 'click', increment)
       $on($('#decrement'), 'click', decrement)
 
-
       render({}, '[type="text/x-handlebars-navbar"]')
       render({}, '[type="text/x-handlebars-footer"]')
+      render(colors.slice(0, 7), '[type="text/x-handlebars-filter"]')
+
 
       const params = new URLSearchParams(window.location.search)
-      const query = params.get("search")
-      const page = params.get("page")
+      const pageParam = params.get("page")
+      const pageNumbers = getPageNumbers(pageParam, 12)
+      const queryDataFull = getQueryData(
+        params.get("search"),
+        params.get("filter"),
+        params.get("sort"),
+        params.get("filterValue"),
+        params.get("filterOperation"),
+        params.get("sortDirection"))
 
-      // only search if data is in local storage and there is a query
-      if (!(query === null) && !(localStorage.getItem("data") === null)) {
-        search(query)
-      } else {
-        removQueryData()
-      }
-
-      // form code
-      const searchForm = document.getElementById("searchForm")
-      searchForm.addEventListener('submit', event => {
-        if (!searchForm.checkValidity()) {
-          event.preventDefault()
-          event.stopPropagation()
-        }
-        searchForm.classList.add('was-validated')
-      }, false)
-      function handleForm(event) { event.preventDefault(); }
-      searchForm.addEventListener('submit', handleForm);
-
-
-      // get Star data to render cards and modals, if search was made, render query data
-      const queryData = sessionStorage.getItem("queryData")
-      const baseData = localStorage.getItem("data")
-
-      var start;
-      var end;
-      if (!(page === null)) {
-        start = 12 * (page - 1)
-        end = 12 * (page)
-      } else {
-        start = 0
-        end = 12
-      }
-      // sets the number besides cart icon to display current amount of products inside of cart on reload
+    // sets the number besides cart icon to display current amount of products inside of cart on reload
       var CART = sessionStorage.getItem("cart")
       if(!(CART === null)){
         var parsedCart = JSON.parse(CART)
         document.getElementById("cartcounter").innerHTML = parsedCart.length
       }
 
-      if (!(queryData === null)) {
-        render(JSON.parse(queryData).slice(start, end), '[type="text/x-handlebars-template"]')
+      var queryData;
+      if (!(queryDataFull === null)) {
+        queryData = queryDataFull.slice(pageNumbers[0], pageNumbers[1])
+      } else {
+        queryData = null
       }
-      else if (!(baseData === null)) {
-        render(JSON.parse(baseData).slice(start, end), '[type="text/x-handlebars-template"]')
+
+      // Search form code
+      const searchForm = document.getElementById("searchForm")
+      startSearchForm(searchForm)
+
+      render({ "page": pageNumbers[2] }, '[type="text/x-handlebars-page"]')
+      if (!(queryData === null)) {
+        render(queryData, '[type="text/x-handlebars-template"]')
       }
       else {
         fetch('data/hygfull.json')
@@ -94,68 +90,79 @@
     }
   </script>
 
-  </head>
+</head>
 
-  <body onload="init()">
+<body onload="init()">
 
-    <script id="template" type="text/x-handlebars-navbar">
+  <script id="template" type="text/x-handlebars-navbar">
     {{> navbar }}
   </script>
-    <div></div>
-
-    <!-- MARK:image and intro
+  <div></div>
+  <!-- MARK:image and intro
     -->
-    <section id="intro">
-      <div class="container-lg my-5">
-        <div class="row justify-contents-center align-items-center">
-          <div class="col-md-5 text-center text-md-start">
-            <h1>
-              <div class="display-2">Buy a Star</div>
-              <div class="display-5 text-muted">Leave a Lasting Legacy</div>
-            </h1>
-            <p class="lead my-4 text-muted">Choose Any Star Visible in the Sky
-              from the Famous <a
-                href="https://github.com/astronexus/HYG-Database/blob/main/hyg/v2/hygfull.csv"><strong>HYG</strong></a>
-              Database - A Truly
-              Unique Gift for
-              the Rich and Successful</p>
-            <a href="#pricing" class="btn btn-secondary btn-lg">Buy Now</a>
-          </div>
-          <div class="col-md-5 text-center d-none d-md-block">
-            <img src="assets/StarField.jpg" alt="star image"
-              class="img-fluid rounded">
-          </div>
+  <section id="intro">
+    <div class="container-lg my-5">
+      <div class="row justify-contents-center align-items-center">
+        <div class="col-md-5 text-center text-md-start">
+          <h1>
+            <div class="display-2">Buy a Star</div>
+            <div class="display-5 text-muted">Leave a Lasting Legacy</div>
+          </h1>
+          <p class="lead my-4 text-muted">Choose Any Star Visible in the Sky from the Famous <a
+              href="https://github.com/astronexus/HYG-Database/blob/main/hyg/v2/hygfull.csv"><strong>HYG</strong></a>
+            Database - A Truly
+            Unique Gift for
+            the Rich and Successful</p>
+          <a href="#pricing" class="btn btn-secondary btn-lg">Buy Now</a>
         </div>
-
+        <div class="col-md-5 text-center d-none d-md-block">
+          <img src="assets/StarField.jpg" alt="star image" class="img-fluid rounded">
+        </div>
       </div>
-    </section>
 
-    <!-- MARK: Articles 
+    </div>
+  </section>
+
+
+  <!-- MARK: Articles 
   -->
-    <section id="pricing" class="bg-black mt-5">
 
-      <div class="container-l py-4">
-        <div class="text-center">
-          <h2>Star Collection</h2>
-          <p class="lead text-muted">choose the perfect star</p>
+  <section id="" class="bg-black">
+    <div class="container-l py-4">
+      <div class="text-center">
+        <h2>Star Collection</h2>
+        <p class="lead text-muted">choose the perfect star</p>
+      </div>
+  </section>
+
+  <section id="pricing" class="container-background-repeat border-bottom bg-black">
+    <nav class="navbar bg-body-tertiary sticky-top bg-black border-bottom border-dark">
+      <div class="container-fluid justify-content-end px-5">
+        <a class="navbar-brand"></a>
+        <p id="searchField" class="text-light mx-3"></p>
+        <p id="filterField" class="text-light mx-3"></p>
+        <p id="sortField" class="text-light mx-3"></p>
+        <div class="btn-group mx-2 my-2" role="group">
+          <a onclick="toggleFilter()" class="btn btn-secondary" id="filterButton"><i class="bi bi-funnel"></i></a>
+          <a class="btn btn-secondary" onclick="setFilter('Reset', null, null)"><i class="bi bi-trash"></i></a>
         </div>
-
-        <nav class="navbar bg-body-tertiary sticky-top bg-black">
-          <div class="container-fluid justify-content-end">
-            <a class="navbar-brand"></a>
-            <a id="createBtn" href="#" class="btn btn-primary m-2 d-none"
-              data-bs-toggle="modal"
-              data-bs-target="#createModal"><i
-                class="bi bi-plus-square"></i></a>
-            <form class="d-flex needs-validation" id="searchForm" novalidate>
-              <script id="template" type="text/x-handlebars-query">
-              {{query}}
-            </script>
-              <input id="query" class="form-control me-1" type="text"
-                placeholder="Search" aria-label="Search" required>
-              <button class="btn btn-outline-white btn-secondary"
-                type="submit" id="search">Search</button>
-              <a class="btn btn-outline-dark" type="submit"
+        <div class="btn-group mx-2 my-2" role="group">
+          <a onclick="toggleSort()" class="btn btn-secondary" id="sortButton"><i class="bi bi-filter-right"></i></a>
+          <a class="btn btn-secondary" onclick="setSort('Reset', null)"><i class="bi bi-trash"></i></a>
+        </div>
+        <a id="createBtn" href="#" class="btn btn-primary m-2 d-none" data-bs-toggle="modal"
+          data-bs-target="#createModal"><i class="bi bi-plus-square"></i></a>
+        <form class="d-flex needs-validation" id="searchForm" novalidate>
+          <input id="query" class="form-control me-2" type="text" placeholder="Search" aria-label="Search" required>
+          <div class="btn-group" role="group">
+            <button class="btn btn-outline-white btn-secondary" type="submit" id="search"><i
+                class="bi bi-search"></i></button>
+            <a class="btn btn-secondary" onclick="removeSearch()">
+              <i class="bi bi-trash"></i>
+            </a>
+          </div>
+        
+          <a class="btn btn-outline-dark mx-2" type="submit"
                 href="warenkorb.html">
                 <div class="container">
                   <div class="row">
@@ -164,215 +171,207 @@
                     </div>
                     <div class="col-sm-5">
                       <div id="cartcounter"
-                        class="badge bg-dark text-white ms-1 rounded-pill">0
+                        class="badge bg-dark text-white ms-1 rounded-pill me-2">0
                       </div>
                     </div>
                   </div>
                 </div>
               </a>
-            </form>
 
-          </div>
-        </nav>
-
-        <script id="template" type="text/x-handlebars-template">
-        {{> card }}
-      </script>
-        <div
-          class="row mx-sm-5 align-items-center justify-content-center g-2"></div>
+        </form>
       </div>
 
-      <div class="container">
-        <div class="row justify-content-center align-items-center">
-          <div class="col text-center">
-            <div class="btn-group">
-              <button class="btn btn-outline-white btn md-3" id="decrement">
-                <i class="bi bi-arrow-left"></i>
-              </button>
-              <button class="btn btn-outline-white btn md-3" id="increment">
-                <i class="bi bi-arrow-right"></i>
+      <div class="container border border-dark mt-3 d-none" id="filter">
+        <script id="template" type="text/x-handlebars-filter">
+          {{#each this}}
+            <div class="col-4 col-sm-3 col-md-2 col-xl-2">
+              <button class="btn" onclick="setFilter('{{key}}', '{{color}}', 'eq')">
+                <img src="assets/stars/{{color}}.png" class="card-img-top image-fluid">
               </button>
             </div>
+          {{/each}}
+          <div class="col-4 col-sm-3 col-md-2 col-xl-2">
+          <a class="btn" onclick="setFilter('Price', '100000', 'sm')">
+            <img src="assets/icons/sale.png" class="card-img-top image-fluid">
+          </a>
+          </div>
+          </script>
+        <div class="row justify-content-end"></div>
+      </div>
+
+      <div class="container border border-dark mt-2 d-none" id="sort">
+        <div class="row justify-content-end">
+          <div class="col-4 col-sm-3 col-md-2 col-xl-2">
+            <a class="btn" onclick="setSort('Price', 'asc')">
+              <img src="assets/icons/aufsteigend.png" class="card-img-top image-fluid">
+            </a>
+          </div>
+          <div class="col-4 col-sm-3 col-md-2 col-xl-2">
+            <a class="btn" onclick="setSort('Price', 'dsc')">
+              <img src="assets/icons/absteigend.png" class="card-img-top image-fluid">
+            </a>
           </div>
         </div>
       </div>
+    </nav>
 
-    </section>
-
-    <!-- MARK: modal
-   -->
     <script id="template" type="text/x-handlebars-template">
-   {{> modal }}
-  </script>
-    <div></div>
+        {{> card }}
+      </script>
+    <div class="row mx-sm-5 align-items-center justify-content-center g-2 my-4"></div>
+    </div>
 
-    <!-- MARK: Create Modal 
-    -->
-    <div class="modal fade" id="createModal" tabindex="-1"
-      aria-labelledby="exampleModalLabel" aria-hidden="true">
-      <div class="modal-dialog">
-        <div class="modal-content">
-          <div class="modal-header">
-            <h5 class="modal-title" id="exampleModalLabel"></h5>
-            <button type="button" class="btn-close" data-bs-dismiss="modal"
-              aria-label="Close"></button>
-          </div>
-          <div class="modal-body">
-            <div class="text-center">
-              <h2>Create new Item</h2>
-              <p class="lead">Fill out the form</p>
-            </div>
-            <!-- MARK: Form - Create
-                   -->
-            <form id="createForm" class="needs-validation"
-              onsubmit="return false;" novalidate action="#">
-              <div class="row justify-content-center align-items-center g-2">
-                <div class="col">
-                  <label for="number" class="form-label">StarID:</label>
-                  <input type="number" class="form-control" id="StarID"
-                    placeholder="e.g. 65795" required>
-                  <div class="invalid-feedback">Please enter a valid
-                    StarID</div>
-
-                  <label for="number" class="form-label">Hip:</label>
-                  <input type="number" class="form-control" id="Hip"
-                    placeholder="e.g. 91262" required>
-                  <div class="invalid-feedback">Please enter a valid Hip</div>
-
-                  <label for="number" class="form-label">HD:</label>
-                  <input type="number" class="form-control" id="HD"
-                    placeholder="e.g. 172167" required>
-                  <div class="invalid-feedback">Please enter a valid HD</div>
-
-                  <label for="name" class="form-label">Name:</label>
-                  <input type="name" class="form-control" id="ProperName"
-                    placeholder="e.g. Vega" required>
-                  <div class="invalid-feedback">Please enter a name</div>
-
-                  <label for="number" class="form-label">RA:</label>
-                  <input type="number" step="any" class="form-control" id="RA"
-                    placeholder="e.g. 18.61560722" required>
-                  <div class="invalid-feedback">Please enter a valid RA</div>
-
-                  <label for="number" class="form-label">Dec:</label>
-                  <input type="number" step="any" class="form-control" id="Dec"
-                    placeholder="e.g. 38.78299311" required>
-                  <div class="invalid-feedback">Please enter a valid Dec</div>
-
-                  <label for="number" class="form-label">Distance:</label>
-                  <input type="number" step="any" class="form-control"
-                    id="Distance" placeholder="e.g. 7.76" required>
-                  <div class="invalid-feedback">Please enter a valid
-                    Distance</div>
-
-                  <label for="number" class="form-label">Mag:</label>
-                  <input type="number" step="any" class="form-control" id="Mag"
-                    placeholder="e.g. 0.03" required>
-                  <div class="invalid-feedback">Please enter a valid Mag</div>
-
-                </div>
-                <div class="col mb-auto">
-
-                  <label for="number" class="form-label">AbsMag:</label>
-                  <input type="number" step="any" class="form-control"
-                    id="AbsMag" placeholder="e.g. 0.58" required>
-                  <div class="invalid-feedback">Please enter a valid
-                    AbsMag</div>
-
-                  <label for="text" class="form-label">Spectrum:</label>
-                  <input type="text" class="form-control" id="Spectrum"
-                    placeholder="e.g. B2.5V" required>
-                  <div class="invalid-feedback">Please enter a Spectrum</div>
-
-                  <label for="number" class="form-label">ColorIndex:</label>
-                  <input type="number" step="any" class="form-control"
-                    id="ColorIndex" placeholder="e.g. -0.134" required>
-                  <div class="invalid-feedback">Please enter a valid
-                    ColorIndex</div>
-
-                  <div class="form-floating mb-4 mt-4">
-                    <textarea class="form-control" id="GeneralInformation"
-                      style="height: 140px;" required></textarea>
-                    <label for="GeneralInformation">General information:</label>
-                    <div class="invalid-feedback">Please enter General
-                      Information</div>
-                  </div>
-
-                  <label for="number" class="form-label">Price:</label>
-                  <input type="number" class="form-control" id="Price"
-                    placeholder="e.g. 83506" required>
-                  <div class="invalid-feedback">Please enter a valid Price</div>
-
-                  <label class="form-label">Color:</label>
-                  <select id="Color" class="form-select" required>
-                    <option value="yellowWhiteStar"
-                      selected>yellowWhiteStar</option>
-                    <option value="yellowStar">yellowStar</option>
-                    <option value="whiteStar">whiteStar</option>
-                    <option value="orangeStar">orangeStar</option>
-                    <option value="orangeRedStar">orangeRedStar</option>
-                    <option value="blueStar">blueStar</option>
-                    <option value="blueWhiteStar">blueWhiteStar</option>
-                  </select>
-                </div>
-              </div>
-
-              <div class="mt-2 text-center">
-                <button type="submit" id="createnew"
-                  class="btn btn-secondary">save changes</button>
-              </div>
-            </form>
-          </div>
+  </section>
+  <div class="container mt-2">
+    <div class="row justify-content-center align-items-center">
+      <div class="col text-center">
+        <div class="btn-group">
+          <button class="btn btn-outline-white btn md-3" id="decrement">
+            <i class="bi bi-arrow-left"></i>
+          </button>
+          <script id="template" type="text/x-handlebars-page">
+            {{page}}
+           </script>
+          <div></div>
+          <button class="btn btn-outline-white btn md-3" id="increment">
+            <i class="bi bi-arrow-right"></i>
+          </button>
         </div>
       </div>
     </div>
+  </div>
 
-    <!-- MARK: To Cart Skript 
--->
-    <script>
-
-    function tocart(sID) {
-      var CART = "cart"
-      setTimeout(function () {
-        document.getElementById('cartAlert' + sID).classList.remove('d-none');
-        setTimeout(function () {
-          document.getElementById('cartAlert' + sID).classList.add('d-none');
-        }, 500);
-      }, 20);
-
-      var cartarr = sessionStorage.getItem(CART)
-      var parsedCartarr = JSON.parse(cartarr)
-      if (cartarr === null) {
-        parsedCartarr = [sID]
-      }
-      else if (parsedCartarr.includes(sID) === false) {
-        parsedCartarr.push(sID);
-      }
-      sessionStorage.setItem(CART, JSON.stringify(parsedCartarr))
-      console.log(parsedCartarr.length)
-      document.getElementById("cartcounter").innerHTML = parsedCartarr.length
-      
-    }
+  <!-- MARK: modal
+   -->
+  <script id="template" type="text/x-handlebars-template">
+   {{> modal }}
   </script>
+  <div></div>
 
-    <script>
+
+  <!-- MARK: Create Modal 
+    -->
+  <div class="modal fade" id="createModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLabel"></h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          <div class="text-center">
+            <h2>Create new Item</h2>
+            <p class="lead">Fill out the form</p>
+          </div>
+          <!-- MARK: Form - Create
+                   -->
+          <form id="createForm" class="needs-validation" onsubmit="return false;" novalidate action="#">
+            <div class="row justify-content-center align-items-center g-2">
+              <div class="col">
+                <label for="number" class="form-label">StarID:</label>
+                <input type="number" class="form-control" id="StarID" placeholder="e.g. 65795" required>
+                <div class="invalid-feedback">Please enter a valid StarID</div>
+
+                <label for="number" class="form-label">Hip:</label>
+                <input type="number" class="form-control" id="Hip" placeholder="e.g. 91262" required>
+                <div class="invalid-feedback">Please enter a valid Hip</div>
+
+                <label for="number" class="form-label">HD:</label>
+                <input type="number" class="form-control" id="HD" placeholder="e.g. 172167" required>
+                <div class="invalid-feedback">Please enter a valid HD</div>
+
+                <label for="name" class="form-label">Name:</label>
+                <input type="name" class="form-control" id="ProperName" placeholder="e.g. Vega" required>
+                <div class="invalid-feedback">Please enter a name</div>
+
+                <label for="number" class="form-label">RA:</label>
+                <input type="number" step="any" class="form-control" id="RA" placeholder="e.g. 18.61560722" required>
+                <div class="invalid-feedback">Please enter a valid RA</div>
+
+                <label for="number" class="form-label">Dec:</label>
+                <input type="number" step="any" class="form-control" id="Dec" placeholder="e.g. 38.78299311" required>
+                <div class="invalid-feedback">Please enter a valid Dec</div>
+
+                <label for="number" class="form-label">Distance:</label>
+                <input type="number" step="any" class="form-control" id="Distance" placeholder="e.g. 7.76" required>
+                <div class="invalid-feedback">Please enter a valid Distance</div>
+
+                <label for="number" class="form-label">Mag:</label>
+                <input type="number" step="any" class="form-control" id="Mag" placeholder="e.g. 0.03" required>
+                <div class="invalid-feedback">Please enter a valid Mag</div>
+
+
+              </div>
+              <div class="col mb-auto">
+
+                <label for="number" class="form-label">AbsMag:</label>
+                <input type="number" step="any" class="form-control" id="AbsMag" placeholder="e.g. 0.58" required>
+                <div class="invalid-feedback">Please enter a valid AbsMag</div>
+
+                <label for="text" class="form-label">Spectrum:</label>
+                <input type="text" class="form-control" id="Spectrum" placeholder="e.g. B2.5V" required>
+                <div class="invalid-feedback">Please enter a Spectrum</div>
+
+                <label for="number" class="form-label">ColorIndex:</label>
+                <input type="number" step="any" class="form-control" id="ColorIndex" placeholder="e.g. -0.134" required>
+                <div class="invalid-feedback">Please enter a valid ColorIndex</div>
+
+                <div class="form-floating mb-4 mt-4">
+                  <textarea class="form-control" id="GeneralInformation" style="height: 140px;" required></textarea>
+                  <label for="GeneralInformation">General information:</label>
+                  <div class="invalid-feedback">Please enter General Information</div>
+                </div>
+
+                <label for="number" class="form-label">Price:</label>
+                <input type="number" class="form-control" id="Price" placeholder="e.g. 83506" required>
+                <div class="invalid-feedback">Please enter a valid Price</div>
+
+                <label class="form-label">Color:</label>
+                <select id="Color" class="form-select" required>
+                  <option value="yellowWhiteStar" selected>yellowWhiteStar</option>
+                  <option value="yellowStar">yellowStar</option>
+                  <option value="whiteStar">whiteStar</option>
+                  <option value="orangeStar">orangeStar</option>
+                  <option value="orangeRedStar">orangeRedStar</option>
+                  <option value="blueStar">blueStar</option>
+                  <option value="blueWhiteStar">blueWhiteStar</option>
+                </select>
+              </div>
+            </div>
+
+
+            <div class="mt-2 text-center">
+              <button type="submit" id="createnew" class="btn btn-secondary">save changes</button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+  <script>
     setSearchPlaceholder()
+    setSortPlaceholder()
+    setFilterPlaceholder()
   </script>
-    <script>
+
+  <script>
+    // checks for admin param and shows the Button for Creating new elements if admin param equals "true"
+
     const params = new URLSearchParams(window.location.search)
     const admin = params.get("admin")
-    if (admin === "true") {document.getElementById('createBtn').classList.remove('d-none');}
-    else {document.getElementById('createBtn').classList.add('d-none');}
+    if (admin === "true") { document.getElementById('createBtn').classList.remove('d-none'); }
+    else { document.getElementById('createBtn').classList.add('d-none'); }
   </script>
 
-    <script id="template" type="text/x-handlebars-footer">
+  <script id="template" type="text/x-handlebars-footer">
     {{> footer }}
   </script>
-    <div></div>
+  <div></div>
 
-    <!-- Bootstrap JavaScript Libraries -->
-    <script src="js/bootstrap.js"></script>
-
-  </body>
+  <!-- Bootstrap JavaScript Libraries -->
+  <script src="js/bootstrap.js"></script>
+</body>
 
 </html>

@@ -8,7 +8,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
 
   <!-- bootstrap -->
-  <link rel="stylesheet" href="css/bootstrap.min.css">
+  <link rel="stylesheet" href="css/bootstrap-dark.css">
   <!-- icons -->
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
   <link rel="icon" href="assets/icons/cart.png">
@@ -26,21 +26,27 @@
 
       const checkoutForm = document.querySelector('.needs-validation')
       checkoutForm.addEventListener('submit', event => {
+        var clear = true;
 
         // no validation check if no stars in cart
         if (sessionStorage.getItem("cart") === null) {
           event.preventDefault()
           event.stopPropagation()
-          return
+          clear = false;
+          
           // validation check
         } else if (!checkoutForm.checkValidity()) {
           event.preventDefault()
           event.stopPropagation()
+          clear = false;  
         }
-        // add data to local storage
+          // add data to local storage
         checkoutForm.classList.add('was-validated')
-        toLocal()
-        clearCart()
+        if(clear){
+          toLocal()
+          clearCart()
+        }
+        
       }, false)
 
       // render cart information

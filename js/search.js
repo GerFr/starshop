@@ -7,29 +7,36 @@ function setSearch(event) {
         window.history.replaceState({}, "", `${window.location.pathname}?${params}`)
         window.location.reload()
     } else {
-        removQueryData()
         const params = new URLSearchParams(window.location.search)
         params.delete("search")
-        params.delete("page")
         window.history.replaceState({}, "", `${window.location.pathname}?${params}`)
         window.location.reload()
     }
 }
-
-function removQueryData() {
-    // remove query data so the first 20 default entries of the data are shown
-    sessionStorage.removeItem("queryData")
+function removeSearch(){
+    const params = new URLSearchParams(window.location.search)
+    const input = document.getElementById('query')
+    input.value = ""
+    params.delete("search")
+    window.history.replaceState({}, "", `${window.location.pathname}?${params}`)
+    window.location.reload()
 }
 
-function search(query) {
-    if (!(query == "")) {
-        data = JSON.parse(localStorage.getItem("data"))
-        const queryData = searchData(query, data)
-        sessionStorage.setItem("queryData", JSON.stringify(queryData))
-    }
+function startSearchForm(searchForm) {
+    searchForm.addEventListener('submit', event => {
+        if (!searchForm.checkValidity()) {
+            event.preventDefault()
+            event.stopPropagation()
+        }
+        searchForm.classList.add('was-validated')
+    }, false)
+    function handleForm(event) { event.preventDefault(); }
+    searchForm.addEventListener('submit', handleForm);
 }
 
-function searchData(query, data) {
+
+
+function searchData(data, query) {
     const words = []
     data.forEach(element => {
         starName = element["ProperName"]
@@ -87,12 +94,13 @@ function levenshteinDistance(first, second) {
 
 function setSearchPlaceholder() {
     const params = new URLSearchParams(window.location.search)
+    const field = document.getElementById('searchField')
     const input = document.getElementById('query')
-
     const query = params.get("search")
     if (!(query === null)) {
-        input.placeholder = query
+        field.innerHTML = "Search: "+query
+        input.value = query
     } else {
-        input.placeholder = "Search"
+        field.innerHTML = ""
     }
 }
