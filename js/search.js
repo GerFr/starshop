@@ -13,7 +13,7 @@ function setSearch(event) {
         window.location.reload()
     }
 }
-function removeSearch(){
+function removeSearch() {
     const params = new URLSearchParams(window.location.search)
     const input = document.getElementById('query')
     input.value = ""
@@ -98,14 +98,14 @@ function setSearchPlaceholder() {
     const input = document.getElementById('query')
     const query = params.get("search")
     if (!(query === null)) {
-        field.innerHTML = "Search: "+query
+        field.innerHTML = "Search: " + query
         input.value = query
     } else {
         field.innerHTML = ""
     }
 }
 
-function getNames(data){
+function getNames(data) {
     let names = [];
     data.forEach(star => {
         names.push(star["ProperName"])
@@ -115,41 +115,49 @@ function getNames(data){
 
 function updateRecommendation() {
 
-  let input = document.getElementById('query').value.toLowerCase()
-  let searchResults = document.getElementById('searchResults')
-  let data = JSON.parse(localStorage.getItem("data"))
-  let names = null
-  if (data!==null){
-    let searchdata = searchData(data,input)
-  names = getNames(searchdata).slice(0,8).reverse()
-  }
-  
-  searchResults.innerHTML = ''
-  let last = names.length
-  let counter = 0
-  if ((input!=="")&&(names!==null)){
-  names.forEach(item => {
-    counter+=1
-
-    let column = document.createElement('div')
-    column.classList.add("col")
-    column.classList.add("my-2")
-
-    let resultDiv = document.createElement('button')
-    resultDiv.classList.add("btn")
-    if (counter===last){
-        resultDiv.classList.add("btn-secondary")
-    }else {
-        resultDiv.classList.add("btn-dark")
+    let input = document.getElementById('query').value.toLowerCase()
+    let searchResults = document.getElementById('searchResults')
+    const params = new URLSearchParams(window.location.search)
+    const data = getQueryData(
+        input,
+        params.get("filter"),
+        params.get("sort"),
+        params.get("filterValue"),
+        params.get("filterOperation"),
+        params.get("sortDirection"))
+    let names = null
+    if (data !== null) {
+        let searchdata = searchData(data, input)
+        names = getNames(searchdata).slice(0, 8).reverse()
     }
-    resultDiv.textContent = item
 
-    resultDiv.addEventListener('click', () => {
-        console.log(item);
-        document.getElementById('query').value = item
-        setSearch(null);
-      });
-    column.appendChild(resultDiv)
-    searchResults.appendChild(column)
-  });}
- }
+    searchResults.innerHTML = ''
+    let last = names.length
+    let counter = 0
+    if ((input !== "") && (names !== null)) {
+        names.forEach(item => {
+            counter += 1
+
+            let column = document.createElement('div')
+            column.classList.add("col")
+            column.classList.add("my-2")
+
+            let resultDiv = document.createElement('button')
+            resultDiv.classList.add("btn")
+            if (counter === last) {
+                resultDiv.classList.add("btn-secondary")
+            } else {
+                resultDiv.classList.add("btn-dark")
+            }
+            resultDiv.textContent = item
+
+            resultDiv.addEventListener('click', () => {
+                console.log(item);
+                document.getElementById('query').value = item
+                setSearch(null);
+            });
+            column.appendChild(resultDiv)
+            searchResults.appendChild(column)
+        });
+    }
+}
