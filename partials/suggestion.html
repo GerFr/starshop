@@ -1,28 +1,72 @@
 {{#each this}}
-<div class="container">
-    <div class="row">
-        <div class="card border">
-            <img src="assets/stars/{{Color}}.png" class="card-img-top d-none d-sm-block" style="width: 100px">
-            <div>
-                <button type="button" class="btn" data-bs-toggle="modal"
-                data-bs-target="#{{StarID}}-modal">
-                <a id='prod1'
-                    class="product-name">
-                    {{ProperName}}</a>
-                <div class="small m-t-xs">
-                    {{Price}}€
+<divc class="container-lg">
+<div class="d-flex justify-content-evenly">
+    <button type="button" class="btn" data-bs-toggle="modal"
+        data-bs-target="#{{StarID}}-modal">
+        <div class="card border bg-primary text-center">
+            <div class="card-body">
+                <!-- <div class="container-xl"> -->
+                    <div class="row align-items-center justify-content-center">
+                        <div class="col-4">
+                            <img src="assets/stars/{{Color}}.png"
+                                class="card-img-top d-none d-sm-block" 
+                                style="width: 100px;">
+                        </div>
+                        <div class="col-4 ">
+                            <h5
+                                class="text-truncate font-size-20"><a
+                                    class="text-white">{{ProperName}}
+                                </a></h5>
+                        </div>
+                        <div class="col-4 ">
+                            <p class="text-light fs-4 text-truncate">€ {{formatCurrency Price}}</p>
+                          </p></div>
+                    <!-- </div> -->
                 </div>
-                <div class="m-t text-righ">
-                    <a
-                        class="btn btn-xs btn-outline btn-primary">Info
-                        <i class="fa fa-long-arrow-right"></i>
-                    </a>
-                </div>
-                </button>
             </div>
         </div>
-    </div>
+    </button>
 </div>
-<hr>
+</div>
 
+<!-- <button type="button" class="btn" data-bs-toggle="modal"
+        data-bs-target="#{{StarID}}-modal">
+        
+                <div class="row">
+                    <div class="col-xl-12">
+                        <div class="card border">
+                            <div class="card-body">
+                        <div class="d-flex align-items-start">
+                            <div class="me-4">
+                                <img src="assets/stars/{{Color}}.png"
+                                    class="card-img-top d-none d-sm-block"
+                                    alt="Shopping item"
+                                    style="width: 200px">
+                            </div>
+                            <div
+                                class="flex-grow-1 align-self-center overflow-hidden">
+                                <div>
+                                    <h5
+                                        class="text-truncate font-size-30"><a
+                                            class="text-white">{{ProperName}}
+                                        </a></h5>
+                                </div>
+                            </div>
+                            <div
+                                class="flex-grow-1 align-self-end overflow-hidden">
+                                <div>
+                                    <h5
+                                        class="text-truncate font-size-30"><a
+                                            class="text-white">{{ProperName}}
+                                        </a></h5>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </button>
+</div> -->
 {{/each}}

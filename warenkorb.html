@@ -101,7 +101,8 @@
                     total += cartData[i]["Price"]
                 }               
                 var infos = document.getElementById('total');
-                infos.setAttribute('value', 'Total Summary '+  total + " €")
+                infos.setAttribute('value', 'Total Summary '+  (total).toLocaleString('de-DE', {style: 'currency',
+                                                                                                currency: 'EUR'}))
                 if (cartData.length>0){
                 render(cartData, '[type="text/x-handlebars-template"]')
                 }
@@ -155,43 +156,64 @@
 
         <main>
             <div class="container-xl">
-                <h4
-                    class="d-flex justify-content-between align-items-center mb-3">
-                    <span class="text-muted">Your cart</span>
-                </h4>
-                <script id="template" type="text/x-handlebars-template">
-                    {{> cartcard }}
-                </script>
-                <div></div>
-                <script id="template"
-                                type="text/x-handlebars-template">
-                            {{> cartmodal }}
-                            </script>
-                            <div></div>
-                <input id="total" type="text" class="form-control" readonly>
-                <hr>
-                <a name="checkout" id class="btn btn-primary"
-                    href="checkout.html" role="button">Checkout</a>
-                <div class="ibox">
-                    <div class="ibox-content">
-                        <div>
-                            <hr>
-                            <p class="font-bold">
-                                Other products you may be interested
-                            </p>
-                            <script id="template"
-                                type="text/x-handlebars-suggestion">
-                            {{> suggestion }}
-                            </script>
-                            <div></div>
-                            <script id="template"
-                                type="text/x-handlebars-suggestion">
-                            {{> modal }}
-                            </script>
-                            <div></div>
+                <div class="row">
+                    <div class="col-lg order-md-1">
+                        <h4 class="d-flex justify-content-top align-items-top mb-3">
+                            <span class="text-muted">
+                                Your cart
+                            </span>
+                        </h4>
+                        <script id="template"
+                            type="text/x-handlebars-template">
+                        {{> cartcard }}
+                        </script>
+                        <div></div>
+                        <script id="template"
+                            type="text/x-handlebars-template">
+                                {{> cartmodal }}
+                        </script>
+                        <div class="mb-2">
+                            
+                        </div>
+                        <input id="total" type="text" class="form-control"
+                            readonly>
+                        <hr>
+                        <a name="checkout" id class="btn btn-primary"
+                            href="checkout.html"
+                            role="button">
+                            Checkout
+                        </a>
+                        <div class="vr"></div>    
+                    </div>
+                    <div class="col-lg-5 order-md-2">
+
+                        <div class="ibox justify-contents-top">
+                            <div class="ibox-content">
+                                <div>
+                                    <h4
+                                        class="d-flex justify-content-between align-items-center mb-3">
+                                        <span class="text-muted">Other
+                                            Products</span>
+                                    </h4>
+                                    <div class="container ">
+                                        <script id="template"
+                                            type="text/x-handlebars-suggestion">
+                                            {{> suggestion }}
+                                        </script>
+                                        <div class="row-xl"></div>
+                                    </div>
+
+                                    <script id="template"
+                                        type="text/x-handlebars-suggestion">
+                                        {{> suggestionmodal }}
+                                    </script>
+                                    <div></div>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
+
             </div>
         </main>
 
