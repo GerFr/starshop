@@ -33,6 +33,7 @@
   <script src="js/index.js"></script>
   <script>
     function init() {
+      const amountOnPage = 12
 
       $on($('#search'), 'click', setSearch)
       // adds eventlistener to Create new Item id: "#createnew" button which starts the method create() in admin.js
@@ -47,7 +48,7 @@
 
       const params = new URLSearchParams(window.location.search)
       const pageParam = params.get("page")
-      const pageNumbers = getPageNumbers(pageParam, 12)
+      const pageNumbers = getPageNumbers(pageParam, amountOnPage)
       const queryDataFull = getQueryData(
         params.get("search"),
         params.get("filter"),
@@ -56,9 +57,9 @@
         params.get("filterOperation"),
         params.get("sortDirection"))
 
-    // sets the number besides cart icon to display current amount of products inside of cart on reload
+      // sets the number besides cart icon to display current amount of products inside of cart on reload
       var CART = sessionStorage.getItem("cart")
-      if(!(CART === null)){
+      if (!(CART === null)) {
         var parsedCart = JSON.parse(CART)
         document.getElementById("cartcounter").innerHTML = parsedCart.length
       }
@@ -87,7 +88,18 @@
           })
           .catch(error => console.error('Error fetching JSON file:', error))
       }
+      var max
+      if (queryDataFull != null) {
+        max = Math.ceil(queryDataFull.length / 12)
+      }
+      else {
+        const data = JSON.parse(localStorage.getItem("data"));
+        max = Math.ceil(data.length / 12)
+      }
+      render({ "max": max }, '[type="text/x-handlebars-max"]')
+      paginationCheck(pageParam, max)
     }
+
   </script>
 
 </head>
@@ -153,7 +165,8 @@
         <a id="createBtn" href="#" class="btn btn-primary m-2 d-none" data-bs-toggle="modal"
           data-bs-target="#createModal"><i class="bi bi-plus-square"></i></a>
         <form class="d-flex needs-validation" id="searchForm" novalidate>
-          <input id="query" class="form-control me-2" type="text" placeholder="Search" aria-label="Search" oninput="updateRecommendation()" required>
+          <input id="query" class="form-control me-2" type="text" placeholder="Search" aria-label="Search"
+            oninput="updateRecommendation()" required>
           <div class="btn-group" role="group">
             <button class="btn btn-outline-white btn-secondary" type="submit" id="search"><i
                 class="bi bi-search"></i></button>
@@ -161,27 +174,25 @@
               <i class="bi bi-trash"></i>
             </a>
           </div>
-        
-          <a class="btn btn-outline-dark mx-2" type="submit"
-                href="warenkorb.html">
-                <div class="container">
-                  <div class="row">
-                    <div class="col-sm-5"> 
-                      <i class="bi-cart-fill me-1"></i>
-                    </div>
-                    <div class="col-sm-5">
-                      <div id="cartcounter"
-                        class="badge bg-dark text-white ms-1 rounded-pill me-2">0
-                      </div>
-                    </div>
+
+          <a class="btn btn-outline-dark mx-2" type="submit" href="warenkorb.html">
+            <div class="container">
+              <div class="row">
+                <div class="col-sm-5">
+                  <i class="bi-cart-fill me-1"></i>
+                </div>
+                <div class="col-sm-5">
+                  <div id="cartcounter" class="badge bg-dark text-white ms-1 rounded-pill me-2">0
                   </div>
                 </div>
-              </a>
+              </div>
+            </div>
+          </a>
 
         </form>
       </div>
       <div class="container justify-content-center">
-        <div class="row"id="searchResults"></div>
+        <div class="row" id="searchResults"></div>
       </div>
       <div class="container border border-dark mt-3 d-none" id="filter">
         <script id="template" type="text/x-handlebars-filter">
@@ -228,16 +239,25 @@
     <div class="row justify-content-center align-items-center">
       <div class="col text-center">
         <div class="btn-group">
+          <button class="btn btn-outline-white btn md-3" id="startPage" onclick="goToStartPage()">
+            <u id="startPageValue">1</u>
+          </button>
           <button class="btn btn-outline-white btn md-3" id="decrement">
             <i class="bi bi-arrow-left"></i>
           </button>
           <script id="template" type="text/x-handlebars-page">
             {{page}}
            </script>
-          <div></div>
+          <div id="centralpage"></div>
           <button class="btn btn-outline-white btn md-3" id="increment">
             <i class="bi bi-arrow-right"></i>
           </button>
+          <script id="template" type="text/x-handlebars-max">
+          <button class="btn btn-outline-white btn md-3" id="endPage"onclick="goToEndPage({{max}})">
+            <u id="endPageValue">{{max}}</u>
+          </button>
+        </script>
+          <div></div>
         </div>
       </div>
     </div>

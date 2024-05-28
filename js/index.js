@@ -1,3 +1,35 @@
+
+function goToStartPage() {
+    const params = new URLSearchParams(window.location.search)
+    params.set("page", 1)
+    history.replaceState({}, "", `${window.location.pathname}?${params}`)
+    location.reload()
+}
+function goToEndPage(page) {
+        const params = new URLSearchParams(window.location.search)
+        params.set("page", page)
+        history.replaceState({}, "", `${window.location.pathname}?${params}`)
+        location.reload()
+    }
+
+function paginationCheck(page, max) {
+    if (page <= 1) {
+        document.getElementById('decrement').classList.add('d-none')
+        document.getElementById('increment').classList.remove('d-none')
+        document.getElementById('centralpage').classList.add('d-none')
+    }
+    if (page > 1 && page < max) {
+        document.getElementById('decrement').classList.remove('d-none')
+        document.getElementById('increment').classList.remove('d-none')
+        document.getElementById('centralpage').classList.remove('d-none')
+    }
+    if (page >= max) {
+        document.getElementById('decrement').classList.remove('d-none')
+        document.getElementById('increment').classList.add('d-none')
+        document.getElementById('centralpage').classList.add('d-none')
+    }
+}
+
 function decrement() {
     const params = new URLSearchParams(window.location.search)
     var page = Number(params.get("page"))
@@ -21,7 +53,7 @@ function increment() {
         params.set("page", page)
         window.history.replaceState({}, "", `${window.location.pathname}?${params}`)
         window.location.reload()
-    } else if (page===null) {
+    } else if (page === null) {
         page = 2
         params.set("page", page)
         window.history.replaceState({}, "", `${window.location.pathname}?${params}`)
@@ -50,8 +82,8 @@ function getPageNumbers(page, pageLength) {
 
 function getQueryData(searchParam, filterParam, sortParam, filterValue, filterOperation, sortDirection) {
     const searching = !(searchParam === null)
-    const filtering = !(filterParam === null)&&!(filterValue===null)&&!(filterOperation===null)
-    const sorting = !(sortParam === null)&&!(sortDirection===null)
+    const filtering = !(filterParam === null) && !(filterValue === null) && !(filterOperation === null)
+    const sorting = !(sortParam === null) && !(sortDirection === null)
 
     const dataString = localStorage.getItem("data")
     if (!(dataString === null)) {
