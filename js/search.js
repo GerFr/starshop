@@ -128,11 +128,11 @@ function updateRecommendation() {
     let names = null
     if (data !== null) {
         let searchdata = searchData(data, input)
-        names = getNames(searchdata).slice(0, 8).reverse()
+        names = getNames(searchdata).slice(0, 8)
     }
 
     searchResults.innerHTML = ''
-    let last = names.length
+    let last = 1
     let counter = 0
     if ((input !== "") && (names !== null)) {
         names.forEach(item => {

@@ -41,7 +41,7 @@ function getPageNumbers(page, pageLength) {
         start = 0
         end = pageLength
         pageNum = 1
-    }    
+    }
     const params = new URLSearchParams(window.location.search)
     params.set("page", pageNum)
     window.history.replaceState({}, "", `${window.location.pathname}?${params}`)
