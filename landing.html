@@ -31,13 +31,22 @@
             background-image: url('assets/sun.jpeg');
         }
         #parallax3 {
-            background-image: url('assets/parallax3.jpg');
+            background-image: url('assets/NightSky.jpeg');
         }
-        .parallax-text {
+        .parallax-text-white {
             position: relative;
             top: 50%;
             transform: translateY(-50%);
             color: white;
+            text-align: center;
+            font-size: 3rem;
+            font-weight: bold;
+        }
+       .parallax-text-black {
+            position: relative;
+            top: 50%;
+            transform: translateY(-50%);
+            color: black;
             text-align: center;
             font-size: 3rem;
             font-weight: bold;
@@ -60,8 +69,8 @@
 
 <!-- Parallax Section -->
 <div class="parallax" id="parallax1">
-    <div class="parallax-text">
-        Own a Star in the Sky
+    <div class="parallax-text-white">
+        Choose any Star...
     </div>
 </div>
 
@@ -76,8 +85,8 @@
 
 <!-- Parallax Section -->
 <div class="parallax" id="parallax2">
-    <div class="parallax-text">
-        Own a Star in the Sky
+    <div class="parallax-text-black">
+        Make it yours
     </div>
 </div>
 
@@ -104,9 +113,9 @@
 </div>
 
 <!-- Parallax Section -->
-<div class="parallax">
-    <div class="parallax-text">
-        Own a Star in the Sky
+<div class="parallax" id="parallax3">
+    <div class="parallax-text-white">
+        Own a Part of the Sky!
     </div>
 </div>
 
@@ -116,6 +125,7 @@
         {{> footer }}
     </script>
     <div></div>
-
+    <!-- Bootstrap JavaScript Libraries -->
+    <script src="js/bootstrap.js"></script>
 </body>
 </html>
