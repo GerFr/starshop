@@ -23,7 +23,7 @@ function paginationCheck(page, max) {
         document.getElementById('increment').classList.remove('d-none')
         document.getElementById('centralpage').classList.remove('d-none')
     }
-    if (page >= max) {
+    if (page >= max && max != 1) {
         document.getElementById('decrement').classList.remove('d-none')
         document.getElementById('increment').classList.add('d-none')
         document.getElementById('centralpage').classList.add('d-none')
