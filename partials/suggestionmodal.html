@@ -120,20 +120,34 @@
                             </div>
                         </div>
                     </div>
+                    <div class="accordion-item">
+                        <h2 class="accordion-header"
+                            id="{{StarID}}-headingThree">
+                            <button class="accordion-button collapsed"
+                                type="button" data-bs-toggle="collapse"
+                                data-bs-target="#{{StarID}}-collapseThree"
+                                aria-expanded="false"
+                                aria-controls="{{StarID}}-collapseThree">
+                                Pricing
+                            </button>
+                        </h2>
+                        <div id="{{StarID}}-collapseThree"
+                            class="accordion-collapse collapse"
+                            aria-labelledby="{{StarID}}-headingThree"
+                            data-bs-parent="#{{StarID}}-accordion">
+                            <div class="accordion-body">
+                                {{formatCurrency Price}} €
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-secondary"
-                    data-bs-dismiss="modal">Close</button>
-                <a
-                    name
-                    id
-                    class="btn btn-outline-secondary btn-sm"
-                    href="#"
-                    role="button"
-                    onclick="deletecart({{StarID}})"><i
-                        class="bi bi-trash"></i>
-                </a>
+                <div id="cartAlert{{StarID}}" class="alert alert-success d-none" role="alert">
+                  Added to cart!
+                </div>
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                <button onclick="tocart({{StarID}})" id="cart" class="btn btn-primary">Add to Cart</button>
             </div>
         </div>
     </div>
