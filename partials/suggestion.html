@@ -1,28 +1,31 @@
 {{#each this}}
 <div class="container">
     <div class="row">
-        <div class="card border">
-            <img src="assets/stars/{{Color}}.png" class="card-img-top d-none d-sm-block" style="width: 100px">
-            <div>
-                <button type="button" class="btn" data-bs-toggle="modal"
-                data-bs-target="#{{StarID}}-modal">
-                <a id='prod1'
-                    class="product-name">
-                    {{ProperName}}</a>
-                <div class="small m-t-xs">
-                    {{Price}}€
+        <div class="col-md-2">
+            <div class="card border mb-4">
+                
+                <div>
+                    <img src="assets/stars/{{Color}}.png"
+                    class="card-img-top visible-lg-block" style="width: 100px">
+                    <button type="button" class="btn" data-bs-toggle="modal"
+                        data-bs-target="#{{StarID}}-modal">
+                        <a id='prod1'
+                            class="product-name">
+                            {{ProperName}}</a>
+                        <div class="small m-t-xs">
+                            {{Price}}€
+                        </div>
+                        <div class="m-t text-righ">
+                            <a
+                                class="btn btn-xs btn-outline btn-primary">Info
+                                <i class="fa fa-long-arrow-right"></i>
+                            </a>
+                        </div>
+                    </div>
                 </div>
-                <div class="m-t text-righ">
-                    <a
-                        class="btn btn-xs btn-outline btn-primary">Info
-                        <i class="fa fa-long-arrow-right"></i>
-                    </a>
-                </div>
-                </button>
             </div>
         </div>
     </div>
-</div>
-<hr>
+    <hr>
 
-{{/each}}
+    {{/each}}
