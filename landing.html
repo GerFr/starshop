@@ -15,7 +15,7 @@
     <!-- handlebars -->
     <script src="js/handlebars.min-v4.7.8.js"></script>
     <script src="js/vanilla.js"></script>
-    
+    <script src="js/filter.js"></script>
     <style>
         .parallax {
 			height: 500px;
@@ -57,6 +57,7 @@
             function init() {
             render({}, '[type="text/x-handlebars-navbar"]')
             render({}, '[type="text/x-handlebars-footer"]')
+           	render(colors.slice(0, 7), '[type="text/x-handlebars-colors"]')
         }
     </script>
 </head>
@@ -67,23 +68,19 @@
                 </script>
                     <div></div>
 
-<!-- Parallax Section -->
 <div class="parallax" id="parallax1">
     <div class="parallax-text-white">
         Choose any Star...
     </div>
 </div>
 
-<!-- About Section -->
 <div id="about" class="info-section text-center">
     <div class="container">
-        <h2>About Us</h2>
-        <p>At Stellar Elegance, we offer the unique opportunity to name a star in the night sky. Our luxurious packages provide a celestial experience unlike any other, complete with a custom star map and certificate of authenticity.</p>
+        <h2 class="display-5">About Us</h2>
+        <p>At <strong>Starshop</strong>, we offer the unique opportunity to purchase a star in the night sky. Our luxurious packages provide a celestial experience unlike any other, complete with a large dataset and certificate of authenticity.</p>
     </div>
 </div>
 
-
-<!-- Parallax Section -->
 <div class="parallax" id="parallax2">
     <div class="parallax-text-black">
         Make it yours
@@ -91,18 +88,17 @@
 </div>
 
 
-<!-- Features Section -->
-<div id="features" class="info-section bg-light text-center">
+<div id="features" class="info-section text-center">
     <div class="container">
-        <h2>Our Features</h2>
+        <h2 class="display-5 mb-3">Our Features</h2>
         <div class="row">
             <div class="col-md-4">
-                <h3>Exclusive Naming</h3>
-                <p>Each star you name is unique and exclusively yours.</p>
+                <h3>Expansive Search and Filtering</h3>
+                <p>Find the best star, by name or price.</p>
             </div>
             <div class="col-md-4">
-                <h3>Custom Star Maps</h3>
-                <p>Receive a beautifully crafted map showcasing your star's location.</p>
+                <h3>Variety of Star Types</h3>
+                <p>Choose from seven different star colors and types.</p>
             </div>
             <div class="col-md-4">
                 <h3>Certificate of Authenticity</h3>
@@ -112,13 +108,28 @@
     </div>
 </div>
 
-<!-- Parallax Section -->
 <div class="parallax" id="parallax3">
     <div class="parallax-text-white">
         Own a Part of the Sky!
     </div>
 </div>
-
+    <div class="container">
+        <h2>Gallery</h2>
+        <script id="template" type="text/x-handlebars-colors">
+		{{# each this}}
+		        
+             <div class="col-4 col-sm-3 col-md-2 col-xl-2">
+             <div class="card">
+             <button href="index.html?page=1&filter=Color&filterValue={{color}}&filterOperation=eq" class="btn">
+                <img src="assets/stars/{{color}}.png" class="card-image-top image-fluid" alt="Star Image 1">
+                <p>Star Image 1 Description</p>
+            </button>
+            </div>
+            </div>
+          {{/each}}
+            </script>
+        <div class="row"></div>
+    </div>
 
 <!-- Footer -->
     <script id="template" type="text/x-handlebars-footer">
