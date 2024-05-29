@@ -113,6 +113,17 @@ function tocart(sID) {
     var parsedCartarr = JSON.parse(cartarr)
     if (cartarr === null) {
         parsedCartarr = [sID]
+        setTimeout(function () {
+            alert.classList.remove('d-none');
+            alert.classList.add('alert-success');
+            alert.innerHTML = "<p>Added!</p>"
+            setTimeout(function () {
+                alert.classList.add('d-none');
+                alert.classList.remove('alert-success');
+                alert.innerHTML = ""
+
+            }, 500);
+        }, 20);
     }
     else if (parsedCartarr.includes(sID) === false) {
         parsedCartarr.push(sID);
