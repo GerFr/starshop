@@ -1,72 +1,34 @@
 {{#each this}}
-<divc class="container-lg">
-<div class="d-flex justify-content-evenly">
-    <button type="button" class="btn" data-bs-toggle="modal"
-        data-bs-target="#{{StarID}}-modal">
-        <div class="card border bg-primary text-center">
-            <div class="card-body">
-                <!-- <div class="container-xl"> -->
-                    <div class="row align-items-center justify-content-center">
-                        <div class="col-4">
-                            <img src="assets/stars/{{Color}}.png"
-                                class="card-img-top d-none d-sm-block" 
-                                style="width: 100px;">
-                        </div>
-                        <div class="col-4 ">
-                            <h5
-                                class="text-truncate font-size-20"><a
-                                    class="text-white">{{ProperName}}
-                                </a></h5>
-                        </div>
-                        <div class="col-4 ">
-                            <p class="text-light fs-4 text-truncate">€ {{formatCurrency Price}}</p>
-                          </p></div>
-                    <!-- </div> -->
-                </div>
-            </div>
-        </div>
-    </button>
-</div>
-</div>
-
-<!-- <button type="button" class="btn" data-bs-toggle="modal"
-        data-bs-target="#{{StarID}}-modal">
-        
-                <div class="row">
-                    <div class="col-xl-12">
-                        <div class="card border">
-                            <div class="card-body">
-                        <div class="d-flex align-items-start">
-                            <div class="me-4">
-                                <img src="assets/stars/{{Color}}.png"
-                                    class="card-img-top d-none d-sm-block"
-                                    alt="Shopping item"
-                                    style="width: 200px">
-                            </div>
-                            <div
-                                class="flex-grow-1 align-self-center overflow-hidden">
-                                <div>
-                                    <h5
-                                        class="text-truncate font-size-30"><a
-                                            class="text-white">{{ProperName}}
-                                        </a></h5>
-                                </div>
-                            </div>
-                            <div
-                                class="flex-grow-1 align-self-end overflow-hidden">
-                                <div>
-                                    <h5
-                                        class="text-truncate font-size-30"><a
-                                            class="text-white">{{ProperName}}
-                                        </a></h5>
-                                </div>
-                            </div>
-                        </div>
+<div class="container-xl">
+    <div class="card my-2">
+        <div class="card border bg-primary">
+            <button type="button" class="btn" data-bs-toggle="modal"
+ data-bs-target="#{{StarID}}-modal">
+            <div class="row">
+                <div class="col-sm-3 justify-content-center align-items-center">
+                    <div class="mx-3 mt-3">
+                        <img src="assets/stars/{{Color}}.png"
+                            class="card-img-top d-none d-sm-block"
+                            style="width: 100px;">
                     </div>
-
+                </div>
+                <div class="col-lg-9 mt-4 d-flex justify-content-center align-items-top">
+                    <h5 class="text-truncate font-size-">
+                        <a class="text-white">
+                            {{ProperName}}
+                        </a>
+                    </div>
+                </div>
+                </button>
+                <hr>
+                <div class="row">
+                    <div class="col-xl-12 d-flex justify-content-center">
+                        <p class="text-light fs-4 text-center">
+                            € {{formatCurrency Price}}
+                        </p>
+                    </div>
                 </div>
             </div>
         </div>
-    </button>
-</div> -->
-{{/each}}
+    </div>
+    {{/each}}
