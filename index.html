@@ -2,381 +2,505 @@
 <html lang="en">
 
 <head>
-  <title>Starshop</title>
-  <!-- Required meta tags -->
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+    <title>Landing</title>
+    <!-- Required meta tags -->
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
 
-  <!-- bootstrap -->
-  <link rel="stylesheet" href="css/bootstrap-dark.css">
-  <!-- source: https://cdn.jsdelivr.net/npm/bootstrap-dark-5@1.1.3/dist/css/bootstrap-dark.min.css -->
-  <!-- icons -->
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
-  <!-- TODO: css Style in extra Stylesheet file called style.css -->
-  <style>
-    .container-background-repeat {
-      background-image: url('assets/StarBackround.jpg');
-      background-repeat: repeat;
-      background-size: auto;
-      background-position: right;
-    }
-  </style>
+    <!-- bootstrap -->
+    <link rel="stylesheet" href="css/bootstrap-dark.css">
+    <!-- icons -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+    <link rel="icon" href="assets/icons/stars.png">
+    <!-- handlebars -->
+    <script src="js/handlebars.min-v4.7.8.js"></script>
+    <script src="js/vanilla.js"></script>
+    <script src="js/filter.js"></script>
 
-  <link rel="icon" href="assets/icons/stars.png">
-  <!-- handlebars -->
-  <script src="js/handlebars.min-v4.7.8.js"></script>
-  <script src="js/vanilla.js"></script>
-  <script src="js/search.js"></script>
-  <script src="js/filter.js"></script>
-  <script src="js/sort.js"></script>
-  <script src="js/admin.js"></script>
-  <script src="js/index.js"></script>
-  <script>
-    function init() {
-      const amountOnPage = 12
+    <style>
+        .parallax {
+            height: 100vh;
+            background-attachment: fixed;
+            background-position: center;
+            background-repeat: no-repeat;
+            background-size: cover;
+        }
 
-      $on($('#search'), 'click', setSearch)
-      // adds eventlistener to Create new Item id: "#createnew" button which starts the method create() in admin.js
-      $on($('#createnew'), 'click', create)
-      $on($('#increment'), 'click', increment)
-      $on($('#decrement'), 'click', decrement)
+        #parallax1 {
+            background-image: url('assets/StarBackround.jpg');
+        }
 
-      render({}, '[type="text/x-handlebars-navbar"]')
-      render({}, '[type="text/x-handlebars-footer"]')
-      render(colors.slice(0, 7), '[type="text/x-handlebars-filter"]')
+        #parallax2 {
+            background-image: url('assets/sun.jpeg');
+        }
 
+        #parallax3 {
+            background-image: url('assets/NightSky.jpeg');
+        }
 
-      const params = new URLSearchParams(window.location.search)
-      const pageParam = params.get("page")
-      const pageNumbers = getPageNumbers(pageParam, amountOnPage)
-      const queryDataFull = getQueryData(
-        params.get("search"),
-        params.get("filter"),
-        params.get("sort"),
-        params.get("filterValue"),
-        params.get("filterOperation"),
-        params.get("sortDirection"))
+        .parallax-text-white {
+            position: relative;
+            top: 50%;
+            transform: translateY(-50%);
+            color: white;
+            text-align: center;
+            font-size: 3rem;
+            font-weight: bold;
+        }
 
-      // sets the number besides cart icon to display current amount of products inside of cart on reload
-      var CART = sessionStorage.getItem("cart")
-      if (!(CART === null)) {
-        var parsedCart = JSON.parse(CART)
-        document.getElementById("cartcounter").innerHTML = parsedCart.length
-      }
+        .parallax-text-black {
+            position: relative;
+            top: 50%;
+            transform: translateY(-50%);
+            color: black;
+            text-align: center;
+            font-size: 3rem;
+            font-weight: bold;
+        }
+    </style>
+    <script>
+        function init() {
+            render({}, '[type="text/x-handlebars-navbar"]')
+            render({}, '[type="text/x-handlebars-footer"]')
+            render(colors.slice(0, 7), '[type="text/x-handlebars-colors"]')
+            /**
+         * Is Run when body is fully loaded
+         * Renders the navbar and footer.
+         * Attaches an event listener to the "bestellen" button for handling support submission, uses function toSession.
+         */
 
-      var queryData;
-      if (!(queryDataFull === null)) {
-        queryData = queryDataFull.slice(pageNumbers[0], pageNumbers[1])
-      } else {
-        queryData = null
-      }
+            render({}, '[type="text/x-handlebars-navbar"]')
+            render({}, '[type="text/x-handlebars-footer"]')
 
-      // Search form code
-      const searchForm = document.getElementById("searchForm")
-      startSearchForm(searchForm)
+            $on($('#bestellen'), 'click', toSession)
 
-      render({ "page": pageNumbers[2] }, '[type="text/x-handlebars-page"]')
-      if (!(queryData === null)) {
-        render(queryData, '[type="text/x-handlebars-template"]')
-      }
-      else {
-        fetch('data/hygfull.json')
-          .then(response => response.json())
-          .then(data => {
-            localStorage.setItem("data", JSON.stringify(data))
-            location.reload()
-          })
-          .catch(error => console.error('Error fetching JSON file:', error))
-      }
-      var max
-      if (queryDataFull != null) {
-        max = Math.ceil(queryDataFull.length / 12)
-      }
-      else {
-        const data = JSON.parse(localStorage.getItem("data"));
-        max = Math.ceil(data.length / 12)
-      }
-      render({ "max": max }, '[type="text/x-handlebars-max"]')
-      paginationCheck(pageParam, max)
-    }
+        }
 
-  </script>
+        /**
+         * Handles form submission by storing form data in session storage and redirecting to support.html.
+         */
+        function toSession() {
+            // Selects the support submission form 
+            const form = document.querySelector('.needs-validation')
+            // adds an eventlistener to the Submission form
+            form.addEventListener('submit', event => {
+                // if the form is not valid, the submit action is stopped
+                if (!form.checkValidity()) {
+                    event.preventDefault()
+                    event.stopPropagation()
+                }
+                else {
+                    // saves all the relevant information from the support submission form to session Storage
+                    const email = document.getElementById('email');
+                    const name = document.getElementById('name');
+                    const subject = document.getElementById('subject');
+                    const question = document.getElementById('question');
+                    const submission = {
+                        "email": email.value,
+                        "name": name.value,
+                        "subject": subject.value,
+                        "question": question.value
+                    }
+                    sessionStorage.setItem("supportSubmission", JSON.stringify(submission))
+                    // redirect to the support.html to review the sent submission
+                    location.replace("support.html")
+                }
+                form.classList.add('was-validated')
+            }, false)
+        }
 
+    </script>
 </head>
 
-<body onload="init()">
+<body>
 
-  <script id="template" type="text/x-handlebars-navbar">
-    {{> navbar }}
-  </script>
-  <div></div>
-  <!-- MARK:image and intro
-    -->
+    <body onload="init()">
+        <script>
+            /**
+             * Calculates the number of items in the data and finds the maximum and minimum values of the "Distance" property.
+             * @param {Array<Object>} data - An array of objects to process.
+             * @returns {Object} An object containing the length of the data array, the maximum "Distance" value, and the minimum "Distance" value.
+             */
+            const numItems = (data) => {
+                length = data.length
+                let maxValue = -Infinity
+                let minValue = Infinity
+                let maxValuePrice = -Infinity
+                let minValuePrice = Infinity
+                for (let i = 0; i < length; i++) {
+                    const item = data[i]
+                    if (item.hasOwnProperty("Distance")) {
+                        maxValue = Math.max(maxValue, item["Distance"])
+                        minValue = Math.min(minValue, item["Distance"])
+                    }
+                }
+                for (let i = 0; i < length; i++) {
+                    const item = data[i]
+                    if (item.hasOwnProperty("Price")) {
+                        maxValuePrice = Math.max(maxValuePrice, item["Price"])
+                        minValuePrice = Math.min(minValuePrice, item["Price"])
+                    }
+                }
+                let returnDict = { "length": length, "max": maxValue, "min": minValue ,"maxPrice":maxValuePrice,"minPrice":minValuePrice}
+                return returnDict
+            }
+            // fetching the json data file
+            fetch('data/hygfull.json')
+                .then(response => response.json())
+                .then(data => render(numItems(data), '[type="text/x-handlebars-template"]'))
+                .catch(error => console.error('Error fetching JSON file:', error));
+        </script>
+        <script id="template" type="text/x-handlebars-navbar">
+            {{> navbar }}
+                </script>
+        <div></div>
 
-
-
-  <!-- MARK: Articles 
-  -->
-
-  <section id="" class="bg-black">
-    <div class="container-l py-4">
-      <div class="text-center">
-        <h2 class="display-3">Star Collection</h2>
-        <p class="lead text-muted">choose the perfect star</p>
-      </div>
-  </section>
-
-  <section id="pricing" class="container-background-repeat border-bottom bg-black">
-    <nav class="navbar bg-body-tertiary sticky-top bg-black border-bottom border-dark">
-      <div class="container-fluid justify-content-end px-5">
-        <a class="navbar-brand"></a>
-        <p id="searchField" class="text-light mx-3"></p>
-        <p id="filterField" class="text-light mx-3"></p>
-        <p id="sortField" class="text-light mx-3"></p>
-        <div class="btn-group mx-2 my-2" role="group">
-          <a onclick="toggleFilter()" class="btn btn-secondary" id="filterButton"><i class="bi bi-funnel"></i></a>
-          <a class="btn btn-secondary" onclick="setFilter('Reset', null, null)"><i class="bi bi-trash"></i></a>
-        </div>
-        <div class="btn-group mx-1 my-2" role="group">
-          <a onclick="toggleSort()" class="btn btn-secondary" id="sortButton"><i class="bi bi-filter-right"></i></a>
-          <a class="btn btn-secondary" onclick="setSort('Reset', null)"><i class="bi bi-trash"></i></a>
-        </div>
-        <a id="createBtn" href="#" class="btn btn-primary m-2 d-none" data-bs-toggle="modal"
-          data-bs-target="#createModal"><i class="bi bi-plus-square"></i></a>
-        <form class="d-flex needs-validation" id="searchForm" novalidate>
-          <input id="query" class="form-control me-2" type="text" placeholder="Search" aria-label="Search"
-            oninput="updateRecommendation()" required>
-          <div class="btn-group" role="group">
-            <button class="btn btn-outline-white btn-secondary" type="submit" id="search"><i
-                class="bi bi-search"></i></button>
-            <a class="btn btn-secondary" onclick="removeSearch()">
-              <i class="bi bi-trash"></i>
-            </a>
-          </div>
-
-          <a class="btn btn-outline-dark mx-2" type="submit" href="warenkorb.html">
-            <div class="container">
-              <div class="row">
-                <div class="col-sm-5">
-                  <i class="bi-cart-fill me-1"></i>
-                </div>
-                <div class="col-sm-5">
-                  <div id="cartcounter" class="badge bg-dark text-white ms-1 rounded-pill me-2">0
-                  </div>
-                </div>
-              </div>
+        <div class="parallax" id="parallax1">
+            <div class="parallax-text-white">
+                Choose any Star...
             </div>
-          </a>
+        </div>
 
-        </form>
-      </div>
-      <div class="container justify-content-center">
-        <div class="row" id="searchResults"></div>
-      </div>
-      <div class="container border border-dark mt-3 d-none justify-content-center" id="filter">
-        <script id="template" type="text/x-handlebars-filter">
-          {{#each this}}
-            <div class="col-4 col-sm-3 col-md-2 col-xl-2">
-              <button class="btn" onclick="setFilter('{{key}}', '{{color}}', 'eq')">
-                <img src="assets/stars/{{color}}.png" class="card-img-top image-fluid">
-                <p class="lead text-muted">{{title}}</p>
-              </button>
+        <div id="about" class="info-section  border-top border-bottom text-center">
+            <div class="container ">
+                <div class="container">
+                    <div class="row  justify-content-center ">
+                        <div class="col-lg-8">
+                            <div class="card my-2  border-0 ">
+                                <div class="card-body">
+                                    <script id="template" type="text/x-handlebars-template">
+                          <li class="list-group-item text-center">
+                            <h3 class="display-6">Over <strong>{{length}}</strong>  stars available</h3>
+                          </li>
+                          <li class="list-group-item text-center">
+                            <h3 class="display-6 "> <strong>{{min}}</strong>  to <strong>{{max}}</strong>  Parsecs from Earth</h3>
+                          </li>
+                          <li class="list-group-item text-center">
+                            <h3 class="display-6 "> <strong>{{formatCurrency minPrice}} €</strong>  to <strong>{{formatCurrency maxPrice}} €</strong></h3>
+                          </li>
+                        </script>
+                                    <ul class="list-group list-group-flush"></ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="parallax border-bottom" id="parallax2">
+            <div class="parallax-text-black">
+                Make it yours
+            </div>
+        </div>
+
+
+        <div id="features" class=" info-section text-center">
+            <div class="container">
+                <h2 class="display-5 my-4">Our Features</h2>
+                <div class="row">
+                    <div class="col-md-4">
+                        <i class="bi h1 bi-search"></i>
+                        <h3 class="mt-3">Expansive Search and Filtering</h3>
+                        <p class="lead text-muted">Find the best star, by name or price.</p>
+                    </div>
+                    <div class="col-md-4">
+                        <i class="bi bi-stars h1"></i>
+                        <h3 class="mt-3">Variety of Star Types</h3>
+                        <p class="lead text-muted">Choose from seven different star colors and types.</p>
+                    </div>
+                    <div class="col-md-4">
+                        <i class="bi bi-file-earmark-check h1"></i>
+                        <h3 class="mt-3">Certificate of Authenticity</h3>
+                        <p class="lead text-muted">Every purchase includes a signed certificate authenticating your
+                            star.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="parallax border-top border-bottom my-3" id="parallax3">
+            <div class="parallax-text-white">
+                Own a Part of the Sky!
+            </div>
+        </div>
+        <div class="container justify-content-center  text-center">
+            <h2 class="display-3">Gallery</h2>
+            <p class="lead my-4 text-muted">Choose Any Star Visible in the Sky from the Famous <a
+                    href="https://github.com/astronexus/HYG-Database/blob/main/hyg/v2/hygfull.csv"><strong>HYG</strong></a>
+                Database - A Truly
+                Unique Gift for
+                the Rich and Successful</p>
+            <a href="articles.html" class="btn-outline-secondary mt-3 btn">
+                <div class="text-center">
+                    <h2 class="h2">To Articles</h2>
+                </div>
+            </a>
+            <div class="border-top border-2 my-4"></div>
+            <div class="text-center display-3">Filter</div>
+            <script id="template" type="text/x-handlebars-colors">
+		{{# each this}}
+		        
+             <div class="col-6 col-sm-5 col-md-4 col-xl-3">
+             <div class="card mt-4 bg-secondary">
+             <a href="articles.html?page=1&filter=Color&filterValue={{color}}&filterOperation=eq" class="btn">
+                <img src="assets/stars/{{color}}.png" class="card-img-top image-fluid" alt="Star Image 1">
+                <p class="lead my-2">{{title}}</p>
+            </a>
+            </div>
             </div>
           {{/each}}
-          <div class="col-4 col-sm-3 col-md-2 col-xl-2">
-          <a class="btn" onclick="setFilter('Price', '100000', 'sm')">
-            <img src="assets/icons/sale.png" class="card-img-top image-fluid">
-            <p class="lead text-muted">Sale</p>
-          </a>
-          </div>
-          </script>
-        <div class="row justify-content-center"></div>
-      </div>
-
-      <div class="container border border-dark mt-2 d-none justify-content-center" id="sort">
-        <div class="row justify-content-center">
-          <div class="col-4 col-sm-3 col-md-2 col-xl-2">
-            <a class="btn" onclick="setSort('Price', 'asc')">
-              <img src="assets/icons/aufsteigend.png" class="card-img-top image-fluid">
-              <p class="lead text-muted">ascending</p>
-            </a>
-          </div>
-          <div class="col-4 col-sm-3 col-md-2 col-xl-2">
-            <a class="btn" onclick="setSort('Price', 'dsc')">
-              <img src="assets/icons/absteigend.png" class="card-img-top image-fluid">
-              <p class="lead text-muted">descending</p>
-            </a>
-          </div>
+            </script>
+            <div class="row justify-content-center"></div>
         </div>
-      </div>
-    </nav>
-
-    <script id="template" type="text/x-handlebars-template">
-        {{> card }}
-      </script>
-    <div class="row mx-sm-5 align-items-center justify-content-center g-2 my-4"></div>
-    </div>
-
-  </section>
-  <div class="container mt-2">
-    <div class="row justify-content-center align-items-center">
-      <div class="col text-center">
-        <div class="btn-group">
-          <button class="btn btn-outline-white btn md-3" id="startPage" onclick="goToStartPage()">
-            <u id="startPageValue">1</u>
-          </button>
-          <button class="btn btn-outline-white btn md-3" id="decrement">
-            <i class="bi bi-arrow-left"></i>
-          </button>
-          <script id="template" type="text/x-handlebars-page">
-            {{page}}
-           </script>
-          <div id="centralpage"></div>
-          <button class="btn btn-outline-white btn md-3" id="increment">
-            <i class="bi bi-arrow-right"></i>
-          </button>
-          <script id="template" type="text/x-handlebars-max">
-          <button class="btn btn-outline-white btn md-3" id="endPage"onclick="goToEndPage({{max}})">
-            <u id="endPageValue">{{max}}</u>
-          </button>
-        </script>
-          <div></div>
-        </div>
-      </div>
-    </div>
-  </div>
-
-  <!-- MARK: modal
-   -->
-  <script id="template" type="text/x-handlebars-template">
-   {{> modal }}
-  </script>
-  <div></div>
+        <div class="border-top border-2 mt-5"></div>
 
 
-  <!-- MARK: Create Modal 
-    -->
-  <div class="modal fade" id="createModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-    <div class="modal-dialog">
-      <div class="modal-content">
-        <div class="modal-header">
-          <h5 class="modal-title" id="exampleModalLabel"></h5>
-          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-        </div>
-        <div class="modal-body">
-          <div class="text-center">
-            <h2>Create new Item</h2>
-            <p class="lead">Fill out the form</p>
-          </div>
-          <!-- MARK: Form - Create
+
+        <!-- MARK: FAQ
+            -->
+        <section id="FAQ" class="bg-black">
+            <div class="text-center py-4"><h2 class="display-5">Our Mission</h2>
+                <p class="lead text-muted">At <strong>Starshop</strong>, we offer the unique opportunity to purchase a
+                    star in the night sky.
+                </p>
+                <p class="lead text-muted">
+                    Our luxurious packages provide a celestial experience unlike any other, complete with a large
+                    dataset and certificate of authenticity.
+                </p></div>
+                <div class="border-top border-2 mx-5"></div>
+            <div class="container-lg pb-4  justify-content-center">
+                <div class="row justify-contents-center">
+                    <div class="col-md-8">
+                        <div class="text-center">
+                            <h2 class="display-5 mt-4">FAQ</h2>
+                            <p class="lead text-muted">frequently asked questions</p>
+                        </div>
+                        <div class="accordion" id="accordionPanelsStayOpenExample">
+                            <div class="accordion-item">
+                                <h2 class="accordion-header">
+                                    <button class="accordion-button" type="button" data-bs-toggle="collapse"
+                                        data-bs-target="#panelsStayOpen-collapseOne" aria-expanded="true"
+                                        aria-controls="panelsStayOpen-collapseOne">
+                                        Can I actually own a real star?
+                                    </button>
+                                </h2>
+                                <div id="panelsStayOpen-collapseOne" class="accordion-collapse collapse show">
+                                    <div class="accordion-body text-light">
+                                        Yes, with us you have the opportunity to own a real star. We offer you the
+                                        unique opportunity to
+                                        officially name and own a star in the sky.
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="accordion-item">
+                                <h2 class="accordion-header">
+                                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+                                        data-bs-target="#panelsStayOpen-collapseTwo" aria-expanded="false"
+                                        aria-controls="panelsStayOpen-collapseTwo">
+                                        How does the process of buying a star work?
+                                    </button>
+                                </h2>
+                                <div id="panelsStayOpen-collapseTwo" class="accordion-collapse collapse">
+                                    <div class="accordion-body text-light">
+                                        Buying a star is simple and straightforward. You first select a star from our
+                                        catalog, give it a
+                                        name of your choice and then fill out the order form. Once your order has been
+                                        processed, you will
+                                        receive a personalized certificate confirming your star and its coordinates.
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="accordion-item">
+                                <h2 class="accordion-header">
+                                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+                                        data-bs-target="#panelsStayOpen-collapseThree" aria-expanded="false"
+                                        aria-controls="panelsStayOpen-collapseThree">
+                                        Is the star I have named really unique?
+                                    </button>
+                                </h2>
+                                <div id="panelsStayOpen-collapseThree" class="accordion-collapse collapse">
+                                    <div class="accordion-body text-light">
+                                        Yes, every star we sell is unique. Once you have purchased and named a star, it
+                                        is exclusively
+                                        yours.
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="accordion-item">
+                                <h2 class="accordion-header">
+                                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+                                        data-bs-target="#panelsStayOpen-collapseFour" aria-expanded="false"
+                                        aria-controls="panelsStayOpen-collapseFour">
+                                        Can I see the star I have bought?
+                                    </button>
+                                </h2>
+                                <div id="panelsStayOpen-collapseFour" class="accordion-collapse collapse">
+                                    <div class="accordion-body text-light">
+                                        Yes, most of the stars we sell are visible to the naked eye and can be observed
+                                        depending on
+                                        location and time of year. We will also provide you with a star chart and other
+                                        information to help
+                                        you locate your star in the sky.
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="accordion-item">
+                                <h2 class="accordion-header">
+                                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+                                        data-bs-target="#panelsStayOpen-collapseFive" aria-expanded="false"
+                                        aria-controls="panelsStayOpen-collapseFive">
+                                        What items do I get with my star purchase?
+                                    </button>
+                                </h2>
+                                <div id="panelsStayOpen-collapseFive" class="accordion-collapse collapse">
+                                    <div class="accordion-body text-light">
+                                        With your star purchase you will receive a high quality certificate confirming
+                                        the star you have
+                                        named and its coordinates. You will also receive a personalized star map with
+                                        the position of your
+                                        star marked on it, as well as other informative materials about stars and
+                                        constellations.
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="accordion-item">
+                                <h2 class="accordion-header">
+                                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+                                        data-bs-target="#panelsStayOpen-collapseSix" aria-expanded="false"
+                                        aria-controls="panelsStayOpen-collapseSix">
+                                        Is the purchase of a star a symbolic gift or do I have actual ownership rights?
+                                    </button>
+                                </h2>
+                                <div id="panelsStayOpen-collapseSix" class="accordion-collapse collapse">
+                                    <div class="accordion-body text-light">
+                                        Buying a star is both a symbolic gift and a unique experience that gives you the
+                                        feeling of owning a
+                                        part of the universe. Although you have no legal ownership rights to the
+                                        physical star, the star you
+                                        name is registered exclusively to you.
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="accordion-item">
+                                <h2 class="accordion-header">
+                                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+                                        data-bs-target="#panelsStayOpen-collapseSeven" aria-expanded="false"
+                                        aria-controls="panelsStayOpen-collapseSeven">
+                                        Can I rename my star afterwards?
+                                    </button>
+                                </h2>
+                                <div id="panelsStayOpen-collapseSeven" class="accordion-collapse collapse">
+                                    <div class="accordion-body text-light">
+                                        No, once you have named your star, the name is final. Please choose your star
+                                        name carefully.
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="accordion-item">
+                                <h2 class="accordion-header">
+                                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+                                        data-bs-target="#panelsStayOpen-collapseEight" aria-expanded="false"
+                                        aria-controls="panelsStayOpen-collapseEight">
+                                        How long will it take to receive my star package?
+                                    </button>
+                                </h2>
+                                <div id="panelsStayOpen-collapseEight" class="accordion-collapse collapse">
+                                    <div class="accordion-body text-light">
+                                        Normally you will receive your personalized star package within 5-7 working days
+                                        after completing
+                                        your order. However, there may be slight delays during busy periods.
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="accordion-item">
+                                <h2 class="accordion-header">
+                                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+                                        data-bs-target="#panelsStayOpen-collapseNine" aria-expanded="false"
+                                        aria-controls="panelsStayOpen-collapseNine">
+                                        Can I buy my star as a gift for someone else?
+                                    </button>
+                                </h2>
+                                <div id="panelsStayOpen-collapseNine" class="accordion-collapse collapse">
+                                    <div class="accordion-body text-light">
+                                        Yes, buying a star is a wonderful and unique gift for special occasions such as
+                                        birthdays,
+                                        anniversaries or weddings. You can send the star package directly to the
+                                        recipient and give him or
+                                        her an unforgettable memory.
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="accordion-item">
+                                <h2 class="accordion-header">
+                                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+                                        data-bs-target="#panelsStayOpen-collapseTen" aria-expanded="false"
+                                        aria-controls="panelsStayOpen-collapseTen">
+                                        Do you offer a guarantee for the visibility of my star?
+                                    </button>
+                                </h2>
+                                <div id="panelsStayOpen-collapseTen" class="accordion-collapse collapse">
+                                    <div class="accordion-body text-light">
+                                        We cannot guarantee the visibility of your star as this depends on various
+                                        factors such as weather
+                                        conditions, light pollution and your location. However, we do our best to ensure
+                                        that your star is
+                                        visible and provides you with a wonderful astronomical experience.
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- MARK: Questions Form
                    -->
-          <form id="createForm" class="needs-validation" onsubmit="return false;" novalidate action="#">
-            <div class="row justify-content-center align-items-center g-2">
-              <div class="col">
-                <label for="number" class="form-label">StarID:</label>
-                <input type="number" class="form-control" id="StarID" placeholder="e.g. 65795" required>
-                <div class="invalid-feedback">Please enter a valid StarID</div>
+                    <div class="col-md-4 "id="support">
+                        <div class="text-center mt-4">
+                            <h2 class="display-5">Get in Touch</h2>
+                            <p class="text-muted lead">Questions? Fill out the form</p>
+                        </div>
 
-                <label for="number" class="form-label">Hip:</label>
-                <input type="number" class="form-control" id="Hip" placeholder="e.g. 91262" required>
-                <div class="invalid-feedback">Please enter a valid Hip</div>
+                        <form class="needs-validation" onsubmit="return false;" novalidate>
 
-                <label for="number" class="form-label">HD:</label>
-                <input type="number" class="form-control" id="HD" placeholder="e.g. 172167" required>
-                <div class="invalid-feedback">Please enter a valid HD</div>
+                            <label for="email" class="form-label">Email address:</label>
+                            <input type="email" class="form-control" id="email" placeholder="e.g. name@example.com"
+                                required>
+                            <div class="invalid-feedback">Please enter a valid email</div>
 
-                <label for="name" class="form-label">Name:</label>
-                <input type="name" class="form-control" id="ProperName" placeholder="e.g. Vega" required>
-                <div class="invalid-feedback">Please enter a name</div>
+                            <label for="name" class="form-label">Name:</label>
+                            <input type="name" class="form-control" id="name" placeholder="e.g. Name" required>
+                            <div class="invalid-feedback">Please enter a name</div>
 
-                <label for="number" class="form-label">RA:</label>
-                <input type="number" step="any" class="form-control" id="RA" placeholder="e.g. 18.61560722" required>
-                <div class="invalid-feedback">Please enter a valid RA</div>
+                            <label class="form-label">Subject:</label>
+                            <select id="subject" class="form-select" required>
+                                <option value="pricing" selected>Pricing</option>
+                                <option value="legal">Legal</option>
+                                <option value="other">Other</option>
+                            </select>
 
-                <label for="number" class="form-label">Dec:</label>
-                <input type="number" step="any" class="form-control" id="Dec" placeholder="e.g. 38.78299311" required>
-                <div class="invalid-feedback">Please enter a valid Dec</div>
+                            <div class="form-floating mb-4 mt-5">
+                                <textarea name="question" class="form-control" id="question" style="height: 140px;"
+                                    required></textarea>
+                                <label for="question">Question:</label>
+                                <div class="invalid-feedback">Please enter your question</div>
+                            </div>
 
-                <label for="number" class="form-label">Distance:</label>
-                <input type="number" step="any" class="form-control" id="Distance" placeholder="e.g. 7.76" required>
-                <div class="invalid-feedback">Please enter a valid Distance</div>
-
-                <label for="number" class="form-label">Mag:</label>
-                <input type="number" step="any" class="form-control" id="Mag" placeholder="e.g. 0.03" required>
-                <div class="invalid-feedback">Please enter a valid Mag</div>
-
-
-              </div>
-              <div class="col mb-auto">
-
-                <label for="number" class="form-label">AbsMag:</label>
-                <input type="number" step="any" class="form-control" id="AbsMag" placeholder="e.g. 0.58" required>
-                <div class="invalid-feedback">Please enter a valid AbsMag</div>
-
-                <label for="text" class="form-label">Spectrum:</label>
-                <input type="text" class="form-control" id="Spectrum" placeholder="e.g. B2.5V" required>
-                <div class="invalid-feedback">Please enter a Spectrum</div>
-
-                <label for="number" class="form-label">ColorIndex:</label>
-                <input type="number" step="any" class="form-control" id="ColorIndex" placeholder="e.g. -0.134" required>
-                <div class="invalid-feedback">Please enter a valid ColorIndex</div>
-
-                <div class="form-floating mb-4 mt-4">
-                  <textarea class="form-control" id="GeneralInformation" style="height: 140px;" required></textarea>
-                  <label for="GeneralInformation">General information:</label>
-                  <div class="invalid-feedback">Please enter General Information</div>
+                            <div class=" text-center">
+                                <button type="submit" id="bestellen" class="btn btn-secondary">submit</button>
+                            </div>
+                        </form>
+                    </div>
                 </div>
-
-                <label for="number" class="form-label">Price:</label>
-                <input type="number" class="form-control" id="Price" placeholder="e.g. 83506" required>
-                <div class="invalid-feedback">Please enter a valid Price</div>
-
-                <label class="form-label">Color:</label>
-                <select id="Color" class="form-select" required>
-                  <option value="yellowWhiteStar" selected>yellowWhiteStar</option>
-                  <option value="yellowStar">yellowStar</option>
-                  <option value="whiteStar">whiteStar</option>
-                  <option value="orangeStar">orangeStar</option>
-                  <option value="orangeRedStar">orangeRedStar</option>
-                  <option value="blueStar">blueStar</option>
-                  <option value="blueWhiteStar">blueWhiteStar</option>
-                </select>
-              </div>
             </div>
-
-
-            <div class="mt-2 text-center">
-              <button type="submit" id="createnew" class="btn btn-secondary">save changes</button>
             </div>
-          </form>
-        </div>
-      </div>
-    </div>
-  </div>
+        </section>
 
-
-  <script>
-    setSearchPlaceholder()
-    setSortPlaceholder()
-    setFilterPlaceholder()
-  </script>
-
-  <script>
-    // checks for admin param and shows the Button for Creating new elements if admin param equals "true"
-
-    const params = new URLSearchParams(window.location.search)
-    const admin = params.get("admin")
-    if (admin === "true") { document.getElementById('createBtn').classList.remove('d-none'); }
-    else { document.getElementById('createBtn').classList.add('d-none'); }
-  </script>
-
-  <script id="template" type="text/x-handlebars-footer">
-    {{> footer }}
-  </script>
-  <div></div>
-
-  <!-- Bootstrap JavaScript Libraries -->
-  <script src="js/bootstrap.js"></script>
-</body>
+        <!-- Footer -->
+        <script id="template" type="text/x-handlebars-footer">
+        {{> footer }}
+    </script>
+        <div></div>
+        <!-- Bootstrap JavaScript Libraries -->
+        <script src="js/bootstrap.js"></script>
+    </body>
 
 </html>
