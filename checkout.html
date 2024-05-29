@@ -16,7 +16,11 @@
   <script src="js/handlebars.min-v4.7.8.js"></script>
   <script src="js/vanilla.js"></script>
   <script src="js/checkout.js"></script>
-
+  <style>
+    .cart-image {
+      width: 10vh;
+    }
+  </style>
   <script>
 
     function init() {
@@ -33,20 +37,20 @@
           event.preventDefault()
           event.stopPropagation()
           clear = false;
-          
+
           // validation check
         } else if (!checkoutForm.checkValidity()) {
           event.preventDefault()
           event.stopPropagation()
-          clear = false;  
+          clear = false;
         }
-          // add data to local storage
+        // add data to local storage
         checkoutForm.classList.add('was-validated')
-        if(clear){
+        if (clear) {
           toLocal()
           clearCart()
         }
-        
+
       }, false)
 
       // render cart information
@@ -91,7 +95,8 @@
         <script id="template" type="text/x-handlebars-template">
                 {{#each this}}
                 <li class="list-group-item d-flex justify-content-between lh-condensed">
-                    <div>
+                  <img src="assets/stars/{{Color}}.png" class="card-img-top cart-image border-bottom border-dark img-fluidF">
+                    <div class="align-items-start">
                         <h6 class="my-0 text-start">{{ProperName}}</h6>
                         <small class="text-muted">
                             {{#if (lt Price 100000)}}
@@ -100,7 +105,7 @@
                             Distance: {{Distance}}
                         </small>
                       </div>
-                    <span class="text-muted">€{{Price}}</span>
+                    <span class="text-muted">€ {{formatCurrency Price}}</span>
                 </li>
                 {{/each}}
                 </script>
@@ -113,7 +118,7 @@
                             Total
                         </span>
                         <strong>
-                            €{{total}}
+                            € {{formatCurrency total}}
                         </strong>
                     </li>
                 </script>
