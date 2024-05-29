@@ -128,14 +128,14 @@
 
   <section id="pricing" class="container-background-repeat border-bottom bg-black">
     <nav class="navbar bg-body-tertiary sticky-top bg-black border-bottom border-dark">
-      <div class="container-fluid justify-content-end px-5">
-        <a class="navbar-brand"></a>
-
+      <div class="col bg-black">
         <p id="searchField" class="text-light mx-3"></p>
         <p id="filterField" class="text-light mx-3"></p>
         <p id="sortField" class="text-light mx-3"></p>
-
-        <a class="btn btn-outline-dark mx-2" type="submit" href="warenkorb.html">
+      </div>
+      <div class="container-fluid justify-content-sm-end justify-content-end px-5">
+        <a class="navbar-brand"></a>
+        <a class="btn btn-outline-dark my-1 mx-2" type="submit" href="warenkorb.html">
           <div class="container">
             <div class="row">
               <div class="col">
@@ -149,15 +149,17 @@
           </div>
         </a>
 
-        <div class="btn-group mx-2 mt-1" role="group">
+        <div class="btn-group mx-2 my-1" role="group">
           <a onclick="toggleFilter()" class="btn btn-secondary" id="filterButton"><i class="bi bi-funnel"></i></a>
           <a class="btn btn-secondary" onclick="setFilter('Reset', null, null)"><i class="bi bi-trash"></i></a>
         </div>
         
-        <div class="btn-group mx-1 my-2" role="group">
+        <div class="btn-group mx-1 mb-1 mb-sm-0 my-sm-0" role="group">
           <a onclick="toggleSort()" class="btn btn-secondary" id="sortButton"><i class="bi bi-filter-right"></i></a>
           <a class="btn btn-secondary" onclick="setSort('Reset', null)"><i class="bi bi-trash"></i></a>
         </div>
+
+        
 
         <a id="createBtn" href="#" class="btn btn-primary m-2 d-none" data-bs-toggle="modal"
           data-bs-target="#createModal"><i class="bi bi-plus-square"></i></a>
