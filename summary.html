@@ -15,7 +15,11 @@
     <!-- handlebars -->
     <script src="js/handlebars.min-v4.7.8.js"></script>
     <script src="js/vanilla.js"></script>
-
+    <style>
+        .cart-image {
+            width: 10vh;
+        }
+    </style>
     <script>
         function init() {
             render({}, '[type="text/x-handlebars-navbar"]')
@@ -36,6 +40,12 @@
         {{> navbar }}
     </script>
     <div></div>
+
+    <script id="template" type="text/x-handlebars-orders">
+        {{> ordermodal }}
+    </script>
+    <div></div>
+
     <!-- MARK: Support Card
          -->
     <section id="Support Card">
@@ -47,6 +57,9 @@
                             <h4 class="card-title pb-4 text-center">You're orders</h4>
                             <script id="template" type="text/x-handlebars-orders">
                                 {{#each this}}
+                            
+                                <button type="button" class="btn" data-bs-toggle="modal" data-bs-target="#{{total}}-modal">
+
                                 <li class="list-group-item d-flex justify-content-between lh-condensed my-1">
                                     <div>
                                         <h6 class="my-0 text-start">{{checkout.0.value}}{{checkout.1.value}}</h6>
@@ -59,15 +72,19 @@
                                         <h6 class="my-0 text-light">Stars:</h6>
                                       </div>  
                                     {{#each data}}
+
                                       <div class = "col">
                                         <h6 class="my-0 text-start">{{ProperName}}</h6>
                                       </div>     
+
                                     {{/each}}
                                     
                                     </div>
                                     <span class="text-muted">€{{total}}</span>
 
                                 </li>
+                            </button>
+
                                 {{/each}}
 
                                 </script>
