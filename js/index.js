@@ -28,6 +28,9 @@ function paginationCheck(page, max) {
         document.getElementById('increment').classList.add('d-none')
         document.getElementById('centralpage').classList.add('d-none')
     }
+    if (max == 1){
+        document.getElementById('increment').classList.add('d-none')
+    }
 }
 
 function decrement() {
