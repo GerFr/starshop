@@ -23,8 +23,8 @@
 
     .cart-image {
       width: 8vh;
-      height:8vh;
-      }
+      height: 8vh;
+    }
   </style>
   <link rel="icon" href="assets/icons/stars.png">
   <!-- handlebars -->
@@ -48,8 +48,8 @@
       render({}, '[type="text/x-handlebars-navbar"]')
       render({}, '[type="text/x-handlebars-footer"]')
       render(colors.slice(0, 7), '[type="text/x-handlebars-filter"]', setFilterHighlight)
-      
-    
+
+
       const params = new URLSearchParams(window.location.search)
       const pageParam = params.get("page")
       const pageNumbers = getPageNumbers(pageParam, amountOnPage)
@@ -113,7 +113,7 @@
   <script id="template" type="text/x-handlebars-navbar">
     {{> navbar }}
   </script>
-  <div></div>
+  <div id="nav"></div>
   <!-- MARK:image and intro
     -->
 
@@ -132,49 +132,42 @@
 
   <section id="pricing" class="container-background-repeat border-bottom bg-black">
     <nav class="navbar sticky-top bg-black border-bottom border-dark">
-      <div class="container-fluid justify-content-sm-end justify-content-end px-5">
-        <a class="navbar-brand"></a>
+      <div class="container-fluid justify-content-end px-5">
 
-        <a class="btn btn-secondary my-1 mx-2" type="submit" href="warenkorb.html">
-          <div class="container">
-            <div class="row">
-              <div class="col">
-                <i class="bi-cart-fill bi me-1"></i>
-              </div>
-              <div class="col">
-                <div id="cartcounter" class="badge bg-dark text-white ms-1 rounded-pill me-2">0
-                </div>
-              </div>
+        <div class="btn-group mx-1 mt-1">
+          <a class="btn btn-secondary" type="submit" href="warenkorb.html">
+            <div class="col">
+              <i class="bi-cart-fill bi"></i>
             </div>
-          </div>
-        </a>
-
-        <div class="btn-group mx-2 my-1" role="group">
-          <a onclick="toggleFilter()" class="btn btn-secondary" id="filterButton"><i class="bi bi-funnel"></i></a>
-          <a class="btn btn-secondary" onclick="setFilter('Reset', null, null)"><i class="bi bi-trash"></i></a>
+          </a>
+          <a class="btn btn-secondary" type="submit" href="warenkorb.html">
+            <div id="cartcounter" class="badge bg-dark text-white rounded-pill">0
+            </div>
+          </a>
         </div>
-        
-        <div class="btn-group mx-1 mb-1 mb-sm-0 my-sm-0" role="group">
+
+        <div class="btn-group mx-1 mt-1" role="group">
+          <a onclick="toggleFilter()" class="btn btn-secondary" id="filterButton"><i class="bi bi-funnel"></i></a>
           <a onclick="toggleSort()" class="btn btn-secondary" id="sortButton"><i class="bi bi-filter-right"></i></a>
-          <a class="btn btn-secondary" onclick="setSort('Reset', null)"><i class="bi bi-trash"></i></a>
+          <a href="#nav" class="btn btn-secondary"><i class="bi bi-arrow-bar-up"></i></a>
         </div>
 
         <a id="createBtn" href="#" class="btn btn-primary m-2 d-none" data-bs-toggle="modal"
           data-bs-target="#createModal"><i class="bi bi-plus-square"></i></a>
 
-        <form class="d-flex needs-validation" id="searchForm" novalidate>
+        <form class="d-flex needs-validation mt-2" id="searchForm" novalidate>
           <div class="input-group ms-2" required>
             <input id="query" class="form-control" type="text" placeholder="Search" aria-label="Search"
-            oninput="updateRecommendation()" required>
-            <button class=" btn btn-secondary border border-secondary" type="button"onclick="removeSearch()">
+              oninput="updateRecommendation()" required>
+            <button class=" btn btn-secondary border border-secondary" type="button" onclick="removeSearch()">
               <i class="bi bi-trash"></i>
             </button>
           </div>
           <button class="btn btn-outline-white btn-secondary d-none " type="submit" id="search"><i
-            class="bi bi-search"></i></button>
+              class="bi bi-search"></i></button>
         </form>
-
       </div>
+
       <div class="container justify-content-center">
         <div class="row" id="searchResults"></div>
       </div>
@@ -194,8 +187,6 @@
           <div class="card bg-black border border-black" id="Price100000sm">
           <a class="btn" onclick="setFilter('Price', '100000', 'sm')">
             <img src="assets/icons/sale.png" class="card-img-top cart-image">
-            <p class="lead text-muted"> 
-            </p>
           </a>
         </div>
           </div>
@@ -207,39 +198,31 @@
         <div class="row justify-content-center my-2">
           <div class="col-4 col-sm-4 col-md-3 col-xl-3">
             <div class="card bg-black border border-black" id="Priceasc">
-            <a class="btn" onclick="setSort('Price', 'asc')">
-              <img src="assets/icons/aufsteigend.png" class="cart-image">
-              <p class="lead text-muted"> 
-              </p>
-            </a>
-          </div>
+              <a class="btn" onclick="setSort('Price', 'asc')">
+                <img src="assets/icons/aufsteigend.png" class="cart-image">
+              </a>
+            </div>
           </div>
           <div class="col-4 col-sm-4 col-md-3 col-xl-3">
             <div class="card bg-black border border-black" id="Pricedsc">
-            <a class="btn" onclick="setSort('Price', 'dsc')">
-              <img src="assets/icons/absteigend.png" class="cart-image">
-              <p class="lead text-muted"> 
-              </p>
-            </a>
-          </div>
+              <a class="btn" onclick="setSort('Price', 'dsc')">
+                <img src="assets/icons/absteigend.png" class="cart-image">
+              </a>
+            </div>
           </div>
           <div class="col-4 col-sm-4 col-md-3 col-xl-3">
             <div class="card bg-black border border-black" id="ProperNameasc">
-            <a class="btn" onclick="setSort('ProperName', 'asc')">
-              <img src="assets/icons/ascending.png" class="cart-image">
-              <p class="lead text-muted"> 
-              </p>
-            </a>
-          </div>
+              <a class="btn" onclick="setSort('ProperName', 'asc')">
+                <img src="assets/icons/ascending.png" class="cart-image">
+              </a>
+            </div>
           </div>
           <div class="col-4 col-sm-4 col-md-3 col-xl-3">
             <div class="card bg-black border border-black" id="ProperNamedsc">
-            <a class="btn" onclick="setSort('ProperName', 'dsc')">
-              <img src="assets/icons/descending.png" class="cart-image">
-              <p class="lead text-muted"> 
-              </p>
-            </a>
-          </div>
+              <a class="btn" onclick="setSort('ProperName', 'dsc')">
+                <img src="assets/icons/descending.png" class="cart-image">
+              </a>
+            </div>
           </div>
         </div>
       </div>
