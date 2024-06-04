@@ -20,9 +20,10 @@
       background-size: auto;
       background-position: right;
     }
+
     .cart-image {
-      width: 50%;
-      height:50%;
+      width: 8vh;
+      height:8vh;
       }
   </style>
   <link rel="icon" href="assets/icons/stars.png">
@@ -180,7 +181,7 @@
       <div class="container border border-dark mt-3 d-none justify-content-center" id="filter">
         <script id="template" type="text/x-handlebars-filter">
           {{#each this}}
-            <div class="col-3 col-sm-3 col-md-2 col-xl-2">
+            <div class="col-4 col-sm-4 col-md-3 col-xl-2">
               <div class="card bg-black border border-black" id="{{key}}{{color}}eq">
               <a class="btn" onclick="setFilter('{{key}}', '{{color}}', 'eq')">
                 <img src="assets/icons/starIcons/{{color}}.png" class="card-img-top cart-image">
@@ -189,10 +190,10 @@
             </div>
             </div>
           {{/each}}
-          <div class="col-3 col-sm-3 col-md-2 col-xl-2">
+          <div class="col-4 col-sm-4 col-md-3 col-xl-2">
           <div class="card bg-black border border-black" id="Price100000sm">
           <a class="btn" onclick="setFilter('Price', '100000', 'sm')">
-            <img src="assets/icons/sale.png" class="card-img-top cart-image ">
+            <img src="assets/icons/sale.png" class="card-img-top cart-image">
             <p class="lead text-muted"> 
             </p>
           </a>
@@ -204,35 +205,39 @@
 
       <div class="container border border-dark mt-2 d-none justify-content-center" id="sort">
         <div class="row justify-content-center my-2">
-          <div class="col-3 col-sm-3 col-md-2 col-xl-2">
+          <div class="col-4 col-sm-4 col-md-3 col-xl-3">
             <div class="card bg-black border border-black" id="Priceasc">
             <a class="btn" onclick="setSort('Price', 'asc')">
               <img src="assets/icons/aufsteigend.png" class="cart-image">
-              <p class="lead text-muted"></p>
+              <p class="lead text-muted"> 
+              </p>
             </a>
           </div>
           </div>
-          <div class="col-3 col-sm-3 col-md-2 col-xl-2">
+          <div class="col-4 col-sm-4 col-md-3 col-xl-3">
             <div class="card bg-black border border-black" id="Pricedsc">
             <a class="btn" onclick="setSort('Price', 'dsc')">
               <img src="assets/icons/absteigend.png" class="cart-image">
-              <p class="lead text-muted"></p>
+              <p class="lead text-muted"> 
+              </p>
             </a>
           </div>
           </div>
-          <div class="col-3 col-sm-3 col-md-2 col-xl-2">
+          <div class="col-4 col-sm-4 col-md-3 col-xl-3">
             <div class="card bg-black border border-black" id="ProperNameasc">
             <a class="btn" onclick="setSort('ProperName', 'asc')">
-              <img src="assets/icons/ascending.png" class=" cart-image">
-              <p class="lead text-muted"></p>
+              <img src="assets/icons/ascending.png" class="cart-image">
+              <p class="lead text-muted"> 
+              </p>
             </a>
           </div>
           </div>
-          <div class="col-3 col-sm-3 col-md-2 col-xl-2">
+          <div class="col-4 col-sm-4 col-md-3 col-xl-3">
             <div class="card bg-black border border-black" id="ProperNamedsc">
             <a class="btn" onclick="setSort('ProperName', 'dsc')">
               <img src="assets/icons/descending.png" class="cart-image">
-              <p class="lead text-muted"></p>
+              <p class="lead text-muted"> 
+              </p>
             </a>
           </div>
           </div>
