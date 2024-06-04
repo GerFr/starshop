@@ -20,8 +20,11 @@
       background-size: auto;
       background-position: right;
     }
+    .cart-image {
+      width: 50%;
+      height:50%;
+      }
   </style>
-
   <link rel="icon" href="assets/icons/stars.png">
   <!-- handlebars -->
   <script src="js/handlebars.min-v4.7.8.js"></script>
@@ -43,9 +46,9 @@
 
       render({}, '[type="text/x-handlebars-navbar"]')
       render({}, '[type="text/x-handlebars-footer"]')
-      render(colors.slice(0, 7), '[type="text/x-handlebars-filter"]')
-
-
+      render(colors.slice(0, 7), '[type="text/x-handlebars-filter"]', setFilterPlaceholder)
+      
+    
       const params = new URLSearchParams(window.location.search)
       const pageParam = params.get("page")
       const pageNumbers = getPageNumbers(pageParam, amountOnPage)
@@ -127,19 +130,15 @@
   </section>
 
   <section id="pricing" class="container-background-repeat border-bottom bg-black">
-    <nav class="navbar bg-body-tertiary sticky-top bg-black border-bottom border-dark">
-      <div class="col bg-black">
-        <p id="searchField" class="text-light mx-3"></p>
-        <p id="filterField" class="text-light mx-3"></p>
-        <p id="sortField" class="text-light mx-3"></p>
-      </div>
+    <nav class="navbar sticky-top bg-black border-bottom border-dark">
       <div class="container-fluid justify-content-sm-end justify-content-end px-5">
         <a class="navbar-brand"></a>
-        <a class="btn btn-outline-dark my-1 mx-2" type="submit" href="warenkorb.html">
+
+        <a class="btn btn-secondary my-1 mx-2" type="submit" href="warenkorb.html">
           <div class="container">
             <div class="row">
               <div class="col">
-                <i class="bi-cart-fill me-1"></i>
+                <i class="bi-cart-fill bi me-1"></i>
               </div>
               <div class="col">
                 <div id="cartcounter" class="badge bg-dark text-white ms-1 rounded-pill me-2">0
@@ -159,21 +158,19 @@
           <a class="btn btn-secondary" onclick="setSort('Reset', null)"><i class="bi bi-trash"></i></a>
         </div>
 
-        
-
         <a id="createBtn" href="#" class="btn btn-primary m-2 d-none" data-bs-toggle="modal"
           data-bs-target="#createModal"><i class="bi bi-plus-square"></i></a>
 
         <form class="d-flex needs-validation" id="searchForm" novalidate>
-          <input id="query" class="form-control me-2" type="text" placeholder="Search" aria-label="Search"
+          <div class="input-group ms-2" required>
+            <input id="query" class="form-control" type="text" placeholder="Search" aria-label="Search"
             oninput="updateRecommendation()" required>
-          <div class="btn-group" role="group">
-            <button class="btn btn-outline-white btn-secondary" type="submit" id="search"><i
-                class="bi bi-search"></i></button>
-            <a class="btn btn-secondary" onclick="removeSearch()">
+            <button class=" btn btn-secondary border border-secondary" type="button"onclick="removeSearch()">
               <i class="bi bi-trash"></i>
-            </a>
+            </button>
           </div>
+          <button class="btn btn-outline-white btn-secondary d-none " type="submit" id="search"><i
+            class="bi bi-search"></i></button>
         </form>
 
       </div>
@@ -184,35 +181,60 @@
         <script id="template" type="text/x-handlebars-filter">
           {{#each this}}
             <div class="col-3 col-sm-3 col-md-2 col-xl-2">
-              <button class="btn" onclick="setFilter('{{key}}', '{{color}}', 'eq')">
-                <img src="assets/stars/{{color}}.png" class="card-img-top">
+              <div class="card bg-black border border-black" id="{{key}}{{color}}eq">
+              <a class="btn" onclick="setFilter('{{key}}', '{{color}}', 'eq')">
+                <img src="assets/icons/starIcons/{{color}}.png" class="card-img-top cart-image">
                 <p class="lead text-muted">{{title}}</p>
-              </button>
+              </a>
+            </div>
             </div>
           {{/each}}
           <div class="col-3 col-sm-3 col-md-2 col-xl-2">
+          <div class="card bg-black border border-black" id="Price100000sm">
           <a class="btn" onclick="setFilter('Price', '100000', 'sm')">
-            <img src="assets/icons/sale.png" class="card-img-top ">
-            <p class="lead text-muted">Sale</p>
+            <img src="assets/icons/sale.png" class="card-img-top cart-image ">
+            <p class="lead text-muted"> 
+            </p>
           </a>
+        </div>
           </div>
           </script>
-        <div class="row justify-content-center"></div>
+        <div class="row justify-content-center my-2"></div>
       </div>
 
       <div class="container border border-dark mt-2 d-none justify-content-center" id="sort">
-        <div class="row justify-content-center">
-          <div class="col-3 col-sm-3 col-md-3 col-xl-2">
+        <div class="row justify-content-center my-2">
+          <div class="col-3 col-sm-3 col-md-2 col-xl-2">
+            <div class="card bg-black border border-black" id="Priceasc">
             <a class="btn" onclick="setSort('Price', 'asc')">
-              <img src="assets/icons/aufsteigend.png" class="card-img-top image-fluid">
-              <p class="lead text-muted">asc</p>
+              <img src="assets/icons/aufsteigend.png" class="cart-image">
+              <p class="lead text-muted"></p>
             </a>
           </div>
-          <div class="col-3 col-sm-3 col-md-3 col-xl-2">
+          </div>
+          <div class="col-3 col-sm-3 col-md-2 col-xl-2">
+            <div class="card bg-black border border-black" id="Pricedsc">
             <a class="btn" onclick="setSort('Price', 'dsc')">
-              <img src="assets/icons/absteigend.png" class="card-img-top image-fluid">
-              <p class="lead text-muted">desc</p>
+              <img src="assets/icons/absteigend.png" class="cart-image">
+              <p class="lead text-muted"></p>
             </a>
+          </div>
+          </div>
+          <div class="col-3 col-sm-3 col-md-2 col-xl-2">
+            <div class="card bg-black border border-black" id="ProperNameasc">
+            <a class="btn" onclick="setSort('ProperName', 'asc')">
+              <img src="assets/icons/ascending.png" class=" cart-image">
+              <p class="lead text-muted"></p>
+            </a>
+          </div>
+          </div>
+          <div class="col-3 col-sm-3 col-md-2 col-xl-2">
+            <div class="card bg-black border border-black" id="ProperNamedsc">
+            <a class="btn" onclick="setSort('ProperName', 'dsc')">
+              <img src="assets/icons/descending.png" class="cart-image">
+              <p class="lead text-muted"></p>
+            </a>
+          </div>
           </div>
         </div>
       </div>
@@ -363,12 +385,8 @@
 
 
   <script>
+    setSortHighlight()
     setSearchPlaceholder()
-    setSortPlaceholder()
-    setFilterPlaceholder()
-  </script>
-
-  <script>
     // checks for admin param and shows the Button for Creating new elements if admin param equals "true"
 
     const params = new URLSearchParams(window.location.search)

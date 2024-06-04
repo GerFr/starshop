@@ -27,6 +27,7 @@ function startSearchForm(searchForm) {
         if (!searchForm.checkValidity()) {
             event.preventDefault()
             event.stopPropagation()
+            console.log("not valid");
         }
         searchForm.classList.add('was-validated')
     }, false)
@@ -94,14 +95,10 @@ function levenshteinDistance(first, second) {
 
 function setSearchPlaceholder() {
     const params = new URLSearchParams(window.location.search)
-    const field = document.getElementById('searchField')
     const input = document.getElementById('query')
     const query = params.get("search")
     if (!(query === null)) {
-        field.innerHTML = "Search: " + query
         input.value = query
-    } else {
-        field.innerHTML = ""
     }
 }
 

@@ -81,27 +81,25 @@ function filterData(data, key, value, operation) {
 }
 
 function setFilterPlaceholder() {
-    const params = new URLSearchParams(window.location.search)
-    const input = document.getElementById('filterField')
-    const value = params.get("filterValue")
+        const params = new URLSearchParams(window.location.search)
+        const value = params.get("filterValue")
+        const key = params.get("filter")
+        const operation = params.get("filterOperation")
 
-    if (value !== null) {
-        let found = colors.find(obj => obj["color"] === value)
-        if (found !== undefined) {
-            input.innerHTML = "Filter: "+found["title"]
-        } else {
-            input.innerHTML = ""
+        if (value !== null) {
+            console.log(key + value + operation)
+            const element = document.getElementById(key + value + operation)
+            console.log(element);
+            element.classList.remove('bg-black')
+            element.classList.add('bg-dark')
         }
-    } else {
-        input.innerHTML = ""
-    }
+
 }
 
 
 
-
-function toggleFilter(){
-        document.getElementById('filter').classList.toggle('d-none')
-        document.getElementById('filterButton').classList.toggle('btn-secondary')
-        document.getElementById('filterButton').classList.toggle('btn-dark')
+function toggleFilter() {
+    document.getElementById('filter').classList.toggle('d-none')
+    document.getElementById('filterButton').classList.toggle('btn-secondary')
+    document.getElementById('filterButton').classList.toggle('btn-dark')
 }

@@ -26,13 +26,16 @@ const $on = (element, event, func) => {
  * @param template - das zu ersetzende template (tag)
  * @returns {Promise<void>}
  */
-const render = async (data, template) => {
+const render = async (data, template, callback) => {
   const templates = $$(template)
   for (const source of templates) {
     await loadPartials(source)
     const template = Handlebars.compile(source.innerHTML)
     const target = source.nextElementSibling
     target.innerHTML = template(data)
+    if (callback){
+      callback()
+    }
   }
 }
 
