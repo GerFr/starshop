@@ -92,16 +92,12 @@ function levenshteinDistance(first, second) {
     return matrix[second.length][first.length]
 }
 
-function setSearchPlaceholder() {
+function setSearchPlaceholdert() {
     const params = new URLSearchParams(window.location.search)
-    const field = document.getElementById('searchField')
     const input = document.getElementById('query')
     const query = params.get("search")
     if (!(query === null)) {
-        field.innerHTML = "Search: " + query
         input.value = query
-    } else {
-        field.innerHTML = ""
     }
 }
 
