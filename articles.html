@@ -46,7 +46,7 @@
 
       render({}, '[type="text/x-handlebars-navbar"]')
       render({}, '[type="text/x-handlebars-footer"]')
-      render(colors.slice(0, 7), '[type="text/x-handlebars-filter"]', setFilterPlaceholder)
+      render(colors.slice(0, 7), '[type="text/x-handlebars-filter"]', setFilterHighlight)
       
     
       const params = new URLSearchParams(window.location.search)
@@ -386,7 +386,7 @@
 
   <script>
     setSortHighlight()
-    setSearchPlaceholder()
+    setSearchPlaceholdert()
     // checks for admin param and shows the Button for Creating new elements if admin param equals "true"
 
     const params = new URLSearchParams(window.location.search)

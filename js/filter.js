@@ -80,7 +80,7 @@ function filterData(data, key, value, operation) {
 
 }
 
-function setFilterPlaceholder() {
+function setFilterHighlight() {
         const params = new URLSearchParams(window.location.search)
         const value = params.get("filterValue")
         const key = params.get("filter")
