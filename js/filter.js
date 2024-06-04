@@ -43,24 +43,28 @@ const colors = [
 
 
 function setFilter(key, value, operation) {
-    if ((key !== "Reset")) {
-        const params = new URLSearchParams(window.location.search)
-        params.set("filter", key)
-        params.set("filterValue", value)
-        params.set("filterOperation", operation)
-        params.set("page", 1)
-        window.history.replaceState({}, "", `${window.location.pathname}?${params}`)
-        window.location.reload()
-    } else {
-        const params = new URLSearchParams(window.location.search)
-        params.delete("filter")
-        params.delete("filterValue")
-        params.delete("filterOperation")
-        params.delete("sale")
-        window.history.replaceState({}, "", `${window.location.pathname}?${params}`)
-        window.location.reload()
+        if (
+        (key !== "Reset")&&
+        ((key+value+operation)!==
+        (params.get("filter")+params.get("filterValue")+params.get("filterOperation")))
+        ) {
+            const params = new URLSearchParams(window.location.search)
+            params.set("filter", key)
+            params.set("filterValue", value)
+            params.set("filterOperation", operation)
+            params.set("page", 1)
+            window.history.replaceState({}, "", `${window.location.pathname}?${params}`)
+            window.location.reload()
+        } else {
+            const params = new URLSearchParams(window.location.search)
+            params.delete("filter")
+            params.delete("filterValue")
+            params.delete("filterOperation")
+            params.delete("sale")
+            window.history.replaceState({}, "", `${window.location.pathname}?${params}`)
+            window.location.reload()
+        }
     }
-}
 
 // if value a number key.O is 
 function filterData(data, key, value, operation) {

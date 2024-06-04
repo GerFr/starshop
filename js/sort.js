@@ -1,5 +1,8 @@
 function setSort(key, direction) {
-    if (!(key==="Reset")){
+    if ((key!=="Reset")&&
+    ((key+direction)!==
+    (params.get("sort")+params.get("sortDirection")))){
+
         const params = new URLSearchParams(window.location.search)
         params.set("sort", key)
         params.set("sortDirection", direction)
