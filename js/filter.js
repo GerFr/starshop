@@ -87,9 +87,7 @@ function setFilterHighlight() {
         const operation = params.get("filterOperation")
 
         if (value !== null) {
-            console.log(key + value + operation)
             const element = document.getElementById(key + value + operation)
-            console.log(element);
             element.classList.remove('bg-black')
             element.classList.add('bg-dark')
         }
