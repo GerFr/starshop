@@ -84,14 +84,14 @@
     {{> navbar }}
   </script>
   <div></div>
-
-  <div class="container">
+<section class="bg-black">
+  <div class="container ">
     <div class="row">
       <!-- MARK: cart overview
                  -->
       <div class="col-md-4 order-md-2 mb-4">
-        <h4 class="d-flex justify-content-between align-items-center mb-3">
-          <span class="text-muted">Your cart</span>
+        <h4 class="d-flex justify-content-between align-items-center my-3">
+          <span class="text">Your cart</span>
         </h4>
         <script id="template" type="text/x-handlebars-template">
                 {{#each this}}
@@ -129,7 +129,7 @@
       <!-- MARK: billing Form
                  -->
       <div class="col-md-8 order-md-1">
-        <h4 class="mb-3">Checkout</h4>
+        <h4 class="my-3">Checkout</h4>
         <form class="needs-validation" novalidate action="confirmation.html">
 
           <div class="row">
@@ -253,7 +253,7 @@
             </div>
           </div>
           <hr class="mb-4">
-          <button class="btn btn-primary btn-lg btn-block" id="bestellen" type="submit">Continue to
+          <button class="btn mb-3 btn-dark text-muted btn-lg btn-block" id="bestellen" type="submit">Continue to
             checkout</button>
         </form>
       </div>
@@ -285,7 +285,7 @@
     });
 
   </script>
-
+</section>
   <!-- MARK: footer-->
   <script id="template" type="text/x-handlebars-footer">
     {{> footer }}
