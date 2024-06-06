@@ -171,7 +171,6 @@ function setInCart() {
     if (cart !== null) {
         cart.forEach(element => {
             var tag = document.getElementById(element + "-inCart")
-            console.log(element + "-inCart");
             if (tag !== null) {
                 tag.innerHTML = "\
             <div class='badge position-absolute rounded-pill bg-success text-white ms-4 p-2 m-2'>In Cart</div>\
