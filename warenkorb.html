@@ -82,10 +82,18 @@
                             maxcolor.push(baseData[i])
                         } 
                     }
-                    const ran = Math.floor(Math.random() * (maxcolor.length-1))
+                    var ran = Math.floor(Math.random() * (maxcolor.length-1)) 
                     var ran2 = ran
-                    while(ran === ran2){
-                        ran2 = Math.floor(Math.random() * (maxcolor.length-1))
+                    var i = 0
+
+                    while (i < cartData.length){
+                        if((maxcolor[ran]!=cartData[i])&&(maxcolor[ran2]!=cartData[i])&&(ran!=ran2)){
+                            i += 1
+                        }
+                        else{
+                            ran = Math.floor(Math.random() * (maxcolor.length-1))
+                            ran2 = Math.floor(Math.random() * (maxcolor.length-1))  
+                        }
                     }
                     const prod_suggestion = [maxcolor[ran], maxcolor[ran2]]
                     render(prod_suggestion, '[type="text/x-handlebars-suggestion"]')
