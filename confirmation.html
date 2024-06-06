@@ -18,7 +18,8 @@
     <script src="js/checkout.js"></script>
     <style>
         .cart-image {
-            width: 10vh;
+            width: 30%;
+            height:30%;
         }
     </style>
     <script>
@@ -76,16 +77,20 @@
     <div></div>
     <!-- MARK: Support Card
          -->
-    <section id="Support Card">
+    <section id="Support Card" class="bg-black py-5" style="background-image: url('/assets/StarBackround.jpg'); 
+    background-size: auto; 
+    background-position: center; 
+    background-attachment: fixed;
+    height: cover;">
         <div class="container-lg justify-content-center">
             <div class="row align-content-center justify-content-center">
                 <div class="col-lg-8">
-                    <div class="card bg-dark ">
+                    <div class="card bg ">
                         <div class="card-body">
                             <h4 class="card-title pb-4 text-center">Your order is arriving soon</h4>
                             <script id="template" type="text/x-handlebars-cart">
                                 {{#each this}}
-                                <li class="list-group-item d-flex justify-content-between lh-condensed mb-2">
+                                <li class="list-group-item d-flex justify-content-between lh-condensed">
                                     <img src="assets/stars/{{Color}}.png" class="card-img-top cart-image border-bottom border-dark img-fluid">
                                     <div>
                                         <h6 class="my-0 text-start">{{ProperName}}</h6>
@@ -96,21 +101,21 @@
                                             Distance: {{Distance}}
                                         </small>
                                     </div>
-                                    <span class="text-muted">€{{Price}}</span>
+                                    <span class="text-muted">€ {{formatCurrency Price}}</span>
                                 </li>
                                 {{/each}}
                                 </script>
                             <ul class="list-group mb-1">
                             </ul>
                             <script id="template" type="text/x-handlebars-template-2">
-                                <div class="col-6 col-sm-5 col-md-4 col-xl-4 justify-center text-center">
+                                <div class="col-10 col-sm-8 col-md-6 col-xl-4 justify-center mt-2 text-center">
                                 <ul>
                                 <li class="list-group-item justify-content-between">
                                     <span>
                                         Total
                                         </span>
                                         <strong>
-                                            €{{total}}
+                                            € {{formatCurrency total}}
                                         </strong>
                                 </li>
                                 </ul>
@@ -120,9 +125,9 @@
                             <div class="container">
                                 <script id="template" type="text/x-handlebars-checkout">
                                 {{#each this}}
-                                <div class="col-6 col-sm-5 col-md-4 col-xl-4">
+                                <div class="col-12 col-sm-10 col-md-8 col-xl-6">
                                 <ul class="list-group mt-1">
-                                <li class="list-group-item d-flex justify-content-between lh-condensed">
+                                <li class="list-group-item d-flex border-0 justify-content-between lh-condensed">
                                     <div>
                                         <h6 class="my-0 text-start">{{name}}</h6>
                                       </div>
@@ -130,14 +135,15 @@
                                     </span>
                                 </li>
                                 </ul>
+                                <hr style="height:2px">
                             </div>
                                 {{/each}}
                             </script>
                                 <div class="row justify-content-center">
                                 </div>
                             </div>
-                            <div class="card-footer text-center bg-dark">
-                                <a href="/index.html" class="btn btn-primary btn-lg">Home</a>
+                            <div class="card-footer text-center  mt-3">
+                                <a href="articles.html" class="btn btn-secondary btn-lg">Home</a>
                             </div>
                         </div>
                     </div>

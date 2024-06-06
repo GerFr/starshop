@@ -108,11 +108,16 @@
         </div>
       </div>
       <div class="modal-footer">
-        <div id="cartAlert{{StarID}}" class="alert alert-success d-none" role="alert">
-          Added to cart!
+        <style>
+          .alert {
+            height: 2vh;
+            line-height:1.5px;
+          }
+        </style>
+        <div id="cartAlert{{StarID}}" class="alert d-none" role="alert">
         </div>
-        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-        <button onclick="tocart({{StarID}})" id="cart" class="btn btn-primary">Add to Cart</button>
+
+        <button onclick="tocart({{StarID}})" id="cart" class="btn mx-2 btn-secondary">Add to Cart</button>
       </div>
     </div>
   </div>

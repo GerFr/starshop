@@ -1,5 +1,8 @@
 function setSort(key, direction) {
-    if (!(key==="Reset")){
+    if ((key!=="Reset")&&
+    ((key+direction)!==
+    (params.get("sort")+params.get("sortDirection")))){
+
         const params = new URLSearchParams(window.location.search)
         params.set("sort", key)
         params.set("sortDirection", direction)
@@ -18,15 +21,29 @@ function setSort(key, direction) {
 
 function sortData(data, key, direction) {
     let newData = data;
-    switch (direction) {
-        case "asc":
-            newData.sort((a, b) => a[key] - b[key]);
-            break;
-        case "dsc":
-            newData.sort((a, b) => b[key] - a[key]);
-            break;
-        default:
-            break;
+
+    if (key==="Price"){
+        switch (direction) {
+            case "asc":
+                newData.sort((a, b) => a[key] - b[key]);
+                break;
+            case "dsc":
+                newData.sort((a, b) => b[key] - a[key]);
+                break;
+            default:
+                break;
+        }
+    }else if (key==="ProperName"){
+        switch (direction) {
+            case "asc":
+                newData.sort((a, b) => a[key].localeCompare(b[key]));
+                break;
+            case "dsc":
+                newData.sort((a, b)=> b[key].localeCompare(a[key]));
+                break;
+            default:
+                break;
+        }
     }
     return newData
 }
@@ -37,15 +54,14 @@ function toggleSort(){
     document.getElementById('sortButton').classList.toggle('btn-dark')
 }
 
-function setSortPlaceholder() {
+function setSortHighlight() {
     const params = new URLSearchParams(window.location.search)
-    const input = document.getElementById('sortField')
     const value = params.get("sort")
     const search = params.get("search")
     const direction = params.get("sortDirection")
-    if ((value !== null)&&(search===null)) {
-            input.innerHTML = "Sort: "+value+" "+ direction
-     } else {
-        input.innerHTML = ""
+    if (value!==null){
+        const element = document.getElementById(value+direction)
+        element.classList.remove('bg-black')
+        element.classList.add('bg-dark')
     }
 }

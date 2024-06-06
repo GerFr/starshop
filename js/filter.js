@@ -43,24 +43,28 @@ const colors = [
 
 
 function setFilter(key, value, operation) {
-    if ((key !== "Reset")) {
-        const params = new URLSearchParams(window.location.search)
-        params.set("filter", key)
-        params.set("filterValue", value)
-        params.set("filterOperation", operation)
-        params.set("page", 1)
-        window.history.replaceState({}, "", `${window.location.pathname}?${params}`)
-        window.location.reload()
-    } else {
-        const params = new URLSearchParams(window.location.search)
-        params.delete("filter")
-        params.delete("filterValue")
-        params.delete("filterOperation")
-        params.delete("sale")
-        window.history.replaceState({}, "", `${window.location.pathname}?${params}`)
-        window.location.reload()
+        if (
+        (key !== "Reset")&&
+        ((key+value+operation)!==
+        (params.get("filter")+params.get("filterValue")+params.get("filterOperation")))
+        ) {
+            const params = new URLSearchParams(window.location.search)
+            params.set("filter", key)
+            params.set("filterValue", value)
+            params.set("filterOperation", operation)
+            params.set("page", 1)
+            window.history.replaceState({}, "", `${window.location.pathname}?${params}`)
+            window.location.reload()
+        } else {
+            const params = new URLSearchParams(window.location.search)
+            params.delete("filter")
+            params.delete("filterValue")
+            params.delete("filterOperation")
+            params.delete("sale")
+            window.history.replaceState({}, "", `${window.location.pathname}?${params}`)
+            window.location.reload()
+        }
     }
-}
 
 // if value a number key.O is 
 function filterData(data, key, value, operation) {
@@ -80,28 +84,24 @@ function filterData(data, key, value, operation) {
 
 }
 
-function setFilterPlaceholder() {
-    const params = new URLSearchParams(window.location.search)
-    const input = document.getElementById('filterField')
-    const value = params.get("filterValue")
+function setFilterHighlight() {
+        const params = new URLSearchParams(window.location.search)
+        const value = params.get("filterValue")
+        const key = params.get("filter")
+        const operation = params.get("filterOperation")
 
-    if (value !== null) {
-        let found = colors.find(obj => obj["color"] === value)
-        if (found !== undefined) {
-            input.innerHTML = "Filter: "+found["title"]
-        } else {
-            input.innerHTML = ""
+        if (value !== null) {
+            const element = document.getElementById(key + value + operation)
+            element.classList.remove('bg-black')
+            element.classList.add('bg-dark')
         }
-    } else {
-        input.innerHTML = ""
-    }
+
 }
 
 
 
-
-function toggleFilter(){
-        document.getElementById('filter').classList.toggle('d-none')
-        document.getElementById('filterButton').classList.toggle('btn-secondary')
-        document.getElementById('filterButton').classList.toggle('btn-dark')
+function toggleFilter() {
+    document.getElementById('filter').classList.toggle('d-none')
+    document.getElementById('filterButton').classList.toggle('btn-secondary')
+    document.getElementById('filterButton').classList.toggle('btn-dark')
 }

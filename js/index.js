@@ -28,6 +28,9 @@ function paginationCheck(page, max) {
         document.getElementById('increment').classList.add('d-none')
         document.getElementById('centralpage').classList.add('d-none')
     }
+    if (max == 1){
+        document.getElementById('increment').classList.add('d-none')
+    }
 }
 
 function decrement() {
@@ -108,21 +111,48 @@ function getQueryData(searchParam, filterParam, sortParam, filterValue, filterOp
 
 CART = "cart"
 function tocart(sID) {
-    setTimeout(function () {
-        document.getElementById('cartAlert' + sID).classList.remove('d-none');
-
-        setTimeout(function () {
-            document.getElementById('cartAlert' + sID).classList.add('d-none');
-        }, 500);
-    }, 20);
-
+    const alert = document.getElementById('cartAlert' + sID)
     var cartarr = sessionStorage.getItem(CART)
     var parsedCartarr = JSON.parse(cartarr)
     if (cartarr === null) {
         parsedCartarr = [sID]
+        setTimeout(function () {
+            alert.classList.remove('d-none');
+            alert.classList.add('alert-success');
+            alert.innerHTML = "<p>Added!</p>"
+            setTimeout(function () {
+                alert.classList.add('d-none');
+                alert.classList.remove('alert-success');
+                alert.innerHTML = ""
+
+            }, 500);
+        }, 20);
     }
     else if (parsedCartarr.includes(sID) === false) {
         parsedCartarr.push(sID);
+        setTimeout(function () {
+            alert.classList.remove('d-none');
+            alert.classList.add('alert-success');
+            alert.innerHTML = "<p>Added!</p>"
+            setTimeout(function () {
+                alert.classList.add('d-none');
+                alert.classList.remove('alert-success');
+                alert.innerHTML = ""
+
+            }, 500);
+        }, 20);
+    }else{
+        setTimeout(function () {
+            alert.classList.remove('d-none');
+            alert.classList.add('alert-danger');
+            alert.innerHTML = "<p>in Cart</p>"
+            setTimeout(function () {
+                alert.classList.add('d-none');
+                alert.classList.remove('alert-danger');
+                alert.innerHTML = ""
+
+            }, 500);
+        }, 20);
     }
     sessionStorage.setItem(CART, JSON.stringify(parsedCartarr))
     document.getElementById("cartcounter").innerHTML = parsedCartarr.length
