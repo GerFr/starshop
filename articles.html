@@ -81,7 +81,9 @@
 
       render({ "page": pageNumbers[2] }, '[type="text/x-handlebars-page"]')
       if (!(queryData === null)) {
-        render(queryData, '[type="text/x-handlebars-template"]')
+        render(queryData, '[type="text/x-handlebars-cards"]', setInCart)
+        render(queryData, '[type="text/x-handlebars-modals"]')
+
       }
       else {
         fetch('data/hygfull.json')
@@ -100,8 +102,8 @@
         const data = JSON.parse(localStorage.getItem("data"));
         max = Math.ceil(data.length / 12)
       }
-      render({ "max": max }, '[type="text/x-handlebars-max"]')
-      paginationCheck(pageParam, max)
+      render({ "max": max }, '[type="text/x-handlebars-max"]', ()=>paginationCheck(pageParam, max))
+
     }
 
   </script>
@@ -227,7 +229,7 @@
       </div>
     </nav>
 
-    <script id="template" type="text/x-handlebars-template">
+    <script id="template" type="text/x-handlebars-cards">
         {{> card }}
       </script>
     <div class="row mx-sm-5 align-items-center justify-content-center g-2 my-4"></div>
@@ -264,7 +266,7 @@
 
   <!-- MARK: modal
    -->
-  <script id="template" type="text/x-handlebars-template">
+  <script id="template" type="text/x-handlebars-modals">
    {{> modal }}
   </script>
   <div></div>

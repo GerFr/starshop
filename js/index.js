@@ -6,30 +6,37 @@ function goToStartPage() {
     location.reload()
 }
 function goToEndPage(page) {
-        const params = new URLSearchParams(window.location.search)
-        params.set("page", page)
-        history.replaceState({}, "", `${window.location.pathname}?${params}`)
-        location.reload()
-    }
+    const params = new URLSearchParams(window.location.search)
+    params.set("page", page)
+    history.replaceState({}, "", `${window.location.pathname}?${params}`)
+    location.reload()
+}
 
 function paginationCheck(page, max) {
     if (page <= 1) {
         document.getElementById('decrement').classList.add('d-none')
         document.getElementById('increment').classList.remove('d-none')
         document.getElementById('centralpage').classList.add('d-none')
+        document.getElementById('startPage').classList.add('d-none')
+        document.getElementById('endPage').classList.remove('d-none')
     }
     if (page > 1 && page < max) {
         document.getElementById('decrement').classList.remove('d-none')
         document.getElementById('increment').classList.remove('d-none')
         document.getElementById('centralpage').classList.remove('d-none')
+        document.getElementById('startPage').classList.remove('d-none')
+        document.getElementById('endPage').classList.remove('d-none')
     }
     if (page >= max && max != 1) {
         document.getElementById('decrement').classList.remove('d-none')
         document.getElementById('increment').classList.add('d-none')
         document.getElementById('centralpage').classList.add('d-none')
+        document.getElementById('startPage').classList.remove('d-none')
+        document.getElementById('endPage').classList.add('d-none')
     }
-    if (max == 1){
+    if (max == 1) {
         document.getElementById('increment').classList.add('d-none')
+        document.getElementById('endPage').classList.add('d-none')
     }
 }
 
@@ -141,7 +148,7 @@ function tocart(sID) {
 
             }, 500);
         }, 20);
-    }else{
+    } else {
         setTimeout(function () {
             alert.classList.remove('d-none');
             alert.classList.add('alert-danger');
@@ -156,4 +163,19 @@ function tocart(sID) {
     }
     sessionStorage.setItem(CART, JSON.stringify(parsedCartarr))
     document.getElementById("cartcounter").innerHTML = parsedCartarr.length
+    setInCart()
+}
+
+function setInCart() {
+    var cart = JSON.parse(sessionStorage.getItem("cart"))
+    if (cart !== null) {
+        cart.forEach(element => {
+            var tag = document.getElementById(element + "-inCart")
+            if (tag !== null) {
+                tag.innerHTML = "\
+            <div class='badge position-absolute rounded-pill bg-success text-white ms-4 p-2 m-2'>In Cart</div>\
+            "
+            }
+        });
+    }
 }
