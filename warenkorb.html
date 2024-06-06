@@ -101,8 +101,7 @@
                     total += cartData[i]["Price"]
                 }               
                 var infos = document.getElementById('total');
-                infos.setAttribute('value', 'Total Summary '+  (total).toLocaleString('de-DE', {style: 'currency',
-                                                                                                currency: 'EUR'}))
+                infos.innerHTML = 'Total Sum ' +'<strong>'+  (total).toLocaleString('de-DE', {style: 'currency',currency: 'EUR'})
                 if (cartData.length>0){
                 render(cartData, '[type="text/x-handlebars-template"]')
                 }
@@ -153,16 +152,14 @@
         {{> navbar }}
         </script>
         <div></div>
-
+<section class="bg-black pt-1">
         <main>
             <div class="container-xl mt-4">
                 <div class="row">
                     <div class="col-lg order-md-1">
-                        <h4 class="d-flex justify-content-top align-items-top mb-3">
-                            <span class="text-muted">
+                            <span class="mx-5 mb-5 display-5">
                                 Your cart
                             </span>
-                        </h4>
                         <script id="template"
                             type="text/x-handlebars-template">
                         {{> cartcard }}
@@ -173,28 +170,28 @@
                                 {{> cartmodal }}
                         </script>
                         <div class="mb-2"></div>
-                        <input id="total" type="text" class="form-control"
-                            readonly>
-                        <hr>
-                        <div class=" mx-5 mb-4">
-                            <h2>
-                            <a name="checkout" class="btn btn-primary"
+                        <div class="text h4 py-3 bg-body border text-center mx-5"id="total"></div>
+                        
+                        
+                        
+                        <div class=" text-center my-4">
+                            <a name="checkout" class="btn btn-secondary btn-lg"
                                 href="checkout.html"
                                 role="button">
                                 Checkout
-                            </a>
-                            </h2>
+                            </a> 
+                            <hr class="d-lg-none d-block">
                         </div> 
                     </div>
+                    
                     <div class="col-lg-5 order-md-2">                        
                         <div class="ibox justify-contents-top">
                             <div class="ibox-content">
                                 <div>
-                                    <h4
-                                        class="d-flex justify-content-between align-items-center mb-3">
-                                        <span class="text-muted">Other
+                                    
+                                        <span class="mx-5 display-5 ">Other
                                             Products</span>
-                                    </h4>
+                                   
                                     <div class="container ">
                                         <script id="template"
                                             type="text/x-handlebars-suggestion">
@@ -216,7 +213,7 @@
                 </div>
             </div>
         </main>
-
+    </section>
         <script id="template" type="text/x-handlebars-footer">
             {{> footer }}
         </script>

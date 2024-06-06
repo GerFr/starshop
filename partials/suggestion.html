@@ -1,38 +1,30 @@
 {{#each this}}
 <div class="container">
-    <div class="card my-2 mb-3">
-        <div class="card border bg-primary">
-            <button type="button" class="btn" data-bs-toggle="modal"
-                data-bs-target="#{{StarID}}-modal">
+    <div class="card border btn-outline-dark my-4 mb-3">
+        <button type="button" class="btn" data-bs-toggle="modal"data-bs-target="#{{StarID}}-modal">
+        <div class="card-body">
                 <div class="row">
-                    <div
-                        class="col-sm-3 justify-content-center align-items-center">
-                        <div class="mx-3 mt-3">
+                    <div class="col d-none d-sm-block">
                             <img src="assets/stars/{{Color}}.png"
-                                class="card-img-top d-none d-sm-block"
+                                class="card-img-top d-none d-sm-block "
                                 style="width: 100px;">
-                        </div>
                     </div>
-                    <div
-                        class="col-lg-9 mt-4 d-flex justify-content-center align-items-top">
-                        <h2 class>
-                            <a class="text-white">
+                    <div class="col align-content-center justify-content-center">
+                            <div class="text-white h2 text-center">
                                 {{ProperName}}
-                            </a>
-                        </h2>
+                            </div>
                     </div>
                 </div>
-            </button>
             <hr>
             <div class="row">
                 <div class="col-xl-12 d-flex justify-content-center">
                     <h2 class="text-muted">
                         € {{formatCurrency Price}}
                     </h2>
-
                 </div>
             </div>
         </div>
+    </button>
     </div>
 </div>
 {{/each}}

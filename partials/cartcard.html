@@ -1,40 +1,43 @@
 {{#each this}}
 <div class="container">
     <div class="row">
-        <div class="col-xl-12 my-2">
-            <div class="card border bg-grey">
+        <div class="col-xl-12 my-3">
+            <div class="card border btn-outline-dark ">
+                <button type="button " class="btn" data-bs-toggle="modal"
+                        data-bs-target="#{{StarID}}-modal">
                 <div class="card-body">
-                    <div class="d-flex align-items-start border-bottom pb-3">
+                    <div class="d-flex align-items-start pb-3">
                         <div class="me-4">
                             <img src= "assets/stars/{{Color}}.png" class="card-img-top d-none d-sm-block" alt="Shopping item" style="width: 200px">
                         </div>
-                        <button type="button" class="btn" data-bs-toggle="modal"
-                        data-bs-target="#{{StarID}}-modal">
+                        
                         <div class="flex-grow-1 align-self-center overflow-hidden">
-                            <div class="mx-4">
+                            <div class="text-center">
                                 <h1> {{ProperName}}</h1>
                                 <p class="mb-0 mt-1">Color : <span class="fw-medium">{{Color}}</span></p>
                             </div>
                         </div>
                     </div>
+                    <hr>
                     <div>
                         <div class="row">
                             <div class="col align-self-start">
                                 <div class="mt-3">
-                                    <p class="text-muted mb-2">Price</p>
-                                    <h5 class="text-light mb-0 mt-2"><span class="text-muted me-2"></span>{{formatCurrency Price}} €</h5>
+                                     <h4 class="text-start"><p class="text-muted h5 mb-2">Price</p>{{formatCurrency Price}} €</h4>
+                                    
+                                    
                                 </div>
                             </div>
                             <div class="col align-self-end text-end">
                               <a
                           name=""
                           id=""
-                          class="btn btn-outline-secondary"
+                          class="btn btn-lg btn-outline-secondary"
                           href="#"
                           role="button"
                           onclick="deletecart({{StarID}})"
                           ><i
-                          class="bi bi-trash"></i></a>
+                          class="bi b bi-trash"></i></a>
                             </div>
                         </div>
                     </div>
