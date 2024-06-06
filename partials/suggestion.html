@@ -1,35 +1,38 @@
 {{#each this}}
 <div class="container">
-    <div class="card my-2">
+    <div class="card my-2 mb-3">
         <div class="card border bg-primary">
             <button type="button" class="btn" data-bs-toggle="modal"
- data-bs-target="#{{StarID}}-modal">
-            <div class="row">
-                <div class="col-sm-3 justify-content-center align-items-center">
-                    <div class="mx-3 mt-3">
-                        <img src="assets/stars/{{Color}}.png"
-                            class="card-img-top d-none d-sm-block"
-                            style="width: 100px;">
-                    </div>
-                </div>
-                <div class="col-lg-9 mt-4 d-flex justify-content-center align-items-top">
-                    <h2 class="">
-                        <a class="text-white">
-                            {{ProperName}}
-                        </a>
-                    </h2>
-                    </div>
-                </div>
-                </button>
-                <hr>
+                data-bs-target="#{{StarID}}-modal">
                 <div class="row">
-                    <div class="col-xl-12 d-flex justify-content-center">
-                        <h2 class="text-muted">
-                            € {{formatCurrency Price}}
+                    <div
+                        class="col-sm-3 justify-content-center align-items-center">
+                        <div class="mx-3 mt-3">
+                            <img src="assets/stars/{{Color}}.png"
+                                class="card-img-top d-none d-sm-block"
+                                style="width: 100px;">
+                        </div>
+                    </div>
+                    <div
+                        class="col-lg-9 mt-4 d-flex justify-content-center align-items-top">
+                        <h2 class>
+                            <a class="text-white">
+                                {{ProperName}}
+                            </a>
                         </h2>
                     </div>
+                </div>
+            </button>
+            <hr>
+            <div class="row">
+                <div class="col-xl-12 d-flex justify-content-center">
+                    <h2 class="text-muted">
+                        € {{formatCurrency Price}}
+                    </h2>
+
                 </div>
             </div>
         </div>
     </div>
-    {{/each}}
+</div>
+{{/each}}
