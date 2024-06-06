@@ -57,6 +57,16 @@
             font-size: 3rem;
             font-weight: bold;
         }
+
+        /* Hide the hover content initially */ 
+        .hover-content { 
+          display: none; 
+        } 
+ 
+        /* Display the hover content when hovering over the trigger */ 
+        .hover-trigger:hover + .hover-content { 
+          display: block; 
+        }
     </style>
     <script>
         function init() {
