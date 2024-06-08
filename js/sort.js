@@ -1,3 +1,8 @@
+/**
+ * set key and direction (asc, desc) of the sort in the url
+ * @param {String} key 
+ * @param {String} direction 
+ */
 function setSort(key, direction) {
     if ((key!=="Reset")&&
     ((key+direction)!==
@@ -18,7 +23,13 @@ function setSort(key, direction) {
     }
 }
 
-
+/**
+ * Sort the dataset with a key and a given direction
+ * @param {Object} data 
+ * @param {String} key 
+ * @param {String} direction 
+ * @returns {Object} - sorted dataset in format of the base dataset
+ */
 function sortData(data, key, direction) {
     let newData = data;
 
@@ -48,12 +59,18 @@ function sortData(data, key, direction) {
     return newData
 }
 
+/**
+ * toggle the sort button on the sticky navbar
+ */
 function toggleSort(){
     document.getElementById('sort').classList.toggle('d-none')
     document.getElementById('sortButton').classList.toggle('btn-secondary')    
     document.getElementById('sortButton').classList.toggle('btn-dark')
 }
 
+/**
+ * hightlight currently selected sort button
+ */
 function setSortHighlight() {
     const params = new URLSearchParams(window.location.search)
     const value = params.get("sort")

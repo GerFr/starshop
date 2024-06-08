@@ -1,3 +1,4 @@
+// color id to title mapping for handlebars in the filter
 const colors = [
     {
         "color": "blueStar",
@@ -33,15 +34,15 @@ const colors = [
         "color": "yellowWhiteStar",
         "title": "Light",
         "key": "Color",
-    },
-    {
-        "color": "100000",
-        "title": "Sale",
-        "key": null,
     }
 ]
 
-
+/**
+ * set the filter url parameters
+ * @param {String} key - filter key, any key from the dataset
+ * @param {String} value - filter value, any value that can be associated with the key
+ * @param {String} operation - filter operation can be: eq(=equals), lg(=larger), sm(=smaller)
+ */
 function setFilter(key, value, operation) {
         if (
         (key !== "Reset")&&
@@ -66,7 +67,14 @@ function setFilter(key, value, operation) {
         }
     }
 
-// if value a number key.O is 
+/**
+ * filter the data and return result
+ * @param {Object} data - data in format of base dataset
+ * @param {String} key - filter key, key in base dataset
+ * @param {*} value - value to be filtered against
+ * @param {String} operation - filter operation
+ * @returns {Object} - data in the format of the base dataset
+ */
 function filterData(data, key, value, operation) {
     switch (operation) {
         case "eq":
@@ -84,6 +92,9 @@ function filterData(data, key, value, operation) {
 
 }
 
+/**
+ * sets the hightlight of the filter buttons in the sticky navbar on the article page
+ */
 function setFilterHighlight() {
         const params = new URLSearchParams(window.location.search)
         const value = params.get("filterValue")
@@ -99,7 +110,9 @@ function setFilterHighlight() {
 }
 
 
-
+/**
+ * mark that the filter button on the sticky navbar has been pressed
+ */
 function toggleFilter() {
     document.getElementById('filter').classList.toggle('d-none')
     document.getElementById('filterButton').classList.toggle('btn-secondary')

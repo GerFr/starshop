@@ -1,3 +1,7 @@
+/**
+ * Set the search url parameters
+ * @param {*} event 
+ */
 function setSearch(event) {
     const query = document.getElementById("query").value
     if (!(query == "")) {
@@ -13,6 +17,10 @@ function setSearch(event) {
         window.location.reload()
     }
 }
+
+/**
+ * clear the search url parameters and reload
+ */
 function removeSearch() {
     const params = new URLSearchParams(window.location.search)
     const input = document.getElementById('query')
@@ -22,6 +30,10 @@ function removeSearch() {
     window.location.reload()
 }
 
+/**
+ * initiates the form validation code for the search input in the sticky navbar
+ * @param {*} searchForm 
+ */
 function startSearchForm(searchForm) {
     searchForm.addEventListener('submit', event => {
         if (!searchForm.checkValidity()) {
@@ -34,34 +46,29 @@ function startSearchForm(searchForm) {
     searchForm.addEventListener('submit', handleForm);
 }
 
-
-
+/**
+ * search through the dataset and get data, sort by levenshtein distance
+ * @param {*} data - data to be searched on
+ * @param {*} query - search query
+ * @returns {Object} data in format of the base dataset
+ */
 function searchData(data, query) {
-    const words = []
+    const stars = []
     data.forEach(element => {
-        starName = element["ProperName"]
-        starID = element["StarID"]
-        distance = levenshteinDistance(starName, query)
-        const star = { "id": starID, "dist": distance }
-        words.push(star)
-    });
-    const sortedIDs = words.sort((a, b) => a.dist - b.dist).map(obj => obj.id)
-    const queryData = getById(sortedIDs, data)
-    return queryData
+        stars.push({ 
+            "star": element, 
+            "dist": levenshteinDistance(element["ProperName"], query)
+        })
+    })
+    return stars.sort((a, b) => a.dist - b.dist).map(obj => obj.star)
 }
 
-function getById(sortedIDs, data) {
-    const queryData = []
-    sortedIDs.forEach(ID => {
-        data.forEach(star => {
-            if (star.StarID === ID) {
-                queryData.push(star)
-            }
-        });
-    });
-    return queryData
-}
-
+/**
+ * get the distance in needed edits to get from one string to another
+ * @param {String} first -first string 
+ * @param {String} second - second string
+ * @returns {Number} - distance in edits
+ */
 function levenshteinDistance(first, second) {
     first = first.toLowerCase()
     second = second.toLowerCase()
@@ -92,6 +99,9 @@ function levenshteinDistance(first, second) {
     return matrix[second.length][first.length]
 }
 
+/**
+ * Set the placeholder in the sticky navbar
+ */
 function setSearchPlaceholdert() {
     const params = new URLSearchParams(window.location.search)
     const input = document.getElementById('query')
@@ -101,6 +111,11 @@ function setSearchPlaceholdert() {
     }
 }
 
+/**
+ * get all names of the stars
+ * @param {Object} data 
+ * @returns {Object}
+ */
 function getNames(data) {
     let names = [];
     data.forEach(star => {
@@ -109,8 +124,10 @@ function getNames(data) {
     return names
 }
 
+/**
+ * update the dynamic search recommendations in the sticky navbar
+ */
 function updateRecommendation() {
-
     let input = document.getElementById('query').value.toLowerCase()
     let searchResults = document.getElementById('searchResults')
     const params = new URLSearchParams(window.location.search)
