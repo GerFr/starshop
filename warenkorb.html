@@ -26,7 +26,7 @@
                 const baseData =JSON.parse(localStorage.getItem("data"))
                 const cartData = []
                 
-
+                //filter the data from the base data set, needed for the cart
                 if ((!(cartIDdata===null)) && (!(baseData===null))){
                     for (var j = 0; j < cartIDdata.length; j++){
 	                    for (var i = 0; i < baseData.length; i++){
@@ -37,6 +37,7 @@
 	                }
                 }
 
+                //counting the amount of colors inside the cart for the product recommendation
                 var colorcount = {blueStar:0, 
 					              blueWhiteStar:0, 
                                   orangeRedStar:0, 
@@ -69,7 +70,8 @@
                             colorcount.yellowWhiteStar = colorcount.yellowWhiteStar+ 1
                         }
                     }
-
+                    
+                    //create the dataset used for the suggestions
                     var max = ['',0]
                     for (var i = 0; i < Object.entries(colorcount).length; i++) {
                         if (Object.entries(colorcount)[i][1] > max[1]){
@@ -82,25 +84,22 @@
                             maxcolor.push(baseData[i])
                         } 
                     }
-                    var ran = Math.floor(Math.random() * (maxcolor.length-1)) 
-                    var ran2 = ran
-                    var i = 0
 
-                    while (i < cartData.length){
-                        if((maxcolor[ran]!=cartData[i])&&(maxcolor[ran2]!=cartData[i])&&(ran!=ran2)){
-                            i += 1
+                    //filter the elements out of the dataset if already in cart
+                    let set1 = new Set(cartData.map(item => item.StarID))
+                    let result = maxcolor.filter(item => !set1.has(item.StarID))
+
+                    //render random product suggestion if more than one element in the suggestion dataset
+                    if(result.length > 1){
+                        const ran = Math.floor(Math.random() * (maxcolor.length-1))
+                        var ran2 = ran
+                        while(ran === ran2){
+                            ran2 = Math.floor(Math.random() * (maxcolor.length-1))
                         }
-                        else{
-                            ran = Math.floor(Math.random() * (maxcolor.length-1))
-                            ran2 = Math.floor(Math.random() * (maxcolor.length-1))  
-                        }
-                    }
-                    const prod_suggestion = [maxcolor[ran], maxcolor[ran2]]
-                    render(prod_suggestion, '[type="text/x-handlebars-suggestion"]')
-                    console.log(colorcount)
-                    console.log(max)
-                    console.log(prod_suggestion)
-                }
+                        const prod_suggestion = [result[ran], result[ran2]]
+                        render(prod_suggestion, '[type="text/x-handlebars-suggestion"]')
+                    }    
+                }                    
 
 
               
