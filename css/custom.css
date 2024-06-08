@@ -1,0 +1,72 @@
+.container-background-repeat {
+    background-image: url('../assets/StarBackround.jpg');
+    background-repeat: repeat;
+    background-size: auto;
+    background-position: right;
+}
+
+.cart-image-checkout {
+    width: 30%;
+    height: 30%;
+}
+
+.parallax {
+    height: 100vh;
+    background-attachment: fixed;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+}
+
+#parallax1 {
+    background-image: url('../assets/StarBackround.jpg');
+}
+
+#parallax2 {
+    background-image: url('../assets/sun.jpeg');
+}
+
+#parallax3 {
+    background-image: url('../assets/NightSky.jpeg');
+}
+
+.parallax-text-white {
+    position: relative;
+    top: 50%;
+    transform: translateY(-50%);
+    color: white;
+    text-align: center;
+    font-size: 3rem;
+    font-weight: bold;
+}
+
+.parallax-text-black {
+    position: relative;
+    top: 50%;
+    transform: translateY(-50%);
+    color: black;
+    text-align: center;
+    font-size: 3rem;
+    font-weight: bold;
+}
+
+/* Hide the hover content initially */
+.hover-content {
+    display: none;
+}
+
+/* Display the hover content when hovering over the trigger */
+.hover-trigger:hover+.hover-content {
+    display: block;
+}
+.star-background{
+    background-image: url('../assets/StarBackround.jpg'); 
+    background-size: auto; 
+    background-position: center; 
+    background-attachment: fixed;
+    height: cover;
+}
+.alert {
+    height: 2vh;
+    line-height:1.5px;
+  }

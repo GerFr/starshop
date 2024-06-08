@@ -7,27 +7,16 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
 
-  <!-- bootstrap -->
+  <!-- CSS -->
   <link rel="stylesheet" href="css/bootstrap-dark.css">
+  <link href="css/custom.css" rel="stylesheet">
   <!-- source: https://cdn.jsdelivr.net/npm/bootstrap-dark-5@1.1.3/dist/css/bootstrap-dark.min.css -->
+
   <!-- icons -->
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
-  <!-- TODO: css Style in extra Stylesheet file called style.css -->
-  <style>
-    .container-background-repeat {
-      background-image: url('assets/StarBackround.jpg');
-      background-repeat: repeat;
-      background-size: auto;
-      background-position: right;
-    }
-
-    .cart-image {
-      width: 8vh;
-      height: 8vh;
-    }
-  </style>
   <link rel="icon" href="assets/icons/stars.png">
-  <!-- handlebars -->
+
+  <!-- javascript -->
   <script src="js/handlebars.min-v4.7.8.js"></script>
   <script src="js/vanilla.js"></script>
   <script src="js/search.js"></script>
@@ -35,20 +24,19 @@
   <script src="js/sort.js"></script>
   <script src="js/admin.js"></script>
   <script src="js/index.js"></script>
+  <script src="js/pagination.js"></script>
   <script>
     function init() {
       const amountOnPage = 12
 
       $on($('#search'), 'click', setSearch)
-      // adds eventlistener to Create new Item id: "#createnew" button which starts the method create() in admin.js
       $on($('#createnew'), 'click', create)
       $on($('#increment'), 'click', increment)
       $on($('#decrement'), 'click', decrement)
 
       render({}, '[type="text/x-handlebars-navbar"]')
       render({}, '[type="text/x-handlebars-footer"]')
-      render(colors.slice(0, 7), '[type="text/x-handlebars-filter"]', setFilterHighlight)
-
+      render(colors, '[type="text/x-handlebars-filter"]', setFilterHighlight)
 
       const params = new URLSearchParams(window.location.search)
       const pageParam = params.get("page")
@@ -59,7 +47,8 @@
         params.get("sort"),
         params.get("filterValue"),
         params.get("filterOperation"),
-        params.get("sortDirection"))
+        params.get("sortDirection")
+      )
 
       // sets the number besides cart icon to display current amount of products inside of cart on reload
       var CART = sessionStorage.getItem("cart")
@@ -80,7 +69,9 @@
       startSearchForm(searchForm)
 
       render({ "page": pageNumbers[2] }, '[type="text/x-handlebars-page"]')
-      if (!(queryData === null)) {
+
+      // render the stars, if they are in the local storage
+      if (queryData !== null) {
         render(queryData, '[type="text/x-handlebars-cards"]', setInCart)
         render(queryData, '[type="text/x-handlebars-modals"]')
 
@@ -94,6 +85,8 @@
           })
           .catch(error => console.error('Error fetching JSON file:', error))
       }
+
+      // render pagination 
       var max
       if (queryDataFull != null) {
         max = Math.ceil(queryDataFull.length / 12)
@@ -103,7 +96,6 @@
         max = Math.ceil(data.length / 12)
       }
       render({ "max": max }, '[type="text/x-handlebars-max"]', ()=>paginationCheck(pageParam, max))
-
     }
 
   </script>
@@ -116,13 +108,6 @@
     {{> navbar }}
   </script>
   <div id="nav"></div>
-  <!-- MARK:image and intro
-    -->
-
-
-
-  <!-- MARK: Articles 
-  -->
 
   <section id="" class="bg-black">
     <div class="container-l py-4">
@@ -145,8 +130,6 @@
           </a>
         </div>
           
-        
-
         <div class="btn-group mx-2 mt-2" role="group">
           <a onclick="toggleFilter()" class="btn border btn-dark text-muted" id="filterButton"><i class="bi bi-funnel"></i></a>
           <a onclick="toggleSort()" class="btn border btn-dark text-muted" id="sortButton"><i class="bi bi-filter-right"></i></a>
@@ -178,7 +161,7 @@
             <div class="col-4 col-sm-4 col-md-3 col-xl-2">
               <div class="card bg-black border border-black" id="{{key}}{{color}}eq">
               <a class="btn btn-outline-dark border-0" onclick="setFilter('{{key}}', '{{color}}', 'eq')">
-                <img src="assets/icons/starIcons/{{color}}.png" class="card-img-top cart-image">
+                <img src="assets/icons/starIcons/{{color}}.png" class="card-img-top cart-image-checkout">
                 <p class="lead text-muted">{{title}}</p>
               </a>
             </div>
@@ -187,7 +170,8 @@
           <div class="col-4 col-sm-4 col-md-3 col-xl-2">
           <div class="card bg-black border border-black" id="Price100000sm">
           <a class="btn btn-outline-dark border-0" onclick="setFilter('Price', '100000', 'sm')">
-            <img src="assets/icons/sale.png" class="card-img-top cart-image">
+            <img src="assets/icons/sale.png" class="card-img-top cart-image-checkout">
+            <p class="lead text-muted">Sale</p>
           </a>
         </div>
           </div>
@@ -200,28 +184,28 @@
           <div class="col-4 col-sm-4 col-md-3 col-xl-3">
             <div class="card bg-black border border-black" id="Priceasc">
               <a class="btn btn-outline-dark border-0" onclick="setSort('Price', 'asc')">
-                <img src="assets/icons/aufsteigend.png" class="cart-image">
+                <img src="assets/icons/aufsteigend.png" class="cart-image-checkout">
               </a>
             </div>
           </div>
           <div class="col-4 col-sm-4 col-md-3 col-xl-3">
             <div class="card bg-black border border-black" id="Pricedsc">
               <a class="btn btn-outline-dark border-0" onclick="setSort('Price', 'dsc')">
-                <img src="assets/icons/absteigend.png" class="cart-image">
+                <img src="assets/icons/absteigend.png" class="cart-image-checkout">
               </a>
             </div>
           </div>
           <div class="col-4 col-sm-4 col-md-3 col-xl-3">
             <div class="card bg-black border border-black" id="ProperNameasc">
               <a class="btn btn-outline-dark border-0" onclick="setSort('ProperName', 'asc')">
-                <img src="assets/icons/ascending.png" class="cart-image">
+                <img src="assets/icons/ascending.png" class="cart-image-checkout">
               </a>
             </div>
           </div>
           <div class="col-4 col-sm-4 col-md-3 col-xl-3">
             <div class="card bg-black border border-black" id="ProperNamedsc">
               <a class="btn btn-outline-dark border-0" onclick="setSort('ProperName', 'dsc')">
-                <img src="assets/icons/descending.png" class="cart-image">
+                <img src="assets/icons/descending.png" class="cart-image-checkout">
               </a>
             </div>
           </div>
@@ -264,16 +248,13 @@
     </div>
   </div>
 
-  <!-- MARK: modal
-   -->
   <script id="template" type="text/x-handlebars-modals">
    {{> modal }}
   </script>
   <div></div>
 
 
-  <!-- MARK: Create Modal 
-    -->
+
   <div class="modal fade" id="createModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog">
       <div class="modal-content">
@@ -286,8 +267,8 @@
             <h2>Create new Item</h2>
             <p class="lead">Fill out the form</p>
           </div>
-          <!-- MARK: Form - Create
-                   -->
+
+
           <form id="createForm" class="needs-validation" onsubmit="return false;" novalidate action="#">
             <div class="row justify-content-center align-items-center g-2">
               <div class="col">
