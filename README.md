@@ -2,7 +2,7 @@
 Welcome to our Web Engineering student project.
 
 
-At **Starshop** you get the opportunity to own a multitude of stars, so you can brag to your friends and colleagues about them. 
+At **Starshop** you get the opportunity to own a multitude of stars, so you can brag to your friends and colleagues about them. Start [shopping](https://gerfr.github.io/starshop/) now!
 
 ## Main Features
 - advanced **search** algorithm (allows typos)
