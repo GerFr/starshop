@@ -2,7 +2,7 @@
 <html lang="en">
 
 <head>
-    <title>Landing</title>
+    <title>Starshop</title>
     <!-- Required meta tags -->
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
@@ -80,12 +80,12 @@
              * @param {Array<Object>} data - An array of objects to process.
              * @returns {Object} An object containing the length of the data array, the maximum "Distance" value, and the minimum "Distance" value.
              */
-            const numItems = (data) => {
+            function numItems(data) {
                 length = data.length
-                let maxValue = -Infinity
-                let minValue = Infinity
-                let maxValuePrice = -Infinity
-                let minValuePrice = Infinity
+                var maxValue = -Infinity
+                var minValue = Infinity
+                var maxValuePrice = -Infinity
+                var minValuePrice = Infinity
                 for (let i = 0; i < length; i++) {
                     const item = data[i]
                     if (item.hasOwnProperty("Distance")) {
@@ -100,14 +100,23 @@
                         minValuePrice = Math.min(minValuePrice, item["Price"])
                     }
                 }
-                let returnDict = { "length": length, "max": maxValue, "min": minValue, "maxPrice": maxValuePrice, "minPrice": minValuePrice }
+                var returnDict = { "length": length, "max": maxValue, "min": minValue, "maxPrice": maxValuePrice, "minPrice": minValuePrice }
                 return returnDict
             }
             // fetching the json data file
             fetch('data/hygfull.json')
                 .then(response => response.json())
-                .then(data => render(numItems(data), '[type="text/x-handlebars-template"]'))
-                .catch(error => console.error('Error fetching JSON file:', error));
+                .then(data => {
+                    if (localStorage.getItem("data") !== null) {
+                        var dict = numItems(JSON.parse(localStorage.getItem("data")))
+                        render(dict, '[type="text/x-handlebars-template"]')
+                    }
+                    else {
+                        render(numItems(data), '[type="text/x-handlebars-template"]')
+                    }
+                })
+                .catch(error => console.error('Error fetching JSON file:', error))
+
         </script>
         <script id="template" type="text/x-handlebars-navbar">
             {{> navbar }}
@@ -228,11 +237,11 @@
                     Our luxurious packages provide a celestial experience unlike any other, complete with a large
                     dataset and certificate of authenticity.
                 </p>
-                
+
             </div>
-            
+
             <div class="container-lg pb-4  justify-content-center">
-              <div class="border-top border-2 my-3"></div>
+                <div class="border-top border-2 my-3"></div>
                 <div class="row justify-contents-center">
                     <div class="col-md-8">
                         <div class="text-center">
