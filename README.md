@@ -1,4 +1,4 @@
-# ✨ Starshop ✨
+# Starshop ✨
 Welcome to our Web Engineering student project.
 
 
