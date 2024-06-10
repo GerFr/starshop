@@ -217,7 +217,7 @@
               <div class="invalid-feedback">Please enter a valid ColorIndex</div>
 
               <div class="form-floating">
-                <p><label for="GeneralInformation">General information:</label></p>
+                <p><label for="GeneralInformation">General Information:</label></p>
                 <textarea class="form-control" id="GeneralInformation_{{StarID}}" style="height: 140px;"
                   required>{{GeneralInformation}}</textarea>
                 <div class="invalid-feedback">Please enter General Information</div>
@@ -230,7 +230,7 @@
 
               <label for="previous" class="form-label">Color:</label>
               <input id="previousvalue_{{StarID}}" type="text" value="{{Color}}" class="form-control" readonly>
-
+              <label for="">New Color:</label>
               <select  id="Color_{{StarID}}" class="form-select" required>
                 <option value="yellowWhiteStar" selected>yellowWhiteStar</option>
                 <option value="yellowStar">yellowStar</option>
@@ -244,7 +244,7 @@
           </div>
 
           <div class="mt-2 text-center">
-            <button type="submit" id="edit_{{StarID}}" onclick="IndexEdit({{StarID}})" class="btn btn-secondary">save
+            <button type="submit" id="edit_{{StarID}}" onclick="IndexEdit({{StarID}})" class="btn border btn-secondary">save
               changes</button>
           </div>
         </form>
