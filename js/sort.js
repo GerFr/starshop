@@ -31,7 +31,7 @@ function setSort(key, direction) {
 function sortData(data, key, direction) {
     let newData = data;
 
-    if ((key==="Price")||(key==="Distance")){
+    if ((key==="Price")||(key==="Distance")||(key=="Mag")){
         switch (direction) {
             case "asc":
                 newData.sort((a, b) => a[key] - b[key]);
