@@ -50,12 +50,7 @@
         function init() {
             render({}, '[type="text/x-handlebars-navbar"]')
             render({}, '[type="text/x-handlebars-footer"]')
-            render(colors.slice(0, 7), '[type="text/x-handlebars-colors"]')
-            /**
-             * Is Run when body is fully loaded
-             * Renders the navbar and footer.
-             * Attaches an event listener to the "bestellen" button for handling support submission, uses function toSession.
-            */
+            render(colors, '[type="text/x-handlebars-colors"]')
             render({}, '[type="text/x-handlebars-navbar"]')
             render({}, '[type="text/x-handlebars-footer"]')
             $on($('#bestellen'), 'click', toSession)
