@@ -90,16 +90,12 @@
                     let result = maxcolor.filter(item => !set1.has(item.StarID))
 
                     //render random product suggestion if more than one element in the suggestion dataset
-                    if(result.length > 1){
+                    if(result.length  > 1){
                         const ran = Math.floor(Math.random() * (result.length))
-                        console.log(Math.floor(Math.random() * (result.length)))
                         var ran2 = ran
                         while(ran === ran2){
                             ran2 = Math.floor(Math.random() * (result.length))
                         }
-                        console.log(result.length)
-                        console.log('random1 = ', ran)
-                        console.log('random2 = ', ran2)
                         const prod_suggestion = [result[ran], result[ran2]]
                         render(prod_suggestion, '[type="text/x-handlebars-suggestion"]')
                     }    
