@@ -118,6 +118,10 @@
             }
         </script>
         <script>
+	/**
+	 * delete elements from Cart using id
+	 * @param {*} id 
+	 */
             function deletecart(id){
                 cart = JSON.parse(sessionStorage.getItem('cart'))
                 for (let i = 0; i<cart.length; i++){
@@ -132,6 +136,10 @@
         
         <script>
             CART = "cart"
+	/**
+	 * add elements from product suggestion to cart
+	 * @param {*} sID 
+	 */
             function tocart(sID) {
               setTimeout(function () {
                 document.getElementById('cartAlert' + sID).classList.remove('d-none');
