@@ -4,18 +4,16 @@
  * @param {String} direction 
  */
 function setSort(key, direction) {
+    const params = new URLSearchParams(window.location.search)
     if ((key!=="Reset")&&
     ((key+direction)!==
     (params.get("sort")+params.get("sortDirection")))){
-
-        const params = new URLSearchParams(window.location.search)
         params.set("sort", key)
         params.set("sortDirection", direction)
         params.set("page", 1)
         window.history.replaceState({}, "", `${window.location.pathname}?${params}`)
         window.location.reload()
     }else{
-        const params = new URLSearchParams(window.location.search)
         params.delete("sort")
         params.delete("sortDirection")
         window.history.replaceState({}, "", `${window.location.pathname}?${params}`)
@@ -33,7 +31,7 @@ function setSort(key, direction) {
 function sortData(data, key, direction) {
     let newData = data;
 
-    if (key==="Price"){
+    if ((key==="Price")||(key==="Distance")){
         switch (direction) {
             case "asc":
                 newData.sort((a, b) => a[key] - b[key]);
