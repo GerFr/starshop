@@ -18,6 +18,35 @@
     <script src="js/vanilla.js"></script>
     <script src="js/filter.js"></script>
     <script>
+            /**
+             * Calculates the number of items in the data and finds the maximum and minimum values of the "Distance" property.
+             * @param {Array<Object>} data - An array of objects to process.
+             * @returns {Object} An object containing the length of the data array, the maximum "Distance" value, and the minimum "Distance" value.
+             */
+             function numItems(data) {
+                length = data.length
+                var maxValue = -Infinity
+                var minValue = Infinity
+                var maxValuePrice = -Infinity
+                var minValuePrice = Infinity
+                for (let i = 0; i < length; i++) {
+                    const item = data[i]
+                    if (item.hasOwnProperty("Distance")) {
+                        maxValue = Math.max(maxValue, item["Distance"])
+                        minValue = Math.min(minValue, item["Distance"])
+                    }
+                }
+                for (let i = 0; i < length; i++) {
+                    const item = data[i]
+                    if (item.hasOwnProperty("Price")) {
+                        maxValuePrice = Math.max(maxValuePrice, item["Price"])
+                        minValuePrice = Math.min(minValuePrice, item["Price"])
+                    }
+                }
+                var returnDict = { "length": length, "max": maxValue, "min": minValue, "maxPrice": maxValuePrice, "minPrice": minValuePrice }
+                return returnDict
+            }
+            
         function init() {
             render({}, '[type="text/x-handlebars-navbar"]')
             render({}, '[type="text/x-handlebars-footer"]')
@@ -30,9 +59,23 @@
 
             render({}, '[type="text/x-handlebars-navbar"]')
             render({}, '[type="text/x-handlebars-footer"]')
-
             $on($('#bestellen'), 'click', toSession)
 
+            
+            var data = localStorage.getItem("data")
+            if (data !== null) {
+                var dict = JSON.parse(data)
+                console.log(dict);
+                render(numItems(dict), '[type="text/x-handlebars-template"]')
+            } else {
+                fetch('data/hygfull.json')
+                    .then(response => response.json())
+                    .then(data => {
+                        localStorage.setItem("data", JSON.stringify(data))
+                        render(numItems(data), '[type="text/x-handlebars-template"]')
+                    })
+                    .catch(error => console.error('Error fetching JSON file:', error))
+            }
         }
 
         /**
@@ -72,51 +115,9 @@
 </head>
 
 <body>
-
     <body onload="init()">
         <script>
-            /**
-             * Calculates the number of items in the data and finds the maximum and minimum values of the "Distance" property.
-             * @param {Array<Object>} data - An array of objects to process.
-             * @returns {Object} An object containing the length of the data array, the maximum "Distance" value, and the minimum "Distance" value.
-             */
-            function numItems(data) {
-                length = data.length
-                var maxValue = -Infinity
-                var minValue = Infinity
-                var maxValuePrice = -Infinity
-                var minValuePrice = Infinity
-                for (let i = 0; i < length; i++) {
-                    const item = data[i]
-                    if (item.hasOwnProperty("Distance")) {
-                        maxValue = Math.max(maxValue, item["Distance"])
-                        minValue = Math.min(minValue, item["Distance"])
-                    }
-                }
-                for (let i = 0; i < length; i++) {
-                    const item = data[i]
-                    if (item.hasOwnProperty("Price")) {
-                        maxValuePrice = Math.max(maxValuePrice, item["Price"])
-                        minValuePrice = Math.min(minValuePrice, item["Price"])
-                    }
-                }
-                var returnDict = { "length": length, "max": maxValue, "min": minValue, "maxPrice": maxValuePrice, "minPrice": minValuePrice }
-                return returnDict
-            }
-            // fetching the json data file
-            fetch('data/hygfull.json')
-                .then(response => response.json())
-                .then(data => {
-                    if (localStorage.getItem("data") !== null) {
-                        var dict = numItems(JSON.parse(localStorage.getItem("data")))
-                        render(dict, '[type="text/x-handlebars-template"]')
-                    }
-                    else {
-                        render(numItems(data), '[type="text/x-handlebars-template"]')
-                    }
-                })
-                .catch(error => console.error('Error fetching JSON file:', error))
-
+            
         </script>
         <script id="template" type="text/x-handlebars-navbar">
             {{> navbar }}
