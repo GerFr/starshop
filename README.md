@@ -16,3 +16,6 @@ At **Starshop** you get the opportunity to own a multitude of stars, so you can 
 ## Feedback 🗣️
 any feedback is welcome!
 Just fill out this [form](https://forms.gle/uGzK185UrhGXo4Zc8)
+
+## Notice ⚠️
+we did not use any templates and fully coded every page from the ground up with html and bootstrap.
