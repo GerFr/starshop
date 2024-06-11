@@ -162,7 +162,7 @@
             <div class="col-4 col-sm-4 col-md-3 col-xl-2">
               <div class="card bg-black border border-black" id="{{key}}{{color}}eq">
               <a class="btn btn-outline-dark border-0" onclick="setFilter('{{key}}', '{{color}}', 'eq')">
-                <img src="assets/icons/starIcons/{{color}}.png" class="card-img-top cart-image-checkout">
+                <img src="assets/icons/starIcons/{{color}}.png" class="card-img-top cart-image-articles">
                 <p class="lead text-muted">{{title}}</p>
               </a>
             </div>
@@ -171,7 +171,7 @@
           <div class="col-4 col-sm-4 col-md-3 col-xl-2">
           <div class="card bg-black border border-black" id="Price100000sm">
           <a class="btn btn-outline-dark border-0" onclick="setFilter('Price', '100000', 'sm')">
-            <img src="assets/icons/sale.png" class="card-img-top cart-image-checkout">
+            <img src="assets/icons/sale.png" class="card-img-top cart-image-articles">
             <p class="lead text-muted">Sale</p>
           </a>
         </div>
@@ -185,7 +185,7 @@
           <div class="col-4 col-sm-4 col-md-3 col-xl-2">
             <div class="card bg-black border border-black" id="Priceasc">
               <a class="btn btn-outline-dark border-0" onclick="setSort('Price', 'asc')">
-                <img src="assets/icons/aufsteigend.png" class="cart-image-checkout">
+                <img src="assets/icons/aufsteigend.png" class="cart-image-articles">
                 <p class="lead text-muted">Price</p>
               </a>
             </div>
@@ -193,7 +193,7 @@
           <div class="col-4 col-sm-4 col-md-3 col-xl-2">
             <div class="card bg-black border border-black" id="Pricedsc">
               <a class="btn btn-outline-dark border-0" onclick="setSort('Price', 'dsc')">
-                <img src="assets/icons/absteigend.png" class="cart-image-checkout">
+                <img src="assets/icons/absteigend.png" class="cart-image-articles">
                 <p class="lead text-muted">Price</p>
               </a>
             </div>
@@ -201,7 +201,7 @@
           <div class="col-4 col-sm-4 col-md-3 col-xl-2">
             <div class="card bg-black border border-black" id="ProperNameasc">
               <a class="btn btn-outline-dark border-0" onclick="setSort('ProperName', 'asc')">
-                <img src="assets/icons/ascending.png" class="cart-image-checkout">
+                <img src="assets/icons/ascending.png" class="cart-image-articles">
                 <p class="lead text-muted">Name</p>
               </a>
             </div>
@@ -209,7 +209,7 @@
           <div class="col-4 col-sm-4 col-md-3 col-xl-2">
             <div class="card bg-black border border-black" id="ProperNamedsc">
               <a class="btn btn-outline-dark border-0" onclick="setSort('ProperName', 'dsc')">
-                <img src="assets/icons/descending.png" class="cart-image-checkout">
+                <img src="assets/icons/descending.png" class="cart-image-articles">
                 <p class="lead text-muted">Name</p>
               </a>
             </div>
@@ -217,7 +217,7 @@
           <div class="col-4 col-sm-4 col-md-3 col-xl-2">
             <div class="card bg-black border border-black" id="Distanceasc">
               <a class="btn btn-outline-dark border-0" onclick="setSort('Distance', 'asc')">
-                <img src="assets/icons/asc.png" class="cart-image-checkout">
+                <img src="assets/icons/asc.png" class="cart-image-articles">
                 <p class="lead text-muted">Distance</p>
               </a>
             </div>
@@ -225,7 +225,7 @@
           <div class="col-4 col-sm-4 col-md-3 col-xl-2">
             <div class="card bg-black border border-black" id="Distancedsc">
               <a class="btn btn-outline-dark border-0" onclick="setSort('Distance', 'dsc')">
-                <img src="assets/icons/desc.png" class="cart-image-checkout">
+                <img src="assets/icons/desc.png" class="cart-image-articles">
                 <p class="lead text-muted">Distance</p>
               </a>
             </div>
@@ -233,7 +233,7 @@
           <div class="col-4 col-sm-4 col-md-3 col-xl-2">
             <div class="card bg-black border border-black" id="Magasc">
               <a class="btn btn-outline-dark border-0" onclick="setSort('Mag', 'asc')">
-                <img src="assets/icons/ascc.png" class="cart-image-checkout">
+                <img src="assets/icons/ascc.png" class="cart-image-articles">
                 <p class="lead text-muted">Magnitude</p>
               </a>
             </div>
@@ -241,7 +241,7 @@
           <div class="col-4 col-sm-4 col-md-3 col-xl-2">
             <div class="card bg-black border border-black" id="Magdsc">
               <a class="btn btn-outline-dark border-0" onclick="setSort('Mag', 'dsc')">
-                <img src="assets/icons/descc.png" class="cart-image-checkout">
+                <img src="assets/icons/descc.png" class="cart-image-articles">
                 <p class="lead text-muted">Magnitude</p>
               </a>
             </div>
@@ -261,21 +261,21 @@
     <div class="row justify-content-center align-items-center">
       <div class="col text-center">
         <div class="btn-group">
-          <button class="btn btn-outline-white btn md-3" id="startPage" onclick="goToStartPage()">
+          <button class="btn md-3" id="startPage" onclick="goToStartPage()">
             <u id="startPageValue">1</u>
           </button>
-          <button class="btn btn-outline-white btn md-3" id="decrement">
+          <button class="btn md-3" id="decrement">
             <i class="bi bi-arrow-left"></i>
           </button>
           <script id="template" type="text/x-handlebars-page">
             {{page}}
            </script>
-          <div id="centralpage"></div>
-          <button class="btn btn-outline-white btn md-3" id="increment">
+          <div id="centralpage" class="btn "></div>
+          <button class="btn btn md-3" id="increment">
             <i class="bi bi-arrow-right"></i>
           </button>
           <script id="template" type="text/x-handlebars-max">
-          <button class="btn btn-outline-white btn md-3" id="endPage"onclick="goToEndPage({{max}})">
+          <button class="btn md-3" id="endPage"onclick="goToEndPage({{max}})">
             <u id="endPageValue">{{max}}</u>
           </button>
         </script>
